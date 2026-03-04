@@ -50,7 +50,7 @@ const ShadowPromotion: React.FC = () => {
                         className="shadow-video-card"
                     >
                         <video autoPlay muted loop playsInline className="shadow-vid">
-                            <source src={VideoAssets.vjPreviews[0]} type="video/mp4" />
+                            <source src={VideoAssets.vjPreviews[33]} type="video/mp4" />
                         </video>
                         <div className="shadow-overlay">
                             <span className="bebas-font">WATCH NOW</span>
