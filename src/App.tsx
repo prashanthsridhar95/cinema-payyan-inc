@@ -1,4 +1,3 @@
-// App.tsx
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Images } from "./assets/assets";
@@ -23,37 +22,28 @@ import Director from "./Director";
 import CreativeProducer from "./CreativeProducer";
 import Accelerator from "./Accelerator";
 
-
 function App() {
   const [offset, setOffset] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { scrollToSection, refs } = useScrollTo();
 
-  // Smart Basename: Handles both local development and subfolder hosting
   const repoBasename = "/cinima-payan-inc";
 
   useEffect(() => {
     const handleScroll = () => {
-      if (!isMenuOpen) {
-        setOffset(window.pageYOffset);
-      }
+      if (!isMenuOpen) setOffset(window.pageYOffset);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isMenuOpen]);
 
   useEffect(() => {
-    if (isMenuOpen) {
-      document.body.style.overflow = "hidden";
-      document.body.style.touchAction = "none";
-    } else {
-      document.body.style.overflow = "auto";
-      document.body.style.touchAction = "auto";
-    }
+    // Lock scroll when menu is open
+    document.body.style.overflow = isMenuOpen ? "hidden" : "auto";
   }, [isMenuOpen]);
 
   const handleScrollRequest = (target: any) => {
-    setIsMenuOpen(false);
+    setIsMenuOpen(false); // Close menu on navigation
     scrollToSection(target);
   };
 
@@ -64,7 +54,15 @@ function App() {
           path="/"
           element={
             <>
-              {/* ... Burger Menu ... */}
+              {/* --- YELLOW HAMBURGER BURGER --- */}
+              <div 
+                className={`mobile-burger-trigger ${isMenuOpen ? 'active' : ''}`} 
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+              >
+                <span className="burger-line"></span>
+                <span className="burger-line"></span>
+                <span className="burger-line"></span>
+              </div>
 
               <div className="App" id="home" ref={refs.homeRef}>
                 <Header
@@ -74,12 +72,9 @@ function App() {
                   setIsMenuOpen={setIsMenuOpen}
                 />
                 <Logo />
-                
-                {/* FIX: Passing the scroll function here */}
                 <Hero onScrollRequest={handleScrollRequest} />
               </div>
 
-              {/* ... Banner, About, Work sections remain the same ... */}
               <div className="container1">
                 <div className="cinenaPaitanBanner" style={{ backgroundImage: `url(${Images.banner})`, "--scroll-offset": `${offset}px` } as any}>
                   <div className="banner-overlay"></div>
@@ -92,13 +87,11 @@ function App() {
               <Host />
               <Director />
               
-              {/* This is the target for PRODUCTIONS */}
               <section id="promotions" ref={refs.promotionsRef}>
                 <CreativeProducer />
               </section>
 
               <Accelerator />
-
               <section id="work" ref={refs.workRef}><Work /></section>
               <ProductionLogo />
               <Comic />

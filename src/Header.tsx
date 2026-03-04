@@ -17,7 +17,7 @@ function Header({ onScrollRequest, refs, isMenuOpen, setIsMenuOpen }: HeaderProp
   const [active, setActive] = useState('HOME');
   const [isScrolled, setIsScrolled] = useState(false);
 
-  // 1. SCROLL SPY LOGIC: Updates active state based on scroll position
+  // SCROLL SPY LOGIC
   useEffect(() => {
     const options = {
       root: null,
@@ -61,7 +61,7 @@ function Header({ onScrollRequest, refs, isMenuOpen, setIsMenuOpen }: HeaderProp
 
   return (
     <>
-      {/* DESKTOP HEADER - Hidden on mobile via CSS display: none */}
+      {/* DESKTOP HEADER */}
       <div className={`header-fixed-container ${isScrolled ? 'is-scrolled' : ''}`}>
         <header className="prof-header-centered">
           <nav className="prof-nav">
@@ -76,7 +76,6 @@ function Header({ onScrollRequest, refs, isMenuOpen, setIsMenuOpen }: HeaderProp
                 whileHover="hover"
                 initial="rest"
               >
-                {/* Background Hover Fill */}
                 <motion.div 
                   className="prof-fill"
                   variants={{
@@ -85,10 +84,8 @@ function Header({ onScrollRequest, refs, isMenuOpen, setIsMenuOpen }: HeaderProp
                   }}
                   transition={{ duration: 0.3, ease: "circOut" }}
                 />
-
                 <span className="prof-text">{item.label}</span>
 
-                {/* THE YELLOW LINE - Centered indicator */}
                 {active === item.label && (
                   <motion.div 
                     layoutId="active-line"
@@ -96,7 +93,7 @@ function Header({ onScrollRequest, refs, isMenuOpen, setIsMenuOpen }: HeaderProp
                     style={{
                         position: 'absolute',
                         bottom: 0,
-                        left: '15%', // Keeps the line centered
+                        left: '15%',
                         width: '70%',
                         height: '3px',
                         backgroundColor: '#FDE047',
@@ -115,22 +112,25 @@ function Header({ onScrollRequest, refs, isMenuOpen, setIsMenuOpen }: HeaderProp
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div 
-            initial={{ opacity: 0, x: '100%' }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: '100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             className="mobile-nav-overlay"
           >
             <div className="mobile-nav-list">
-              {navItems.map((item) => (
+              {navItems.map((item, i) => (
                 <motion.div
                   key={item.label}
-                  className={`mobile-nav-link ${active === item.label ? 'm-active' : ''}`}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -30 }}
+                  transition={{ delay: i * 0.1, type: "spring", stiffness: 100 }}
+                  // Adding Bebas font class here for that cinematic look
+                  className={`mobile-nav-link bebas-font ${active === item.label ? 'm-active' : ''}`}
                   onClick={() => {
                     onScrollRequest(item.ref);
-                    setIsMenuOpen(false); // Close menu on click
+                    setIsMenuOpen(false);
                   }}
-                  whileTap={{ scale: 0.9 }}
                 >
                   {item.label}
                 </motion.div>

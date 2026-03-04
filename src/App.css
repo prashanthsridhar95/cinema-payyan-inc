@@ -293,6 +293,70 @@ nav,
   }
 }
 
+
+/* --- BURGER BUTTON --- */
+.mobile-burger-trigger {
+  position: fixed;
+  top: 25px;
+  right: 25px;
+  z-index: 1001; /* Above overlay */
+  display: none; /* Hide on Desktop */
+  flex-direction: column;
+  gap: 7px;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.burger-line {
+  width: 35px;
+  height: 3px;
+  background-color: #FDE047; /* BRAND YELLOW */
+  transition: 0.3s;
+  border-radius: 5px;
+}
+
+/* --- OVERLAY STYLING --- */
+.mobile-nav-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 8, 8, 0.98); /* Cinematic Dark */
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(8px);
+}
+
+.mobile-nav-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* FULL CENTER */
+  gap: 35px;
+}
+
+.mobile-nav-link {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3.5rem;
+  color: white;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+}
+
+.mobile-nav-link.m-active {
+  color: #FDE047; /* ACTIVE YELLOW */
+}
+
+/* Transform into X when open */
+.mobile-burger-trigger.active .burger-line:nth-child(1) { transform: translateY(10px) rotate(45deg); }
+.mobile-burger-trigger.active .burger-line:nth-child(2) { opacity: 0; }
+.mobile-burger-trigger.active .burger-line:nth-child(3) { transform: translateY(-10px) rotate(-45deg); }
+
+/* RESPONSIVE TOGGLE */
+@media (max-width: 1024px) {
+  .mobile-burger-trigger { display: flex; }
+  .header-fixed-container { display: none; }
+}
+
 /* =========================================================
    HERO
    ========================================================= */
@@ -853,10 +917,6 @@ body {
 
 /* =========================================================
    ABOUT SECTION
-   ========================================================= */
-/* --- BASE STYLES (Desktop) --- */
-/* =========================================================
-   ABISHEK RAAJA - INTERACTIVE ABOUT SECTION
    ========================================================= */
 
 :root {
@@ -3605,10 +3665,24 @@ body {
 /* --- AMAZON PRIME SPECIAL PROMO --- */
 .special-promo-container {
   background: #080808;
-  padding: 100px 20px;
+  padding: 60px 15px; /* Reduced vertical and horizontal padding for mobile */
   border-top: 1px solid #111;
   margin-top: 50px;
-  box-sizing: border-box; /* Ensures container stays within screen width */
+  width: 100%; /* Explicitly set width */
+  overflow: hidden; /* Prevent horizontal scroll */
+  box-sizing: border-box;
+}
+
+.large-yt video {
+  width: 100% !important;
+  height: auto !important;
+  display: block;
+  object-fit: cover; /* Ensures the video fills the 8px rounded corners properly */
+}
+
+.large-yt {
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .special-flex {
@@ -3708,7 +3782,18 @@ body {
 
   .special-flex {
     flex-direction: column;
-    text-align: center;
+    gap: 20px; /* Reduced gap */
+    width: 100%;
+  }
+
+  .special-video-left, 
+  .special-content-right {
+    width: 100%; /* Force full width on mobile */
+    flex: none; 
+  }
+
+  .special-content-right h2 {
+    font-size: 1.8rem; /* Scaled down for mobile readability */
   }
 
   .accent-divider { margin: 0 auto 30px; }
