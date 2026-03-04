@@ -75,6 +75,8 @@ import ComicPag4 from './ComicPag4.jpg';
 import ComicPag5 from './ComicPag5.jpg';
 import ComicPag6 from './ComicPag6.jpg';
 import ComicPag7 from './ComicPag7.jpg';
+import JaamJaam from './JaamJaam.Director.jpg';
+
 
 
 
@@ -83,41 +85,40 @@ import ComicPag7 from './ComicPag7.jpg';
 
 
 // Video Imports
-// import VP from './VenkatPrabu.mp4';
-// import TK from './TK.mp4';
-// import KH from './KH.mp4';
-// import AR from './AR.mp4';
-// import DQ from './DQ.mp4';
-// import VJS from './VJS.mp4';
-// import STR from './STR.mp4';
-// import AD from './AD.mp4';
-// import GVM from './GVM.mp4';
-// import AS from './AS.mp4';
-// import Retro from './Retroreview.mp4';
-// import Dragon from './Dragonreview.mp4';
-// import Vidamurchi from './Vidamyurchireview.mp4';
-// import CHVHost from './chian.Abisake.Host.mp4';
-// import NeeyaOliVideo from './NeyyaoliVidoHost.mp4';
-import JaamJaam from './JaamJaam.Director.jpg';
-// import CreativePrVideo1 from './CreativePrVid1.mp4';
-// import CreativePrVideo2 from './CreativePrVid2.mp4';
-// import CreativePrVideo3 from './CreativePrVid3.mp4';
-// import CreativePrVideo4 from './CreativePrVid4.mp4';
-// import CreativePrYoutube1 from './CreativePrYoutube1.mp4';
-// import CreativePrYoutube2 from './CreativePrYoutube2.mp4';
-// import CreativePrYoutube3 from './CreativePrYoutube3.mp4';
-// import ComicReel from './ComicReel.mp4';
-// import CostdeyShort from './CUSTODYShorts.mp4';
-// import VenkatPrabuShort from './VenkatPrabhuShorts.mp4';
-// import VenkatPrabuShort1 from './VenkatPrabuShorts(1).mp4';
-// import PersuShort from './PersuShorts.mp4';
-// import PersuShort2 from './PerusuShort2.mp4';
-// import PersuShort1 from './PersuShorts1.mp4';
-// import EraiviSHort from './EraiviShorts.mp4';
-// import RaghuThathaShort from './RaguTathaShort.mp4';
-// import RaghuThathaShort1 from './RaguThathaShort1.mp4';
-// import SnakeAndLaderShort from './SnakeLadderShort.mp4';
-import MahveeranReel from './Maha_veeranreel_Short.E.mp4';
+ import VP from './Venkatprabu.mp4';
+ import TK from './Tk.E.mp4';
+ import KH from './Kh.E.mp4';
+ import AR from './Ar.E.mp4';
+ import DQ from './Dq.E.mp4';
+ import VJS from './Vjs.E.mp4';
+ import STR from './Str.E.mp4';
+ import AD from './Ad.E.mp4';
+ import GVM from './Gvm.E.mp4';
+ import AS from './As.E.mp4';
+ import Retro from './Retroreview.E.mp4';
+ import Dragon from './Dragonreview.E.mp4';
+ import Vidamurchi from './Vidamyurchireview.E.mp4';
+ import CHVHost from './Chian.Abisake.Host.E.mp4';
+ import NeeyaOliVideo from './Neyyaolividohost.E.mp4';
+import CreativePrVideo1 from './Creativeprvid1.E.mp4';
+import CreativePrVideo2 from './Creativeprvid2.E.mp4';
+import CreativePrVideo3 from './Creativeprvid3.E.mp4';
+import CreativePrVideo4 from './Creativeprvid4.E.mp4';
+import CreativePrYoutube1 from './Creativepryoutube1.E.mp4';
+import CreativePrYoutube2 from './Creativepryoutube2.E.mp4';
+import CreativePrYoutube3 from './Creativepryoutube3.E.mp4';
+import ComicReel from './Comicreel.E.mp4';
+import CostdeyShort from './Custodyshorts.E.mp4';
+import VenkatPrabuShort from './Venkatprabhushorts.E.mp4';
+import VenkatPrabuShort1 from './Venkatprabushorts(1).E.mp4';
+import PersuShort from './Persushorts.E.mp4';
+ import PersuShort2 from './Perusushort2.E.mp4';
+import PersuShort1 from './Persushorts1.E.mp4';
+import EraiviSHort from './Eraivishorts.E.mp4';
+import RaghuThathaShort from './Ragutathashort.E.mp4';
+import RaghuThathaShort1 from './Raguthathashort1.E.mp4';
+import SnakeAndLaderShort from './Snakeladdershort.E.mp4';
+import MahveeranReel_E from './Maha_veeranreel_Short.E.mp4';
 
 
 
@@ -141,42 +142,42 @@ export const Images: AssetStore = {
 
 export const VideoAssets = {
   vjPreviews: [
-    // AR,                  // 0  - Anirudh
-    // VP,                  // 1  - Venkat Prabhu
-    // STR,                 // 2  - Silambarasan
-    // VJS,                 // 3  - Vijay Sethupathi
-    // AD,                  // 4  - Ameer/Director
-    // TK,                  // 5  - Thiagarajan Kumararaja
-    // KH,                  // 6  - Kamal Haasan
-    // DQ,                  // 7  - Dulquer Salmaan
-    // GVM,                 // 8  - Gautham Vasudev Menon
-    // AS,                  // 9  - (Additional Talent)
-    // Retro,               // 10
-    // Dragon,              // 11
-    // Vidamurchi,          // 12
-    // CHVHost,             // 13
-    // NeeyaOliVideo,       // 14
-    // CreativePrVideo1,    // 15
-    // CreativePrVideo2,    // 16
-    // CreativePrVideo3,    // 17
-    // CreativePrVideo4,    // 18
-    // CreativePrYoutube1,  // 19
-    // CreativePrYoutube2,  // 20
-    // CreativePrYoutube3,  // 21
-    // ComicReel,           // 22
-    // CostdeyShort,        // 23
-    // VenkatPrabuShort,    // 24
-    // VenkatPrabuShort1,   // 25
-    // PersuShort,          // 26
-    // PersuShort1,         // 27
-    // PersuShort2,         // 28
-    // EraiviSHort,         // 29
-    // RaghuThathaShort,    // 30
-    // RaghuThathaShort1,   // 31
-    // SnakeAndLaderShort,   // 32
-    MahveeranReel,        //33
+     AR,                  // 0  - Anirudh
+     VP,                  // 1  - Venkat Prabhu
+     STR,                 // 2  - Silambarasan
+     VJS,                 // 3  - Vijay Sethupathi
+    AD,                  // 4  - Ameer/Director
+     TK,                  // 5  - Thiagarajan Kumararaja
+     KH,                  // 6  - Kamal Haasan
+     DQ,                  // 7  - Dulquer Salmaan
+    GVM,                 // 8  - Gautham Vasudev Menon
+    AS,                  // 9  - (Additional Talent)
+    Retro,               // 10
+    Dragon,              // 11
+    Vidamurchi,          // 12
+    CHVHost,             // 13
+    NeeyaOliVideo,       // 14
+    CreativePrVideo1,    // 15
+    CreativePrVideo2,    // 16
+    CreativePrVideo3,    // 17
+    CreativePrVideo4,    // 18
+    CreativePrYoutube1,  // 19
+    CreativePrYoutube2,  // 20
+    CreativePrYoutube3,  // 21
+    ComicReel,           // 22
+    CostdeyShort,        // 23
+    VenkatPrabuShort,    // 24
+    VenkatPrabuShort1,   // 25
+    PersuShort,          // 26
+    PersuShort1,         // 27
+     PersuShort2,         // 28
+    EraiviSHort,         // 29
+    RaghuThathaShort,    // 30
+    RaghuThathaShort1,   // 31
+    SnakeAndLaderShort,   // 32
+    MahveeranReel_E,        //33
 
-  ],
+  ] as string[],
   criticMain: "/videos/critic-review.mp4",
   producerReel: "/videos/production-showreel.mp4"
 };
