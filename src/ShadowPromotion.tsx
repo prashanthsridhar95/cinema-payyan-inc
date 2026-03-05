@@ -64,10 +64,10 @@ const ShadowPromotion: React.FC = () => {
           background: #fde047; opacity: 0.5;
         }
         .cp-sh-pre-text {
-          font-family: 'Courier New', monospace;
-          font-size: 0.44rem; letter-spacing: 6px;
-          color: rgba(253,224,71,0.55); text-transform: uppercase;
-        }
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem; letter-spacing: 5px;
+  color: rgba(253,224,71,0.85); text-transform: uppercase;
+}
 
         /* main heading */
         .cp-sh-title {
@@ -142,7 +142,7 @@ const ShadowPromotion: React.FC = () => {
           border: 1px solid #fde047;
           color: #fde047; text-decoration: none;
           font-family: 'Courier New', monospace;
-          font-size: 0.56rem; letter-spacing: 4px;
+          font-size: 0.7rem; letter-spacing: 4px;
           text-transform: uppercase;
           transition: color 0.4s;
         }
@@ -212,13 +212,13 @@ const ShadowPromotion: React.FC = () => {
 
         /* label tag */
         .cp-sh-vid-tag {
-          position: absolute; top: 10px; right: 10px;
-          font-family: 'Courier New', monospace;
-          font-size: 0.38rem; letter-spacing: 3px;
-          color: #000; background: #32c5f4;
-          padding: 3px 8px; z-index: 6;
-          text-transform: uppercase;
-        }
+  position: absolute; top: 10px; right: 10px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.65rem; letter-spacing: 3px;
+  color: #000; background: #32c5f4;
+  padding: 3px 8px; z-index: 6;
+  text-transform: uppercase;
+}
 
         /* hover overlay */
         .cp-sh-vid-overlay {
@@ -232,13 +232,13 @@ const ShadowPromotion: React.FC = () => {
         .cp-sh-video-card:hover .cp-sh-vid-overlay { opacity: 1; }
 
         .cp-sh-vid-label {
-          font-family: 'Courier New', monospace;
-          font-size: 0.46rem; letter-spacing: 4px;
-          color: #000; background: #fde047;
-          padding: 8px 20px; text-transform: uppercase;
-          transform: translateY(6px);
-          transition: transform 0.3s;
-        }
+  font-family: 'Courier New', monospace;
+  font-size: 0.65rem; letter-spacing: 4px;
+  color: #000; background: #fde047;
+  padding: 8px 20px; text-transform: uppercase;
+  transform: translateY(6px);
+  transition: transform 0.3s;
+}
         .cp-sh-video-card:hover .cp-sh-vid-label { transform: translateY(0); }
 
         /* scan line sweep */

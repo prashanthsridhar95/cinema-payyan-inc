@@ -113,12 +113,12 @@ const ProductionLogo: React.FC = () => {
           opacity: 0.5;
         }
         .cp-prod-pre-text {
-          font-family: 'Courier New', monospace;
-          font-size: 0.44rem;
-          letter-spacing: 6px;
-          color: rgba(253,224,71,0.55);
-          text-transform: uppercase;
-        }
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 5px;
+  color: rgba(253,224,71,0.85);
+  text-transform: uppercase;
+}
 
         /* main heading */
         .cp-prod-title {
@@ -277,12 +277,12 @@ const ProductionLogo: React.FC = () => {
           background: linear-gradient(90deg, #32c5f4, #fde047);
         }
         .cp-prod-hint-text {
-          font-family: 'Courier New', monospace;
-          font-size: 0.38rem;
-          letter-spacing: 4px;
-          text-transform: uppercase;
-          color: rgba(255,255,255,0.18);
-        }
+  font-family: 'Courier New', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+}
 
         /* ─── RESPONSIVE ──────────────────────────── */
         @media (max-width: 768px) {

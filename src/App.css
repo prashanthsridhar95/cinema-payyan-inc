@@ -165,7 +165,7 @@ header, nav, .prof-nav-item, .hero-container, .about-section,
   display: flex;
   justify-content: center;
   position: relative;
-}
+} 
 
 .gazette-image-block::before {
   content: '';
@@ -2533,11 +2533,7 @@ header, nav, .prof-nav-item, .hero-container, .about-section,
 /* =========================================================
    ACCELERATOR SECTION
    ========================================================= */
-/* ============================================
-   ACCELERATOR — CINEMAPAYYAN DESIGN SYSTEM
-   Colors: --cyan #32c5f4 | --yellow #fde047
-           --black #000 | --white #fff
-   ============================================ */
+
 
 /* ── UTILITY ─────────────────────────────────── */
 .acc-universe-v4 {

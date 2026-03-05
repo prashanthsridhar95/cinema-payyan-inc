@@ -73,12 +73,12 @@ const Comic: React.FC = () => {
           background: #fde047; opacity: 0.5;
         }
         .cp-comic-pre-text {
-          font-family: 'Courier New', monospace;
-          font-size: 0.44rem;
-          letter-spacing: 6px;
-          color: rgba(253,224,71,0.55);
-          text-transform: uppercase;
-        }
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 5px;
+  color: rgba(253,224,71,0.85);
+  text-transform: uppercase;
+}
 
         .cp-comic-title {
           font-family: 'Cormorant Garamond', Georgia, serif;
@@ -125,20 +125,19 @@ const Comic: React.FC = () => {
 
         /* BTS badge — cp-insta-btn style */
         .cp-bts-badge {
-          position: absolute;
-          top: 18px; left: 18px;
-          display: flex; align-items: center; gap: 8px;
-          font-family: 'Courier New', monospace;
-          font-size: 0.42rem; letter-spacing: 3px;
-          color: rgba(255,255,255,0.55);
-          background: rgba(0,0,0,0.65);
-          backdrop-filter: blur(10px);
-          border: 1px solid rgba(255,255,255,0.08);
-          padding: 7px 14px;
-          z-index: 10;
-          text-transform: uppercase;
-          transition: border-color 0.3s, color 0.3s;
-        }
+  position: absolute;
+  top: 18px; left: 18px;
+  display: flex; align-items: center; gap: 8px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem; letter-spacing: 3px;
+  color: rgba(255,255,255,0.85);
+  background: rgba(0,0,0,0.75);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 7px 14px;
+  z-index: 10;
+  text-transform: uppercase;
+  transition: border-color 0.3s, color 0.3s;
+}
         .cp-bts-container:hover .cp-bts-badge {
           border-color: #fde047; color: #fde047;
         }
@@ -226,15 +225,15 @@ const Comic: React.FC = () => {
 
         /* issue tag — cp-yt-tag style */
         .cp-issue-tag {
-          position: absolute;
-          top: 12px; left: 12px;
-          font-family: 'Courier New', monospace;
-          font-size: 0.4rem; letter-spacing: 3px;
-          color: #000; background: #fde047;
-          padding: 4px 10px; z-index: 4;
-          text-transform: uppercase;
-          font-weight: 700;
-        }
+  position: absolute;
+  top: 12px; left: 12px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.65rem; letter-spacing: 3px;
+  color: #000; background: #fde047;
+  padding: 4px 10px; z-index: 4;
+  text-transform: uppercase;
+  font-weight: 700;
+}
 
         /* navigation bar */
         .cp-nav-bar {
@@ -249,19 +248,19 @@ const Comic: React.FC = () => {
 
         /* nav buttons — cp-cta mini style */
         .cp-nav-btn {
-          position: relative;
-          overflow: hidden;
-          padding: 8px 20px;
-          border: 1px solid #32c5f4;
-          color: #32c5f4;
-          background: transparent;
-          font-family: 'Courier New', monospace;
-          font-size: 0.46rem;
-          letter-spacing: 3px;
-          text-transform: uppercase;
-          cursor: pointer;
-          transition: color 0.35s;
-        }
+  position: relative;
+  overflow: hidden;
+  padding: 8px 20px;
+  border: 1px solid #32c5f4;
+  color: #32c5f4;
+  background: transparent;
+  font-family: 'Courier New', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.35s;
+}
         .cp-nav-btn::before {
           content: '';
           position: absolute; inset: 0;
@@ -318,10 +317,10 @@ const Comic: React.FC = () => {
           background: #fde047; opacity: 0.5;
         }
         .cp-vision-pre-text {
-          font-family: 'Courier New', monospace;
-          font-size: 0.44rem; letter-spacing: 5px;
-          color: rgba(253,224,71,0.55); text-transform: uppercase;
-        }
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem; letter-spacing: 5px;
+  color: rgba(253,224,71,0.85); text-transform: uppercase;
+}
 
         .cp-vision-title {
           font-family: 'Cormorant Garamond', Georgia, serif;
@@ -357,32 +356,32 @@ const Comic: React.FC = () => {
 
         /* release badge */
         .cp-release-badge {
-          display: block;
-          font-family: 'Courier New', monospace;
-          font-size: 0.42rem; letter-spacing: 4px;
-          color: rgba(50,197,244,0.7);
-          text-transform: uppercase;
-          padding: 12px 18px;
-          border: 1px solid rgba(50,197,244,0.12);
-          background: rgba(50,197,244,0.03);
-          text-align: center;
-          margin-bottom: 30px;
-        }
+  display: block;
+  font-family: 'Courier New', monospace;
+  font-size: 0.65rem; letter-spacing: 4px;
+  color: rgba(50,197,244,0.9);
+  text-transform: uppercase;
+  padding: 12px 18px;
+  border: 1px solid rgba(50,197,244,0.12);
+  background: rgba(50,197,244,0.03);
+  text-align: center;
+  margin-bottom: 30px;
+}
 
         /* CTA — cp-cta fill sweep */
         .cp-vision-cta {
-          position: relative; overflow: hidden;
-          display: block; width: 100%;
-          padding: 15px;
-          border: 1px solid #fde047;
-          color: #fde047;
-          text-decoration: none;
-          text-align: center;
-          font-family: 'Courier New', monospace;
-          font-size: 0.56rem; letter-spacing: 4px;
-          text-transform: uppercase;
-          transition: color 0.4s;
-        }
+  position: relative; overflow: hidden;
+  display: block; width: 100%;
+  padding: 15px;
+  border: 1px solid #fde047;
+  color: #fde047;
+  text-decoration: none;
+  text-align: center;
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem; letter-spacing: 4px;
+  text-transform: uppercase;
+  transition: color 0.4s;
+}
         .cp-vision-cta::before {
           content: '';
           position: absolute; inset: 0;
@@ -422,10 +421,10 @@ const Comic: React.FC = () => {
           background: #fde047; opacity: 0.5;
         }
         .cp-reel-pre-text {
-          font-family: 'Courier New', monospace;
-          font-size: 0.44rem; letter-spacing: 6px;
-          color: rgba(253,224,71,0.55); text-transform: uppercase;
-        }
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem; letter-spacing: 5px;
+  color: rgba(253,224,71,0.85); text-transform: uppercase;
+}
 
         .cp-reel-title {
           font-family: 'Cormorant Garamond', Georgia, serif;
@@ -512,17 +511,17 @@ const Comic: React.FC = () => {
 
         /* label tab */
         .cp-video-tag {
-          position: absolute;
-          bottom: -1px; left: 50%;
-          transform: translateX(-50%);
-          font-family: 'Courier New', monospace;
-          font-size: 0.4rem; letter-spacing: 3px;
-          color: #000; background: #32c5f4;
-          padding: 5px 20px;
-          white-space: nowrap;
-          text-transform: uppercase;
-          z-index: 6;
-        }
+  position: absolute;
+  bottom: -1px; left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Courier New', monospace;
+  font-size: 0.65rem; letter-spacing: 3px;
+  color: #000; background: #32c5f4;
+  padding: 5px 20px;
+  white-space: nowrap;
+  text-transform: uppercase;
+  z-index: 6;
+}
 
         /* ═══════════════════════════════════════════
            RESPONSIVE
@@ -539,6 +538,7 @@ const Comic: React.FC = () => {
           .cp-video-frame { width: 220px; }
           .cp-vision-card { padding: 24px 18px; }
           .cp-vision-card::before { display: none; }
+          .cp-bts-badge { top: auto; bottom: 18px; left: 18px; }
         }
       `}</style>
 

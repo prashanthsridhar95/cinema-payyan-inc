@@ -93,14 +93,14 @@ const BookingContact: React.FC = () => {
         .cp-bk-band--bottom { bottom: 5%; transform: rotate(1deg);  }
 
         .cp-bk-band-text {
-          white-space: nowrap;
-          font-family: 'Courier New', monospace;
-          font-weight: 900;
-          font-size: 0.44rem;
-          letter-spacing: 6px;
-          color: #000;
-          text-transform: uppercase;
-        }
+  white-space: nowrap;
+  font-family: 'Courier New', monospace;
+  font-weight: 900;
+  font-size: 0.75rem;
+  letter-spacing: 5px;
+  color: #000;
+  text-transform: uppercase;
+}
 
         /* ═══════════════════════════════════════════
            TICKET AREA
@@ -169,10 +169,10 @@ const BookingContact: React.FC = () => {
           background: rgba(0,0,0,0.35);
         }
         .cp-bk-ticket-pre-text {
-          font-family: 'Courier New', monospace;
-          font-size: 0.4rem; letter-spacing: 5px;
-          color: rgba(0,0,0,0.5); text-transform: uppercase;
-        }
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem; letter-spacing: 4px;
+  color: rgba(0,0,0,0.7); text-transform: uppercase;
+}
 
         .cp-bk-ticket-title {
           font-family: 'Cormorant Garamond', Georgia, serif;
@@ -182,11 +182,11 @@ const BookingContact: React.FC = () => {
           letter-spacing: -0.5px; line-height: 1;
         }
         .cp-bk-ticket-sub {
-          font-family: 'Courier New', monospace;
-          font-size: 0.4rem; letter-spacing: 4px;
-          color: rgba(0,0,0,0.45); text-transform: uppercase;
-          margin: 0;
-        }
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem; letter-spacing: 4px;
+  color: rgba(0,0,0,0.65); text-transform: uppercase;
+  margin: 0;
+}
 
         /* inputs */
         .cp-bk-grid {
@@ -198,11 +198,11 @@ const BookingContact: React.FC = () => {
         .cp-bk-field--full { grid-column: span 2; }
 
         .cp-bk-label {
-          font-family: 'Courier New', monospace;
-          font-size: 0.38rem; letter-spacing: 4px;
-          color: rgba(0,0,0,0.5); text-transform: uppercase;
-          font-weight: 700;
-        }
+  font-family: 'Courier New', monospace;
+  font-size: 0.65rem; letter-spacing: 4px;
+  color: rgba(0,0,0,0.7); text-transform: uppercase;
+  font-weight: 700;
+}
 
         .cp-bk-input,
         .cp-bk-textarea {
@@ -259,11 +259,11 @@ const BookingContact: React.FC = () => {
         }
 
         .cp-bk-stub-label {
-          font-family: 'Courier New', monospace;
-          font-size: 0.38rem; letter-spacing: 4px;
-          color: rgba(0,0,0,0.5); text-transform: uppercase;
-          margin: 0 0 12px; font-weight: 700;
-        }
+  font-family: 'Courier New', monospace;
+  font-size: 0.65rem; letter-spacing: 4px;
+  color: rgba(0,0,0,0.7); text-transform: uppercase;
+  margin: 0 0 12px; font-weight: 700;
+}
 
         .cp-bk-icons {
           display: flex; gap: 14px;
@@ -286,7 +286,7 @@ const BookingContact: React.FC = () => {
           background: transparent;
           color: #000; text-decoration: none;
           font-family: 'Courier New', monospace;
-          font-size: 0.38rem; letter-spacing: 3px;
+          font-size: 0.65rem; letter-spacing: 3px;
           text-transform: uppercase;
           position: relative; overflow: hidden;
           transition: color 0.35s;
@@ -310,7 +310,7 @@ const BookingContact: React.FC = () => {
           border: 1px solid #000;
           background: #000; color: #fde047;
           font-family: 'Courier New', monospace;
-          font-size: 0.52rem; letter-spacing: 4px;
+          font-size: 0.7rem; letter-spacing: 4px;
           text-transform: uppercase; cursor: pointer;
           font-weight: 700;
           transition: color 0.35s;
@@ -362,11 +362,11 @@ const BookingContact: React.FC = () => {
         }
 
         .cp-bk-success-sub {
-          font-family: 'Courier New', monospace;
-          font-size: 0.44rem; letter-spacing: 6px;
-          color: rgba(0,0,0,0.5); text-transform: uppercase;
-          margin: 0 0 28px;
-        }
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem; letter-spacing: 5px;
+  color: rgba(0,0,0,0.65); text-transform: uppercase;
+  margin: 0 0 28px;
+}
 
         .cp-bk-success-rule {
           width: 80px; height: 1px;
@@ -380,7 +380,7 @@ const BookingContact: React.FC = () => {
           border: 1px solid #000;
           background: #000; color: #fde047;
           font-family: 'Courier New', monospace;
-          font-size: 0.48rem; letter-spacing: 4px;
+          font-size: 0.7rem; letter-spacing: 4px;
           text-transform: uppercase; cursor: pointer;
           font-weight: 700;
           transition: color 0.35s;
@@ -428,7 +428,7 @@ const BookingContact: React.FC = () => {
           .cp-bk-ticket-title { font-size: 2rem; }
           .cp-bk-stub     { flex-direction: column; align-items: flex-start; }
           .cp-bk-confirm  { width: 100%; }
-          .cp-bk-band-text { font-size: 0.38rem; }
+          .cp-bk-band-text { font-size: 0.65rem; }
         }
       `}</style>
 
@@ -505,10 +505,10 @@ const BookingContact: React.FC = () => {
                       <div className="cp-bk-icons">
                         <a href="https://www.instagram.com/cinemapayyan.inc/" target="_blank" rel="noreferrer"><FaInstagram /></a>
                         <a href="https://x.com/cinemapayyan"                  target="_blank" rel="noreferrer"><FaTwitter /></a>
-                        <a href="#"><FaYoutube /></a>
+                        <a href="https://www.youtube.com/@OpenPannaa"><FaYoutube /></a>
                       </div>
                       <a
-                        href="https://woolen-sodalite-e73.notion.site/..."
+                        href="https://woolen-sodalite-e73.notion.site/16909085b6758040a618e11e9b9dabef"
                         target="_blank" rel="noreferrer"
                         className="cp-bk-notion"
                       >

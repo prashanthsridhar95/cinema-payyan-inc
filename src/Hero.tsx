@@ -1,447 +1,804 @@
-import { motion } from 'framer-motion';
+import { useEffect, useRef, useState, useCallback } from 'react';
+import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
 interface HeroProps {
   onScrollRequest?: (target: string) => void;
 }
 
-const Hero = ({ onScrollRequest }: HeroProps) => {
-  const branches = [
-    { title: "PROMOTIONS",  path: "#work",       className: "cp-hr-left",   isScroll: true  },
-    { title: "PRODUCTIONS", path: "#promotions", className: "cp-hr-center", isScroll: true  },
-    { title: "MUNAI",       path: "/munai",      className: "cp-hr-right",  isScroll: false },
-  ];
+/* ── counter hook ── */
+function useCounter(target: number, ms = 1600, active = false) {
+  const [v, setV] = useState(0);
+  useEffect(() => {
+    if (!active) return;
+    let t0: number | null = null;
+    const raf = (ts: number) => {
+      if (!t0) t0 = ts;
+      const p = Math.min((ts - t0) / ms, 1);
+      setV(Math.floor(p * target));
+      if (p < 1) requestAnimationFrame(raf);
+    };
+    requestAnimationFrame(raf);
+  }, [active, target, ms]);
+  return v;
+}
+
+const BRANCHES = [
+  { title: 'PROMOTIONS',  isScroll: true,  key: 'workRef',       path: '#work'       },
+  { title: 'PRODUCTIONS', isScroll: true,  key: 'promotionsRef', path: '#promotions' },
+  { title: 'MUNAI',       isScroll: false, key: '',              path: '/munai'       },
+];
+
+const TICKER_WORDS = ['CINEMA','PRODUCTION','STORYTELLING','DIRECTION','PROMOTIONS','COMEDY','DRAMA','SHORTS','ORIGINALS'];
+
+export default function Hero({ onScrollRequest }: HeroProps) {
+  /* gate state */
+  const [gatePhase, setGatePhase] = useState<'visible'|'exit'|'gone'>('visible');
+  const [ready,     setReady]     = useState(false);
+  const [countOn,   setCountOn]   = useState(false);
+
+  const canvasRef  = useRef<HTMLCanvasElement>(null);
+  const rafRef     = useRef<number>(0);
+
+  /* magnetic cursor (desktop only) */
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+  const sx = useSpring(mx, { stiffness: 80, damping: 20 });
+  const sy = useSpring(my, { stiffness: 80, damping: 20 });
+
+  const years     = useCounter(10, 1500, countOn);
+  const followers = useCounter(44, 1800, countOn);
+
+  /* ── gate auto-dismiss ── */
+  useEffect(() => {
+    const t1 = setTimeout(() => setGatePhase('exit'),    2400);
+    const t2 = setTimeout(() => { setGatePhase('gone'); setReady(true); setCountOn(true); }, 3100);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
+  }, []);
+
+  /* ── canvas: dual-layer effect (grid + particles) ── */
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d')!;
+
+    const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
+    resize();
+    window.addEventListener('resize', resize);
+
+    type P = { x: number; y: number; vy: number; vx: number; op: number; r: number; c: string };
+    const particles: P[] = Array.from({ length: 60 }, () => ({
+      x:  Math.random() * window.innerWidth,
+      y:  Math.random() * window.innerHeight,
+      vy: 0.25 + Math.random() * 0.55,
+      vx: (Math.random() - 0.5) * 0.15,
+      op: 0.06 + Math.random() * 0.2,
+      r:  Math.random() > 0.65 ? 1.4 : 0.7,
+      c:  Math.random() > 0.5 ? '#fde047' : '#32c5f4',
+    }));
+
+    let t = 0;
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      t += 0.008;
+
+      /* faint grid pulse */
+      const gridAlpha = 0.022 + Math.sin(t) * 0.008;
+      ctx.strokeStyle = `rgba(253,224,71,${gridAlpha})`;
+      ctx.lineWidth = 0.5;
+      const gridW = Math.max(canvas.width, 1);
+      const step  = 80;
+      for (let x = 0; x < gridW; x += step) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+      }
+      for (let y = 0; y < canvas.height; y += step) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+      }
+
+      /* particles */
+      particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = p.c;
+        ctx.globalAlpha = p.op;
+        ctx.fill();
+        p.x += p.vx; p.y += p.vy;
+        if (p.y > canvas.height + 4) { p.y = -4; p.x = Math.random() * canvas.width; }
+        if (p.x < -4 || p.x > canvas.width + 4) p.x = Math.random() * canvas.width;
+      });
+      ctx.globalAlpha = 1;
+      rafRef.current = requestAnimationFrame(draw);
+    };
+    draw();
+
+    return () => {
+      cancelAnimationFrame(rafRef.current);
+      window.removeEventListener('resize', resize);
+    };
+  }, []);
+
+  /* magnetic follow */
+  const onMouseMove = useCallback((e: React.MouseEvent) => {
+    const cx = window.innerWidth  / 2;
+    const cy = window.innerHeight / 2;
+    mx.set((e.clientX - cx) * 0.018);
+    my.set((e.clientY - cy) * 0.018);
+  }, [mx, my]);
 
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;0,800;1,600;1,700;1,800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,700;0,800;1,700;1,800&display=swap');
 
-        /* ═══════════════════════════════════════════
-           HERO CONTAINER
-        ═══════════════════════════════════════════ */
-        .cp-hr-container {
-          height: 100vh;
-          min-height: 650px;
-          width: 100%;
-          background: #000;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          align-items: center;
+        /* ─── reset ─────────────────────────────── */
+        *, *::before, *::after { box-sizing: border-box; }
+
+        /* ─── ROOT ──────────────────────────────── */
+        .h3-root {
           position: relative;
+          width: 100%;
+          height: 100svh;          /* svh = small viewport height — mobile safe */
+          min-height: 560px;
+          background: #000;
+          display: grid;
+          grid-template-rows: auto 1fr auto;  /* ticker | main | footer */
+          align-items: stretch;
           overflow: hidden;
-          padding: 60px 0 38px;
         }
 
-        /* scanline texture */
-        .cp-hr-container::before {
+        /* scanlines */
+        .h3-root::after {
           content: '';
           position: absolute; inset: 0;
           background-image: repeating-linear-gradient(
-            0deg, transparent, transparent 2px,
-            rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 4px
+            0deg, transparent, transparent 3px,
+            rgba(0,0,0,0.055) 3px, rgba(0,0,0,0.055) 4px
           );
-          pointer-events: none; z-index: 3;
+          pointer-events: none; z-index: 5;
         }
 
         /* vignette */
-        .cp-hr-vignette {
+        .h3-vig {
           position: absolute; inset: 0;
-          background: radial-gradient(ellipse at center, transparent 20%, rgba(0,0,0,0.92) 90%);
+          background: radial-gradient(ellipse at 50% 35%, transparent 20%, rgba(0,0,0,0.85) 80%);
           pointer-events: none; z-index: 2;
         }
 
-        /* ambient glow */
-        .cp-hr-glow {
-          position: absolute; width: 100%; height: 100%;
-          background:
-            radial-gradient(circle at 30% 60%, rgba(50,197,244,0.055) 0%, transparent 50%),
-            radial-gradient(circle at 70% 40%, rgba(253,224,71,0.04) 0%, transparent 50%);
-          animation: cpHrGlow 8s infinite alternate;
+        /* canvas */
+        .h3-canvas {
+          position: absolute; inset: 0;
           pointer-events: none; z-index: 1;
         }
-        @keyframes cpHrGlow {
-          0%   { opacity: 0.3; transform: scale(1); }
-          100% { opacity: 0.75; transform: scale(1.2); }
-        }
 
-        /* ═══════════════════════════════════════════
-           TREE ARCHITECTURE
-        ═══════════════════════════════════════════ */
-        .cp-hr-tree {
-          display: flex; flex-direction: column;
-          align-items: center;
-          z-index: 10; width: 100%;
-          padding: 0 20px;
-          margin: auto 0;
+        /* ── corner marks ── */
+        .h3-corner {
+          position: absolute; width: 22px; height: 22px; z-index: 8; pointer-events: none;
         }
+        .h3-tl { top: 48px; left: 16px; border-top: 1px solid rgba(253,224,71,0.4); border-left: 1px solid rgba(253,224,71,0.4); }
+        .h3-tr { top: 48px; right: 16px; border-top: 1px solid rgba(253,224,71,0.4); border-right: 1px solid rgba(253,224,71,0.4); }
+        .h3-bl { bottom: 14px; left: 16px; border-bottom: 1px solid rgba(50,197,244,0.3); border-left: 1px solid rgba(50,197,244,0.3); }
+        .h3-br { bottom: 14px; right: 16px; border-bottom: 1px solid rgba(50,197,244,0.3); border-right: 1px solid rgba(50,197,244,0.3); }
 
-        /* trunk */
-        .cp-hr-trunk {
-          display: flex; flex-direction: column;
-          align-items: center; text-align: center;
+        /* ── REC ── */
+        .h3-rec {
+          position: absolute; top: 54px; right: 48px;
+          display: flex; align-items: center; gap: 5px;
+          z-index: 9; pointer-events: none;
         }
-
-        /* brand name */
-        .cp-hr-brand {
-          display: flex; flex-direction: row;
-          align-items: baseline; justify-content: center;
-          gap: 12px;
+        .h3-rec-dot {
+          width: 7px; height: 7px; border-radius: 50%;
+          background: #ff3333;
+          box-shadow: 0 0 8px rgba(255,51,51,0.8);
+          animation: h3Rec 1s step-end infinite;
         }
-
-        /* CINEMAPAYYAN — editorial italic serif */
-        .cp-hr-name {
-          font-family: 'Cormorant Garamond', Georgia, serif;
-          font-size: clamp(42px, 10vw, 115px);
-          font-weight: 800;
-          font-style: italic;
-          color: #fde047;
-          letter-spacing: -1px;
-          line-height: 0.92;
-          text-shadow:
-            0 0 60px rgba(253,224,71,0.2),
-            0 0 120px rgba(253,224,71,0.08);
-        }
-
-        /* INC — monospace counter */
-        .cp-hr-inc {
+        @keyframes h3Rec { 0%,100%{opacity:1} 50%{opacity:0} }
+        .h3-rec-txt {
           font-family: 'Courier New', monospace;
-          font-size: clamp(14px, 2.5vw, 28px);
-          color: #32c5f4;
-          letter-spacing: 6px;
-          font-weight: 400;
-          text-shadow: 0 0 20px rgba(50,197,244,0.6);
-          align-self: flex-end;
-          padding-bottom: 0.1em;
+          font-size: 0.52rem; letter-spacing: 2px;
+          color: rgba(255,60,60,0.8);
         }
 
-        /* trunk spine */
-        .cp-hr-spine {
-          width: 1px;
-          background: linear-gradient(to bottom, #fde047, #32c5f4);
-          box-shadow: 0 0 10px rgba(50,197,244,0.4);
-          margin: 18px 0;
+        /* ════════════════════════════════════════════
+           GATE
+        ════════════════════════════════════════════ */
+        .h3-gate {
+          position: fixed; inset: 0; z-index: 200;
+          background: #000;
+          display: flex; align-items: center; justify-content: center;
+          flex-direction: column; gap: 0;
+          padding: 24px;
         }
 
-        /* ─── BRANCHES ──────────────────────────── */
-        .cp-hr-branches {
-          position: relative; width: 100%;
-          max-width: 1100px;
+        /* diagonal slash behind gate text */
+        .h3-gate::before {
+          content: '';
+          position: absolute;
+          top: -40%; left: -20%; width: 60%; height: 200%;
+          background: rgba(253,224,71,0.025);
+          transform: rotate(-12deg);
+          pointer-events: none;
+        }
+
+        .h3-gate-pre {
+          font-family: 'Courier New', monospace;
+          font-size: clamp(0.6rem, 2.5vw, 0.78rem);
+          letter-spacing: 8px; color: rgba(253,224,71,0.55);
+          text-transform: uppercase; margin: 0 0 16px;
+          text-align: center;
+        }
+
+        .h3-gate-word {
+          display: block;
+          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-size: clamp(3rem, 14vw, 10rem);
+          font-weight: 800; font-style: italic;
+          line-height: 0.88; letter-spacing: -3px;
+          text-align: center;
+        }
+        .h3-gate-w1 { color: #fff; }
+        .h3-gate-w2 { color: #fde047; }
+
+        .h3-gate-bar {
+          width: 0; height: 2px;
+          background: linear-gradient(90deg, #fde047, #32c5f4);
+          margin: 20px auto;
+          animation: h3BarGrow 0.8s ease forwards 0.5s;
+        }
+        @keyframes h3BarGrow { to { width: min(220px, 60vw); } }
+
+        .h3-gate-sub {
+          font-family: 'Courier New', monospace;
+          font-size: clamp(0.55rem, 2vw, 0.7rem);
+          letter-spacing: 7px; color: rgba(255,255,255,0.25);
+          text-transform: uppercase; text-align: center;
+        }
+
+        /* ════════════════════════════════════════════
+           TICKER
+        ════════════════════════════════════════════ */
+        .h3-ticker {
+          position: relative; z-index: 10;
+          width: 100%;
+          background: rgba(253,224,71,0.05);
+          border-bottom: 1px solid rgba(253,224,71,0.2);
+          overflow: hidden;
+          height: 34px;
+          display: flex; align-items: center;
+        }
+        .h3-ticker-track {
+          display: flex; white-space: nowrap;
+          animation: h3Tick 24s linear infinite;
+        }
+        @keyframes h3Tick { to { transform: translateX(-50%); } }
+        .h3-ticker-item {
+          font-family: 'Courier New', monospace;
+          font-size: clamp(0.5rem, 1.6vw, 0.62rem);
+          letter-spacing: 5px; color: rgba(253,224,71,0.6);
+          text-transform: uppercase; padding: 0 28px; flex-shrink: 0;
+        }
+        .h3-ticker-sep { color: #32c5f4; margin: 0 4px; }
+
+        /* ════════════════════════════════════════════
+           MAIN AREA  (fills 1fr)
+        ════════════════════════════════════════════ */
+        .h3-main {
+          position: relative; z-index: 10;
           display: flex; flex-direction: column;
-          align-items: center;
+          align-items: center; justify-content: center;
+          padding: clamp(20px,4vh,40px) clamp(16px,5vw,48px);
+          gap: clamp(10px,2vh,20px);
+          overflow: hidden;
         }
 
-        /* horizontal line */
-        .cp-hr-hline {
-          width: 72%; height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(253,224,71,0.4), transparent);
+        /* ── pre label ── */
+        .h3-pre {
+          display: flex; align-items: center; gap: 12px;
+        }
+        .h3-pre-line {
+          width: clamp(24px,5vw,44px); height: 1px;
+          background: rgba(253,224,71,0.5);
+        }
+        .h3-pre-txt {
+          font-family: 'Courier New', monospace;
+          font-size: clamp(0.52rem, 1.8vw, 0.68rem);
+          letter-spacing: clamp(4px,1vw,7px);
+          color: rgba(253,224,71,0.8);
+          text-transform: uppercase; white-space: nowrap;
         }
 
-        /* nodes row */
-        .cp-hr-nodes {
-          display: flex; justify-content: space-between;
-          width: 72%; margin-top: 0;
+        /* ── brand ── */
+        .h3-brand {
+          display: flex; align-items: baseline;
+          justify-content: center; gap: clamp(8px,2vw,16px);
+          flex-wrap: wrap; text-align: center;
+        }
+        .h3-name {
+          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-size: clamp(38px, 10.5vw, 120px);
+          font-weight: 800; font-style: italic;
+          color: #fde047; line-height: 0.9;
+          letter-spacing: clamp(-2px,-0.5vw,-1px);
+          text-shadow:
+            0 0 50px rgba(253,224,71,0.28),
+            0 0 120px rgba(253,224,71,0.1);
+        }
+        .h3-inc {
+          font-family: 'Courier New', monospace;
+          font-size: clamp(14px, 2.8vw, 30px);
+          color: #32c5f4; letter-spacing: 6px;
+          text-shadow: 0 0 16px rgba(50,197,244,0.7);
+          align-self: flex-end; padding-bottom: 0.06em;
         }
 
-        .cp-hr-node {
+        /* ── gradient rule ── */
+        .h3-rule {
+          width: clamp(100px,35%,260px); height: 1px;
+          background: linear-gradient(90deg, transparent, #fde047 40%, #32c5f4 70%, transparent);
+          opacity: 0.55;
+        }
+
+        /* ── tagline ── */
+        .h3-tagline {
+          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-size: clamp(0.88rem, 2.2vw, 1.25rem);
+          font-style: italic; font-weight: 600;
+          color: rgba(255,255,255,0.55);
+          text-align: center; line-height: 1.65;
+          max-width: 520px;
+          margin: 0;
+        }
+        .h3-tagline b {
+          color: rgba(255,255,255,0.88);
+          font-style: normal;
+          border-bottom: 1px solid rgba(253,224,71,0.4);
+          padding-bottom: 1px;
+        }
+
+        /* ── spine ── */
+        .h3-spine {
+          width: 1px;
+          background: linear-gradient(to bottom, rgba(253,224,71,0.6), rgba(50,197,244,0.3));
+        }
+
+        /* ── nav branches ── */
+        .h3-branches {
+          display: flex; justify-content: center;
+          align-items: flex-start;
+          gap: 0; width: 100%; max-width: 720px;
+          flex-wrap: wrap; row-gap: 12px;
+        }
+
+        /* horizontal bridge — desktop only */
+        .h3-hbridge {
+          display: flex; width: 100%;
+          justify-content: space-between; align-items: flex-start;
+          position: relative;
+        }
+        .h3-hbridge::before {
+          content: '';
+          position: absolute; top: 0; left: 16.5%; right: 16.5%;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(253,224,71,0.3), transparent);
+        }
+
+        .h3-node {
           display: flex; flex-direction: column;
           align-items: center; flex: 1;
           transition: opacity 0.4s, filter 0.4s;
+          min-width: 120px;
+        }
+        .h3-hbridge:hover .h3-node:not(:hover) {
+          opacity: 0.18; filter: blur(1.5px);
         }
 
-        /* dim non-hovered siblings */
-        .cp-hr-nodes:hover .cp-hr-node:not(:hover) {
-          opacity: 0.18; filter: blur(2px);
+        .h3-stem {
+          width: 1px; height: 30px;
+          background: rgba(253,224,71,0.35);
+          transition: background 0.4s, box-shadow 0.35s;
         }
-
-        /* vertical stem */
-        .cp-hr-stem {
-          width: 1px;
-          background: rgba(253,224,71,0.5);
-          transition: background 0.4s, box-shadow 0.4s, height 0.4s;
-        }
-        .cp-hr-node:hover .cp-hr-stem {
+        .h3-node:hover .h3-stem {
           background: #32c5f4;
-          box-shadow: 0 0 14px rgba(50,197,244,0.6);
+          box-shadow: 0 0 12px rgba(50,197,244,0.6);
         }
 
-        /* interactive box — cp-feature border style */
-        .cp-hr-box {
-          padding: 16px 32px;
-          border: 1px solid rgba(255,255,255,0.08);
-          background: rgba(6,6,6,0.85);
-          backdrop-filter: blur(20px);
-          cursor: pointer;
-          transition: border-color 0.35s, background 0.35s, transform 0.35s, box-shadow 0.35s;
+        .h3-box {
           position: relative; overflow: hidden;
+          padding: clamp(10px,1.8vw,14px) clamp(16px,3.5vw,32px);
+          border: 1px solid rgba(255,255,255,0.1);
+          background: rgba(6,6,6,0.82);
+          backdrop-filter: blur(14px);
+          cursor: pointer;
+          transition: border-color 0.35s, transform 0.35s, box-shadow 0.35s;
         }
-
-        /* fill-sweep on hover */
-        .cp-hr-box::before {
+        /* fill sweep */
+        .h3-box::before {
           content: ''; position: absolute; inset: 0;
-          background: rgba(50,197,244,0.06);
+          background: rgba(50,197,244,0.08);
           transform: scaleX(0); transform-origin: left; z-index: 0;
           transition: transform 0.4s cubic-bezier(0.77,0,0.18,1);
         }
-        .cp-hr-node:hover .cp-hr-box::before { transform: scaleX(1); }
-        .cp-hr-node:hover .cp-hr-box {
-          border-color: rgba(50,197,244,0.3);
-          transform: translateY(6px);
-          box-shadow: 0 0 30px rgba(50,197,244,0.08);
+        .h3-node:hover .h3-box::before { transform: scaleX(1); }
+        .h3-node:hover .h3-box {
+          border-color: rgba(50,197,244,0.35);
+          transform: translateY(5px);
+          box-shadow: 0 8px 24px rgba(50,197,244,0.07);
         }
-
-        /* TL corner mark on box */
-        .cp-hr-box::after {
+        /* corner mark */
+        .h3-box::after {
           content: '';
           position: absolute; top: 0; left: 0;
-          width: 8px; height: 8px;
-          border-top: 1px solid rgba(253,224,71,0.4);
-          border-left: 1px solid rgba(253,224,71,0.4);
-          pointer-events: none; z-index: 5;
-          transition: border-color 0.3s;
-        }
-        .cp-hr-node:hover .cp-hr-box::after {
-          border-color: rgba(50,197,244,0.5);
+          width: 10px; height: 10px;
+          border-top: 1px solid rgba(253,224,71,0.5);
+          border-left: 1px solid rgba(253,224,71,0.5);
+          z-index: 5;
         }
 
-        /* node link text */
-        .cp-hr-link {
-          color: rgba(255,255,255,0.6);
-          text-decoration: none;
+        .h3-link {
           font-family: 'Courier New', monospace;
-          font-size: clamp(0.6rem, 1.4vw, 0.78rem);
-          letter-spacing: 5px;
-          text-transform: uppercase;
-          display: block;
-          position: relative; z-index: 1;
-          transition: color 0.35s, letter-spacing 0.35s;
-          cursor: pointer;
+          font-size: clamp(0.56rem, 1.5vw, 0.72rem);
+          letter-spacing: clamp(3px,0.8vw,5px);
+          color: rgba(255,255,255,0.65);
+          text-decoration: none; text-transform: uppercase;
+          display: block; position: relative; z-index: 1;
+          text-align: center; cursor: pointer;
+          transition: color 0.3s;
         }
-        .cp-hr-node:hover .cp-hr-link {
+        .h3-node:hover .h3-link {
           color: #fff;
-          letter-spacing: 7px;
           text-shadow: 0 0 10px rgba(50,197,244,0.5);
         }
 
-        /* ═══════════════════════════════════════════
-           HERO FOOTER
-        ═══════════════════════════════════════════ */
-        .cp-hr-footer {
-          position: relative; width: 100%;
+        /* ── stats strip ── */
+        .h3-stats {
+          display: flex;
+          border: 1px solid rgba(255,255,255,0.07);
+          background: rgba(255,255,255,0.02);
+          width: 100%; max-width: 560px;
+        }
+        .h3-stat {
+          flex: 1; padding: clamp(10px,2vh,14px) 0;
           display: flex; flex-direction: column;
-          align-items: center; gap: 14px;
-          z-index: 15;
+          align-items: center; gap: 4px;
         }
-
-        /* director tag */
-        .cp-hr-director { text-align: center; }
-
-        .cp-hr-credit {
-          font-family: 'Courier New', monospace;
-          font-size: 0.38rem; letter-spacing: 7px;
-          color: rgba(255,255,255,0.22);
-          text-transform: uppercase;
-          margin: 0 0 6px;
-        }
-
-        .cp-hr-director-name {
+        .h3-stat + .h3-stat { border-left: 1px solid rgba(255,255,255,0.07); }
+        .h3-stat-num {
           font-family: 'Cormorant Garamond', Georgia, serif;
-          font-size: clamp(1.1rem, 3vw, 2rem);
+          font-size: clamp(1.4rem,4.5vw,2.4rem);
+          font-weight: 800; color: #32c5f4; line-height: 1;
+        }
+        .h3-stat-sup { font-size: 0.55em; vertical-align: super; color: #fde047; }
+        .h3-stat-lbl {
+          font-family: 'Courier New', monospace;
+          font-size: clamp(0.38rem,1vw,0.48rem);
+          letter-spacing: 3px; color: rgba(255,255,255,0.4);
+          text-transform: uppercase; text-align: center; line-height: 1.5;
+        }
+
+        /* ════════════════════════════════════════════
+           FOOTER ROW  (grid row 3)
+        ════════════════════════════════════════════ */
+        .h3-footer {
+          position: relative; z-index: 10;
+          display: flex; align-items: center; justify-content: space-between;
+          padding: 0 clamp(16px,5vw,48px) clamp(14px,3vh,28px);
+          gap: 12px;
+        }
+
+        /* director byline */
+        .h3-byline { flex: 1; }
+        .h3-byline-lbl {
+          font-family: 'Courier New', monospace;
+          font-size: clamp(0.44rem,1.4vw,0.56rem);
+          letter-spacing: 5px; color: rgba(255,255,255,0.3);
+          text-transform: uppercase; display: block; margin-bottom: 4px;
+        }
+        .h3-byline-name {
+          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-size: clamp(1rem,3vw,1.85rem);
           font-weight: 700; font-style: italic;
-          color: rgba(255,255,255,0.65);
-          letter-spacing: 4px; margin: 0;
+          color: rgba(255,255,255,0.62); letter-spacing: 2px; margin: 0;
           line-height: 1;
         }
 
-        /* scroll indicator */
-        .cp-hr-scroll {
+        /* centre scroll indicator */
+        .h3-scroll {
           display: flex; flex-direction: column;
           align-items: center; gap: 0;
+          flex-shrink: 0;
         }
-
-        .cp-hr-explore {
+        .h3-scroll-lbl {
           font-family: 'Courier New', monospace;
-          font-size: 0.38rem; letter-spacing: 5px;
-          color: rgba(255,255,255,0.25);
-          text-transform: uppercase;
-          margin: 0 0 10px;
+          font-size: clamp(0.44rem,1.3vw,0.54rem);
+          letter-spacing: 5px; color: rgba(255,255,255,0.28);
+          text-transform: uppercase; margin-bottom: 8px;
         }
-
-        /* mouse */
-        .cp-hr-mouse {
-          width: 18px; height: 28px;
-          border: 1px solid rgba(255,255,255,0.12);
-          border-radius: 9px;
+        .h3-mouse {
+          width: 20px; height: 30px;
+          border: 1px solid rgba(255,255,255,0.18); border-radius: 10px;
           display: flex; justify-content: center;
         }
-        .cp-hr-wheel {
-          width: 2px; height: 5px;
+        .h3-wheel {
+          width: 2px; height: 6px; margin-top: 5px;
           background: #32c5f4; border-radius: 2px;
-          margin-top: 5px;
         }
-
-        /* scroll line */
-        .cp-hr-scroll-line {
-          width: 1px; height: 30px;
+        .h3-scroll-line {
+          width: 1px; height: 22px; margin-top: 7px;
           background: linear-gradient(to bottom, #32c5f4, transparent);
-          margin-top: 8px;
-          animation: cpScrollLine 2s ease-in-out infinite;
+          animation: h3SL 2s ease-in-out infinite;
         }
-        @keyframes cpScrollLine {
-          0%,100% { opacity: 0.35; }
-          50%      { opacity: 1; }
+        @keyframes h3SL { 0%,100%{opacity:.28} 50%{opacity:1} }
+
+        /* right: seq tag */
+        .h3-seq {
+          flex: 1; text-align: right;
+          font-family: 'Courier New', monospace;
+          font-size: clamp(0.44rem,1.4vw,0.56rem);
+          letter-spacing: 3px; color: rgba(255,255,255,0.18);
+          text-transform: uppercase;
+          line-height: 1.6;
+        }
+        .h3-seq span { display: block; }
+        .h3-seq strong { color: rgba(253,224,71,0.45); font-weight: normal; }
+
+        /* ════════════════════════════════════════════
+           RESPONSIVE
+        ════════════════════════════════════════════ */
+        @media (max-width: 640px) {
+          /* nav: stack vertically, no tree */
+          .h3-hbridge::before { display: none; }
+          .h3-hbridge {
+            flex-direction: column; align-items: center;
+            gap: 10px; width: 100%;
+          }
+          .h3-stem   { display: none; }
+          .h3-node   { min-width: 0; width: 100%; max-width: 230px; }
+          .h3-box    { width: 100%; text-align: center; }
+          .h3-hbridge:hover .h3-node:not(:hover) { opacity: 1; filter: none; }
+
+          /* footer: stack */
+          .h3-footer { flex-direction: column; align-items: center; text-align: center; gap: 8px; }
+          .h3-byline { text-align: center; }
+          .h3-seq    { text-align: center; }
+
+          /* rec tag hide on very small */
+          .h3-rec    { display: none; }
         }
 
-        /* ═══════════════════════════════════════════
-           RESPONSIVE
-        ═══════════════════════════════════════════ */
-        @media (max-width: 1024px) {
-          .cp-hr-hline, .cp-hr-nodes { width: 90%; }
+        @media (max-width: 380px) {
+          .h3-name   { font-size: 34px; }
+          .h3-box    { padding: 10px 14px; }
+          .h3-stats  { max-width: 100%; }
+          .h3-main   { gap: 8px; }
         }
-        @media (max-width: 768px) {
-          .cp-hr-hline,
-          .cp-hr-stem,
-          .cp-hr-spine { display: none; }
-          .cp-hr-tree   { padding-top: 30px; }
-          .cp-hr-nodes  {
-            flex-direction: column;
-            width: 100%; align-items: center;
-            gap: 14px; margin-top: 32px;
-          }
-          .cp-hr-box { width: 250px; text-align: center; }
-          .cp-hr-footer { gap: 10px; }
-          .cp-hr-scroll-line { height: 20px; }
-        }
-        @media (max-width: 480px) {
-          .cp-hr-name { font-size: 36px; }
-          .cp-hr-inc  { font-size: 18px; }
-          .cp-hr-box  { width: 215px; padding: 11px 16px; }
-          .cp-hr-link { font-size: 0.55rem; }
-          .cp-hr-scroll-line { display: none; }
-        }
-        @media (max-height: 650px) {
-          .cp-hr-footer { gap: 6px; }
-          .cp-hr-scroll { transform: scale(0.85); }
-        }
-        @media (max-height: 500px) and (orientation: landscape) {
-          .cp-hr-container { height: auto; padding: 55px 0; }
-          .cp-hr-footer    { margin-top: 28px; }
+
+        /* landscape phones */
+        @media (max-height: 520px) and (orientation: landscape) {
+          .h3-root   { height: auto; min-height: 100svh; }
+          .h3-spine  { display: none; }
+          .h3-stats  { display: none; }
+          .h3-tagline { display: none; }
+          .h3-main   { justify-content: flex-start; padding-top: 12px; }
         }
       `}</style>
 
-      <div className="cp-hr-container">
-        <div className="cp-hr-vignette" />
-        <div className="cp-hr-glow" />
-
-        {/* ── TREE ──────────────────────────────── */}
-        <div className="cp-hr-tree">
-
-          {/* trunk */}
+      {/* ════ GATE ════ */}
+      <AnimatePresence>
+        {gatePhase !== 'gone' && (
           <motion.div
-            className="cp-hr-trunk"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
+            className="h3-gate"
+            animate={gatePhase === 'exit'
+              ? { opacity: 0, y: -30, filter: 'blur(8px)' }
+              : { opacity: 1, y: 0,   filter: 'blur(0px)' }
+            }
+            transition={{ duration: 0.65, ease: [0.77,0,0.18,1] }}
           >
-            <div className="cp-hr-brand">
-              <h1 className="cp-hr-name">CINEMAPAYYAN</h1>
+            <motion.p
+              className="h3-gate-pre"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+            >
+              WELCOME TO
+            </motion.p>
+
+            <div style={{ overflow: 'hidden' }}>
               <motion.span
-                className="cp-hr-inc"
-                animate={{ opacity: [0.4, 1, 0.4] }}
-                transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                className="h3-gate-word h3-gate-w1"
+                initial={{ y: '100%' }}
+                animate={{ y: 0 }}
+                transition={{ delay: 0.18, duration: 0.7, ease: [0.16,1,0.3,1] }}
               >
-                INC
+                CINEMA
+              </motion.span>
+            </div>
+            <div style={{ overflow: 'hidden' }}>
+              <motion.span
+                className="h3-gate-word h3-gate-w2"
+                initial={{ y: '100%' }}
+                animate={{ y: 0 }}
+                transition={{ delay: 0.3, duration: 0.7, ease: [0.16,1,0.3,1] }}
+              >
+                PAYYAN
               </motion.span>
             </div>
 
-            <motion.div
-              className="cp-hr-spine"
-              initial={{ height: 0 }}
-              animate={{ height: 80 }}
-              transition={{ delay: 1, duration: 0.8 }}
-            />
+            <div className="h3-gate-bar" />
+
+            <motion.p
+              className="h3-gate-sub"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.7 }}
+            >
+              PRODUCTIONS · INC · EST. 2014
+            </motion.p>
           </motion.div>
+        )}
+      </AnimatePresence>
 
-          {/* branches */}
-          <div className="cp-hr-branches">
-            <div className="cp-hr-hline" />
+      {/* ════ HERO ════ */}
+      <motion.div
+        className="h3-root"
+        onMouseMove={onMouseMove}
+        style={{ x: sx, y: sy }}
+      >
+        <canvas className="h3-canvas" ref={canvasRef} />
+        <div className="h3-vig" />
 
-            <div className="cp-hr-nodes">
-              {branches.map((branch, i) => (
-                <motion.div
-                  key={i}
-                  className={`cp-hr-node ${branch.className}`}
-                  whileHover="hover"
-                >
-                  <motion.div
-                    className="cp-hr-stem"
-                    initial={{ height: 0 }}
-                    animate={{ height: 40 }}
-                    transition={{ duration: 0.3 }}
-                  />
+        {/* frame corners */}
+        <div className="h3-corner h3-tl" />
+        <div className="h3-corner h3-tr" />
+        <div className="h3-corner h3-bl" />
+        <div className="h3-corner h3-br" />
 
-                  <motion.div
-                    className="cp-hr-box"
-                    initial={{ opacity: 0, scale: 0.85 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 1.8 + i * 0.2 }}
-                  >
-                    {branch.isScroll ? (
-                      <div
-                        className="cp-hr-link"
-                        onClick={() => {
-                          if (branch.title === 'PROMOTIONS')  onScrollRequest?.('workRef');
-                          if (branch.title === 'PRODUCTIONS') onScrollRequest?.('promotionsRef');
-                        }}
-                      >
-                        {branch.title}
-                      </div>
-                    ) : (
-                      <Link to={branch.path} className="cp-hr-link">
-                        {branch.title}
-                      </Link>
-                    )}
-                  </motion.div>
-                </motion.div>
-              ))}
-            </div>
+        {/* REC */}
+        <div className="h3-rec">
+          <div className="h3-rec-dot" />
+          <span className="h3-rec-txt">REC</span>
+        </div>
+
+        {/* ── TICKER ── */}
+        <div className="h3-ticker">
+          <div className="h3-ticker-track">
+            {[0,1].map(r => TICKER_WORDS.map((w,i) => (
+              <span key={`${r}-${i}`} className="h3-ticker-item">
+                {w}<span className="h3-ticker-sep">•</span>
+              </span>
+            )))}
           </div>
         </div>
 
-        {/* ── FOOTER ────────────────────────────── */}
-        <div className="cp-hr-footer">
-          <motion.div
-            className="cp-hr-director"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 2.8 }}
+        {/* ── MAIN ── */}
+        <div className="h3-main">
+
+          {/* pre label */}
+          <motion.div className="h3-pre"
+            initial={{ opacity:0, y:14 }}
+            animate={{ opacity: ready?1:0, y: ready?0:14 }}
+            transition={{ duration:0.7 }}
           >
-            <p className="cp-hr-credit">CINEMA ENTREPRENEUR</p>
-            <h2 className="cp-hr-director-name">ABISHEK RAAJA</h2>
+            <div className="h3-pre-line" />
+            <span className="h3-pre-txt">EST. 2014 · CHENNAI</span>
+            <div className="h3-pre-line" />
           </motion.div>
 
-          <motion.div
-            className="cp-hr-scroll"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 3.5, duration: 1 }}
+          {/* brand name */}
+          <motion.div className="h3-brand"
+            initial={{ opacity:0, y:20 }}
+            animate={{ opacity: ready?1:0, y: ready?0:20 }}
+            transition={{ duration:0.8, delay:0.05 }}
           >
-            <p className="cp-hr-explore">EXPLORE</p>
-            <div className="cp-hr-mouse">
-              <motion.div
-                className="cp-hr-wheel"
-                animate={{ y: [0, 8, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-              />
-            </div>
-            <div className="cp-hr-scroll-line" />
+            <h1 className="h3-name">CINEMAPAYYAN</h1>
+            <motion.span className="h3-inc"
+              animate={{ opacity:[0.35,1,0.35] }}
+              transition={{ duration:3, repeat:Infinity, ease:'easeInOut' }}
+            >INC</motion.span>
           </motion.div>
+
+          {/* rule */}
+          <motion.div className="h3-rule"
+            initial={{ scaleX:0 }}
+            animate={{ scaleX: ready?1:0 }}
+            transition={{ duration:0.9, delay:0.15 }}
+            style={{ transformOrigin:'center' }}
+          />
+
+          {/* tagline */}
+          <motion.p className="h3-tagline"
+            initial={{ opacity:0 }}
+            animate={{ opacity: ready?1:0 }}
+            transition={{ delay:0.25, duration:0.9 }}
+          >
+            <b>Storytelling</b> through a cinematic lens —<br />
+            where every frame is a declaration.
+          </motion.p>
+
+          {/* spine */}
+          <motion.div className="h3-spine"
+            initial={{ height:0 }}
+            animate={{ height: ready?36:0 }}
+            transition={{ delay:0.35, duration:0.6 }}
+          />
+
+          {/* branches */}
+          <motion.div
+            initial={{ opacity:0 }}
+            animate={{ opacity: ready?1:0 }}
+            transition={{ delay:0.4, duration:0.6 }}
+            style={{ width:'100%', display:'flex', justifyContent:'center' }}
+          >
+            <div className="h3-branches">
+              <div className="h3-hbridge">
+                {BRANCHES.map((b, i) => (
+                  <motion.div key={i} className="h3-node"
+                    initial={{ opacity:0, y:14 }}
+                    animate={{ opacity: ready?1:0, y: ready?0:14 }}
+                    transition={{ delay: 0.5 + i*0.1, duration:0.5 }}
+                  >
+                    <div className="h3-stem" />
+                    <div className="h3-box">
+                      {b.isScroll
+                        ? <div className="h3-link" onClick={() => onScrollRequest?.(b.key)}>{b.title}</div>
+                        : <Link to={b.path} className="h3-link">{b.title}</Link>
+                      }
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+
+          {/* stats */}
+          <motion.div className="h3-stats"
+            initial={{ opacity:0, y:14 }}
+            animate={{ opacity: ready?1:0, y: ready?0:14 }}
+            transition={{ delay:0.65, duration:0.7 }}
+          >
+            <div className="h3-stat">
+              <span className="h3-stat-num">{years}<span className="h3-stat-sup">+</span></span>
+              <span className="h3-stat-lbl">YEARS OF<br/>EVOLUTION</span>
+            </div>
+            <div className="h3-stat">
+              <span className="h3-stat-num">{followers}<span className="h3-stat-sup">K</span></span>
+              <span className="h3-stat-lbl">INSTAGRAM<br/>FOLLOWERS</span>
+            </div>
+            <div className="h3-stat">
+              <span className="h3-stat-num">∞</span>
+              <span className="h3-stat-lbl">CINEMATIC<br/>VISION</span>
+            </div>
+          </motion.div>
+
         </div>
 
-      </div>
+        {/* ── FOOTER ── */}
+        <motion.div className="h3-footer"
+          initial={{ opacity:0 }}
+          animate={{ opacity: ready?1:0 }}
+          transition={{ delay:0.8, duration:0.8 }}
+        >
+          <div className="h3-byline">
+            <span className="h3-byline-lbl">CINEMA ENTREPRENEUR</span>
+            <h2 className="h3-byline-name">ABISHEK RAAJA</h2>
+          </div>
+
+          <div className="h3-scroll">
+            <p className="h3-scroll-lbl">EXPLORE</p>
+            <div className="h3-mouse">
+              <motion.div className="h3-wheel"
+                animate={{ y:[0,8,0] }}
+                transition={{ duration:1.5, repeat:Infinity, ease:'easeInOut' }}
+              />
+            </div>
+            <div className="h3-scroll-line" />
+          </div>
+
+          <div className="h3-seq">
+            <span><strong>SEQ 01</strong></span>
+            <span>HERO · WELCOME</span>
+          </div>
+        </motion.div>
+
+      </motion.div>
     </>
   );
-};
-
-export default Hero;
+}

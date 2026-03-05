@@ -82,10 +82,10 @@ const Munai: React.FC = () => {
           background: #fde047; opacity: 0.5;
         }
         .cp-mn-header-pre-text {
-          font-family: 'Courier New', monospace;
-          font-size: 0.44rem; letter-spacing: 6px;
-          color: rgba(253,224,71,0.5); text-transform: uppercase;
-        }
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem; letter-spacing: 5px;
+  color: rgba(253,224,71,0.85); text-transform: uppercase;
+}
 
         /* giant display title */
         .cp-mn-logo {
@@ -101,12 +101,12 @@ const Munai: React.FC = () => {
 
         /* meta line */
         .cp-mn-meta {
-          font-family: 'Courier New', monospace;
-          font-size: 0.44rem; letter-spacing: 7px;
-          color: rgba(255,255,255,0.22);
-          text-transform: uppercase;
-          position: relative; z-index: 2;
-        }
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem; letter-spacing: 6px;
+  color: rgba(255,255,255,0.65);
+  text-transform: uppercase;
+  position: relative; z-index: 2;
+}
 
         /* gradient rule */
         .cp-mn-header-rule {
@@ -173,10 +173,10 @@ const Munai: React.FC = () => {
           background: #fde047; opacity: 0.4;
         }
         .cp-mn-text-pre-txt {
-          font-family: 'Courier New', monospace;
-          font-size: 0.42rem; letter-spacing: 5px;
-          color: rgba(253,224,71,0.4); text-transform: uppercase;
-        }
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem; letter-spacing: 5px;
+  color: rgba(253,224,71,0.85); text-transform: uppercase;
+}
 
         /* section title */
         .cp-mn-title {
@@ -196,11 +196,11 @@ const Munai: React.FC = () => {
 
         /* description */
         .cp-mn-desc {
-          font-family: 'Courier New', monospace;
-          font-size: 0.4rem; letter-spacing: 5px;
-          color: rgba(255,255,255,0.3); text-transform: uppercase;
-          line-height: 2;
-        }
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem; letter-spacing: 5px;
+  color: rgba(255,255,255,0.7); text-transform: uppercase;
+  line-height: 2;
+}
 
         /* CTA link */
         .cp-mn-section-cta {
@@ -209,10 +209,10 @@ const Munai: React.FC = () => {
           position: relative; overflow: hidden;
           padding: 11px 24px;
           border: 1px solid rgba(253,224,71,0.25);
-          color: rgba(253,224,71,0.6);
+          color: rgba(253,224,71,0.9);
           text-decoration: none;
           font-family: 'Courier New', monospace;
-          font-size: 0.4rem; letter-spacing: 4px;
+          font-size: 0.7rem; letter-spacing: 4px;
           text-transform: uppercase;
           transition: color 0.4s;
         }
@@ -259,15 +259,15 @@ const Munai: React.FC = () => {
 
         /* image tag */
         .cp-mn-img-tag {
-          position: absolute;
-          top: 10px; right: 10px;
-          font-family: 'Courier New', monospace;
-          font-size: 0.36rem; letter-spacing: 3px;
-          color: #000; background: #fde047;
-          padding: 3px 8px; z-index: 6;
-          text-transform: uppercase;
-          pointer-events: none;
-        }
+  position: absolute;
+  top: 10px; right: 10px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.65rem; letter-spacing: 3px;
+  color: #000; background: #fde047;
+  padding: 3px 8px; z-index: 6;
+  text-transform: uppercase;
+  pointer-events: none;
+}
 
         /* image */
         .cp-mn-img {
@@ -306,7 +306,7 @@ const Munai: React.FC = () => {
           color: #000;
           text-decoration: none;
           font-family: 'Courier New', monospace;
-          font-size: 0.52rem; letter-spacing: 4px;
+          font-size: 0.7rem; letter-spacing: 4px;
           text-transform: uppercase;
           opacity: 0; transform: translateY(20px);
           transition: opacity 0.5s cubic-bezier(0.22,1,0.36,1),
@@ -343,9 +343,9 @@ const Munai: React.FC = () => {
         }
         @media (max-width: 768px) {
           .cp-mn-cta {
-            bottom: 16px; right: 16px;
-            padding: 10px 16px; font-size: 0.42rem;
-          }
+  bottom: 16px; right: 16px;
+  padding: 10px 16px; font-size: 0.65rem;
+}
         }
         @media (max-width: 480px) {
           .cp-mn-logo  { font-size: 72px; }

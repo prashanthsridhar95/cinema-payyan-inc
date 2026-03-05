@@ -1,23 +1,55 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { VideoAssets, Images } from './assets/assets';
+import React from "react";
+import { motion } from "framer-motion";
+import { VideoAssets, Images } from "./assets/assets";
 
 const ShortsPromotion: React.FC = () => {
   const topYT = [
-    { id: 23, title: "CUSTODY Game | CSK Vs SRH - who will win?",        link: "https://youtu.be/aHxx-NtpAwQ?si=hoArL4w8_2clt2O7" },
-    { id: 24, title: "Venkat Prabhu ARRESTED - CUSTODY Promo",            link: "https://youtu.be/2M-A_3U-Zmc?si=FPJ7TfFoZvRtPoZH" },
-    { id: 25, title: "Naga Chaitanya tests Venkat Prabhu's patience",     link: "https://youtu.be/XbvzHgeK3VI?si=HeroAaf4kXPLaDLF" },
+    {
+      id: 23,
+      title: "CUSTODY Game | CSK Vs SRH - who will win?",
+      link: "https://youtu.be/aHxx-NtpAwQ?si=hoArL4w8_2clt2O7",
+    },
+    {
+      id: 24,
+      title: "Venkat Prabhu ARRESTED - CUSTODY Promo",
+      link: "https://youtu.be/2M-A_3U-Zmc?si=FPJ7TfFoZvRtPoZH",
+    },
+    {
+      id: 25,
+      title: "Naga Chaitanya tests Venkat Prabhu's patience",
+      link: "https://youtu.be/XbvzHgeK3VI?si=HeroAaf4kXPLaDLF",
+    },
   ];
 
   const middleReels = [
-    { id: 26, title: "What's holding everyone back?",          link: "https://www.instagram.com/reel/DHFzEYph_sM/" },
-    { id: 28, title: "No matter how hard you hit, it'll stand tall", link: "https://www.instagram.com/reel/DHLXS6ghJfr/" },
+    {
+      id: 26,
+      title: "What's holding everyone back?",
+      link: "https://www.instagram.com/reel/DHFzEYph_sM/",
+    },
+    {
+      id: 28,
+      title: "No matter how hard you hit, it'll stand tall",
+      link: "https://www.instagram.com/reel/DHLXS6ghJfr/",
+    },
   ];
 
   const bottomYT = [
-    { id: 29, title: "Mood Of Iraivan",               link: "https://youtu.be/3IAV3UISk8U?si=ZwWgCxUeejVHDsqW" },
-    { id: 30, title: "RaguThatha Countdown Series 1", link: "https://www.instagram.com/reel/C-ozgh8vB_9/" },
-    { id: 31, title: "RaguThatha Countdown Series",   link: "https://www.instagram.com/reel/C-hRTVyIwLj/" },
+    {
+      id: 29,
+      title: "Mood Of Iraivan",
+      link: "https://youtu.be/3IAV3UISk8U?si=ZwWgCxUeejVHDsqW",
+    },
+    {
+      id: 30,
+      title: "RaguThatha Countdown Series 1",
+      link: "https://www.instagram.com/reel/C-ozgh8vB_9/",
+    },
+    {
+      id: 31,
+      title: "RaguThatha Countdown Series",
+      link: "https://www.instagram.com/reel/C-hRTVyIwLj/",
+    },
   ];
 
   const specialPromo = {
@@ -77,10 +109,10 @@ const ShortsPromotion: React.FC = () => {
           background: #fde047; opacity: 0.5;
         }
         .cp-sp-pre-text {
-          font-family: 'Courier New', monospace;
-          font-size: 0.44rem; letter-spacing: 6px;
-          color: rgba(253,224,71,0.55); text-transform: uppercase;
-        }
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem; letter-spacing: 5px;
+  color: rgba(253,224,71,0.85); text-transform: uppercase;
+}
         .cp-sp-title {
           font-family: 'Cormorant Garamond', Georgia, serif;
           font-size: clamp(2.4rem, 7.5vw, 5rem);
@@ -110,10 +142,10 @@ const ShortsPromotion: React.FC = () => {
           background: #fde047; opacity: 0.4;
         }
         .cp-sp-label-text {
-          font-family: 'Courier New', monospace;
-          font-size: 0.42rem; letter-spacing: 5px;
-          color: rgba(253,224,71,0.4); text-transform: uppercase;
-        }
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem; letter-spacing: 5px;
+  color: rgba(253,224,71,0.8); text-transform: uppercase;
+}
 
         /* ═══════════════════════════════════════════
            YT GRID
@@ -184,14 +216,14 @@ const ShortsPromotion: React.FC = () => {
 
         /* YT label tag */
         .cp-sp-yt-tag {
-          position: absolute;
-          top: 10px; right: 10px;
-          font-family: 'Courier New', monospace;
-          font-size: 0.38rem; letter-spacing: 3px;
-          color: #000; background: #fde047;
-          padding: 3px 8px; z-index: 5;
-          text-transform: uppercase;
-        }
+  position: absolute;
+  top: 10px; right: 10px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.65rem; letter-spacing: 3px;
+  color: #000; background: #fde047;
+  padding: 3px 8px; z-index: 5;
+  text-transform: uppercase;
+}
 
         /* hover overlay */
         .cp-sp-hover-overlay {
@@ -207,13 +239,13 @@ const ShortsPromotion: React.FC = () => {
         .cp-sp-large-card:hover .cp-sp-hover-overlay { opacity: 1; }
 
         .cp-sp-hover-label {
-          font-family: 'Courier New', monospace;
-          font-size: 0.46rem; letter-spacing: 4px;
-          color: #000; background: #fde047;
-          padding: 8px 18px; text-transform: uppercase;
-          transform: translateY(6px);
-          transition: transform 0.3s;
-        }
+  font-family: 'Courier New', monospace;
+  font-size: 0.65rem; letter-spacing: 4px;
+  color: #000; background: #fde047;
+  padding: 8px 18px; text-transform: uppercase;
+  transform: translateY(6px);
+  transition: transform 0.3s;
+}
         .cp-sp-yt-card:hover .cp-sp-hover-label,
         .cp-sp-reel-card:hover .cp-sp-hover-label,
         .cp-sp-large-card:hover .cp-sp-hover-label { transform: translateY(0); }
@@ -321,10 +353,10 @@ const ShortsPromotion: React.FC = () => {
           background: #fde047; opacity: 0.5;
         }
         .cp-sp-brand-pre-text {
-          font-family: 'Courier New', monospace;
-          font-size: 0.42rem; letter-spacing: 5px;
-          color: rgba(253,224,71,0.55); text-transform: uppercase;
-        }
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem; letter-spacing: 5px;
+  color: rgba(253,224,71,0.85); text-transform: uppercase;
+}
 
         .cp-sp-brand-title {
           font-family: 'Cormorant Garamond', Georgia, serif;
@@ -424,13 +456,13 @@ const ShortsPromotion: React.FC = () => {
 
         /* prime badge */
         .cp-sp-prime-badge {
-          position: absolute; top: 12px; left: 12px;
-          font-family: 'Courier New', monospace;
-          font-size: 0.38rem; letter-spacing: 3px;
-          color: #000; background: #00A8E1;
-          padding: 4px 10px; z-index: 15;
-          text-transform: uppercase;
-        }
+  position: absolute; top: 12px; left: 12px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.65rem; letter-spacing: 3px;
+  color: #000; background: #00A8E1;
+  padding: 4px 10px; z-index: 15;
+  text-transform: uppercase;
+}
 
         /* scan line */
         .cp-sp-large-scan {
@@ -452,10 +484,10 @@ const ShortsPromotion: React.FC = () => {
           background: #fde047; opacity: 0.5;
         }
         .cp-sp-special-pre-txt {
-          font-family: 'Courier New', monospace;
-          font-size: 0.42rem; letter-spacing: 5px;
-          color: rgba(253,224,71,0.5); text-transform: uppercase;
-        }
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem; letter-spacing: 5px;
+  color: rgba(253,224,71,0.85); text-transform: uppercase;
+}
 
         .cp-sp-special-title {
           font-family: 'Cormorant Garamond', Georgia, serif;
@@ -486,7 +518,7 @@ const ShortsPromotion: React.FC = () => {
           border: 1px solid #fde047;
           color: #fde047; text-decoration: none;
           font-family: 'Courier New', monospace;
-          font-size: 0.54rem; letter-spacing: 4px;
+          font-size: 0.7rem; letter-spacing: 4px;
           text-transform: uppercase;
           transition: color 0.4s;
         }
@@ -525,7 +557,6 @@ const ShortsPromotion: React.FC = () => {
       `}</style>
 
       <section className="cp-sp-section">
-
         {/* ── HEADER ──────────────────────────────── */}
         <header className="cp-sp-header">
           <div className="cp-sp-pre">
@@ -539,8 +570,7 @@ const ShortsPromotion: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            SHORTS{' '}
-            <span className="cp-sp-title-yellow">PROMOTION</span>
+            SHORTS <span className="cp-sp-title-yellow">PROMOTION</span>
           </motion.h1>
           <div className="cp-sp-rule" />
         </header>
@@ -553,10 +583,19 @@ const ShortsPromotion: React.FC = () => {
 
         <div className="cp-sp-yt-grid">
           {topYT.map((vid) => (
-            <a key={vid.id} href={vid.link} target="_blank" rel="noreferrer" className="cp-sp-yt-card">
+            <a
+              key={vid.id}
+              href={vid.link}
+              target="_blank"
+              rel="noreferrer"
+              className="cp-sp-yt-card"
+            >
               <div className="cp-sp-thumb">
                 <video autoPlay muted loop playsInline className="cp-sp-vid">
-                  <source src={VideoAssets.vjPreviews[vid.id]} type="video/mp4" />
+                  <source
+                    src={VideoAssets.vjPreviews[vid.id]}
+                    type="video/mp4"
+                  />
                 </video>
                 <div className="cp-sp-thumb-grad" />
                 <div className="cp-sp-yt-tag">YT</div>
@@ -567,7 +606,7 @@ const ShortsPromotion: React.FC = () => {
                   className="cp-sp-scan"
                   initial={{ scaleX: 0 }}
                   whileHover={{ scaleX: 1 }}
-                  transition={{ duration: 0.4, ease: [0.77,0,0.18,1] }}
+                  transition={{ duration: 0.4, ease: [0.77, 0, 0.18, 1] }}
                 />
               </div>
               <div className="cp-sp-yt-info">
@@ -580,9 +619,29 @@ const ShortsPromotion: React.FC = () => {
         {/* ── REELS + BRAND CENTER ─────────────────── */}
         <div className="cp-sp-reels-hub">
           {/* Reel 1 */}
-          <a href={middleReels[0].link} target="_blank" rel="noreferrer" className="cp-sp-reel-card">
-            <video autoPlay muted loop playsInline className="cp-sp-vid" style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }}>
-              <source src={VideoAssets.vjPreviews[middleReels[0].id]} type="video/mp4" />
+          <a
+            href={middleReels[0].link}
+            target="_blank"
+            rel="noreferrer"
+            className="cp-sp-reel-card"
+          >
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="cp-sp-vid"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                display: "block",
+              }}
+            >
+              <source
+                src={VideoAssets.vjPreviews[middleReels[0].id]}
+                type="video/mp4"
+              />
             </video>
             <div className="cp-sp-reel-grad" />
             <div className="cp-sp-reel-tl" />
@@ -594,7 +653,11 @@ const ShortsPromotion: React.FC = () => {
 
           {/* Brand center */}
           <div className="cp-sp-brand-center">
-            <img src={Images.logo} alt="CinemaPayyan" className="cp-sp-brand-logo" />
+            <img
+              src={Images.logo}
+              alt="CinemaPayyan"
+              className="cp-sp-brand-logo"
+            />
             <div className="cp-sp-brand-pre">
               <div className="cp-sp-brand-pre-line" />
               <span className="cp-sp-brand-pre-text">SIGNATURE FORMAT</span>
@@ -609,9 +672,29 @@ const ShortsPromotion: React.FC = () => {
           </div>
 
           {/* Reel 2 */}
-          <a href={middleReels[1].link} target="_blank" rel="noreferrer" className="cp-sp-reel-card">
-            <video autoPlay muted loop playsInline className="cp-sp-vid" style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }}>
-              <source src={VideoAssets.vjPreviews[middleReels[1].id]} type="video/mp4" />
+          <a
+            href={middleReels[1].link}
+            target="_blank"
+            rel="noreferrer"
+            className="cp-sp-reel-card"
+          >
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="cp-sp-vid"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                display: "block",
+              }}
+            >
+              <source
+                src={VideoAssets.vjPreviews[middleReels[1].id]}
+                type="video/mp4"
+              />
             </video>
             <div className="cp-sp-reel-grad" />
             <div className="cp-sp-reel-tl" />
@@ -630,10 +713,19 @@ const ShortsPromotion: React.FC = () => {
 
         <div className="cp-sp-yt-grid">
           {bottomYT.map((vid) => (
-            <a key={vid.id} href={vid.link} target="_blank" rel="noreferrer" className="cp-sp-yt-card">
+            <a
+              key={vid.id}
+              href={vid.link}
+              target="_blank"
+              rel="noreferrer"
+              className="cp-sp-yt-card"
+            >
               <div className="cp-sp-thumb">
                 <video autoPlay muted loop playsInline className="cp-sp-vid">
-                  <source src={VideoAssets.vjPreviews[vid.id]} type="video/mp4" />
+                  <source
+                    src={VideoAssets.vjPreviews[vid.id]}
+                    type="video/mp4"
+                  />
                 </video>
                 <div className="cp-sp-thumb-grad" />
                 <div className="cp-sp-yt-tag">YT</div>
@@ -644,7 +736,7 @@ const ShortsPromotion: React.FC = () => {
                   className="cp-sp-scan"
                   initial={{ scaleX: 0 }}
                   whileHover={{ scaleX: 1 }}
-                  transition={{ duration: 0.4, ease: [0.77,0,0.18,1] }}
+                  transition={{ duration: 0.4, ease: [0.77, 0, 0.18, 1] }}
                 />
               </div>
               <div className="cp-sp-yt-info">
@@ -657,14 +749,23 @@ const ShortsPromotion: React.FC = () => {
         {/* ── SPECIAL PROMO ───────────────────────── */}
         <div className="cp-sp-special">
           <div className="cp-sp-special-inner">
-
             {/* Video */}
             <div className="cp-sp-special-video">
-              <a href={specialPromo.link} target="_blank" rel="noreferrer" className="cp-sp-large-card">
+              <a
+                href={specialPromo.link}
+                target="_blank"
+                rel="noreferrer"
+                className="cp-sp-large-card"
+              >
                 <video autoPlay muted loop playsInline>
-                  <source src={VideoAssets.vjPreviews[specialPromo.id]} type="video/mp4" />
+                  <source
+                    src={VideoAssets.vjPreviews[specialPromo.id]}
+                    type="video/mp4"
+                  />
                 </video>
-                <div className="cp-sp-prime-badge">AMAZON PRIME ASSOCIATION</div>
+                <div className="cp-sp-prime-badge">
+                  AMAZON PRIME ASSOCIATION
+                </div>
                 <div className="cp-sp-hover-overlay">
                   <span className="cp-sp-hover-label">WATCH FULL PROMO</span>
                 </div>
@@ -676,25 +777,32 @@ const ShortsPromotion: React.FC = () => {
             <div className="cp-sp-special-text">
               <div className="cp-sp-special-pre">
                 <div className="cp-sp-special-pre-line" />
-                <span className="cp-sp-special-pre-txt">SPECIAL COLLABORATION</span>
+                <span className="cp-sp-special-pre-txt">
+                  SPECIAL COLLABORATION
+                </span>
               </div>
               <h2 className="cp-sp-special-title">
-                CINEMAPAYYAN<br />SPECIAL PROMOTION
+                CINEMAPAYYAN
+                <br />
+                SPECIAL PROMOTION
               </h2>
               <div className="cp-sp-special-rule" />
               <p className="cp-sp-special-body">
-                Countdown videos are the heart and soul of our creative identity.
-                It's our signature specialty — building high-octane anticipation through
-                rhythmic editing and cinematic precision.
+                Countdown videos are the heart and soul of our creative
+                identity. It's our signature specialty — building high-octane
+                anticipation through rhythmic editing and cinematic precision.
               </p>
-              <a href={specialPromo.link} target="_blank" rel="noreferrer" className="cp-sp-cta">
+              <a
+                href={specialPromo.link}
+                target="_blank"
+                rel="noreferrer"
+                className="cp-sp-cta"
+              >
                 <span>WATCH FULL PROMO</span>
               </a>
             </div>
-
           </div>
         </div>
-
       </section>
     </>
   );

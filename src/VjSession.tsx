@@ -1,354 +1,791 @@
-import { useEffect, useRef, useState, useCallback } from "react";
-import { motion, useInView, useMotionValue, useTransform } from "framer-motion";
-import { Play, Mic2, Tv, ExternalLink } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { motion, useInView } from "framer-motion";
+import { Play, Mic2, Tv, ExternalLink, ChevronLeft, ChevronRight } from "lucide-react";
 import { Images, VideoAssets } from "./assets/assets";
 
 /* ─── Data ─────────────────────────────────── */
 const vjVideos = [
-  { id: 1,  title: "Anirudh Ravichander", role: "Composer · Producer",       link: "https://youtu.be/dESRRC-uVME",                               preview: VideoAssets.vjPreviews[0], thumb: Images.ScreenshotAR  },
-  { id: 2,  title: "Venkat Prabhu",       role: "Director · Actor",          link: "https://youtu.be/lAH_99cCcos?si=GtlnhQydVJNfRBop",           preview: VideoAssets.vjPreviews[1], thumb: Images.ScreenshotVP  },
-  { id: 3,  title: "Silambarasan TR",     role: "Actor",                     link: "https://youtu.be/GKHk7d_bQh0?si=h-8nwdu3qtytPPCV",           preview: VideoAssets.vjPreviews[2], thumb: Images.ScreenshotSTR },
-  { id: 4,  title: "Vijay Sethupathi",    role: "Actor · Producer",          link: "https://youtu.be/77oGSFHYzSY?si=dumaevinjdTtEVX6",           preview: VideoAssets.vjPreviews[3], thumb: Images.ScreenshotVJS },
-  { id: 5,  title: "Arjun DAS",           role: "Actor",                     link: "https://youtu.be/fEpt5b794ys?si=9r3yKH1OSU5di5ag",           preview: VideoAssets.vjPreviews[4], thumb: Images.ScreenshotAD  },
-  { id: 6,  title: "T. Kumararaja",       role: "Director · Writer",         link: "https://youtu.be/BBnY5tE7-Wo?si=DV1P17OplHXoo0DE",           preview: VideoAssets.vjPreviews[5], thumb: Images.ScreenshotTK  },
-  { id: 7,  title: "Kamal Haasan",        role: "Actor · Director · Legend", link: "https://youtube.com/link7",                                  preview: VideoAssets.vjPreviews[6], thumb: Images.ScreenshotKH  },
-  { id: 8,  title: "Dulquer Salmaan",     role: "Actor · Producer",          link: "https://youtu.be/JzsDo_hf5cg?si=kpsF9KLqm0cfFIdq",           preview: VideoAssets.vjPreviews[7], thumb: Images.ScreenshotDQ  },
-  { id: 9,  title: "GVM",                 role: "Director · Visionary",      link: "https://youtu.be/hKbP91H0_Do?si=T2FJcb3BiPK9lrYk",           preview: VideoAssets.vjPreviews[8], thumb: Images.ScreenshotGVM },
-  { id: 10, title: "Ashok Selvan",        role: "Actor",                     link: "https://youtu.be/uXQOlL7EjzA?si=GYx6_KE1WFmjQXz_",           preview: VideoAssets.vjPreviews[9], thumb: Images.ScreenshotAS  },
+  { id: 1,  title: "Anirudh Ravichander", role: "Composer · Producer",       link: "https://youtu.be/dESRRC-uVME",                     preview: VideoAssets.vjPreviews[0], thumb: Images.ScreenshotAR  },
+  { id: 2,  title: "Venkat Prabhu",       role: "Director · Actor",          link: "https://youtu.be/lAH_99cCcos",                     preview: VideoAssets.vjPreviews[1], thumb: Images.ScreenshotVP  },
+  { id: 3,  title: "Silambarasan TR",     role: "Actor",                     link: "https://youtu.be/GKHk7d_bQh0",                    preview: VideoAssets.vjPreviews[2], thumb: Images.ScreenshotSTR },
+  { id: 4,  title: "Vijay Sethupathi",    role: "Actor · Producer",          link: "https://youtu.be/77oGSFHYzSY",                    preview: VideoAssets.vjPreviews[3], thumb: Images.ScreenshotVJS },
+  { id: 5,  title: "Arjun DAS",           role: "Actor",                     link: "https://youtu.be/fEpt5b794ys",                    preview: VideoAssets.vjPreviews[4], thumb: Images.ScreenshotAD  },
+  { id: 6,  title: "T. Kumararaja",       role: "Director · Writer",         link: "https://youtu.be/BBnY5tE7-Wo",                    preview: VideoAssets.vjPreviews[5], thumb: Images.ScreenshotTK  },
+  { id: 7,  title: "Kamal Haasan",        role: "Actor · Director · Legend", link: "https://youtube.com/link7",                       preview: VideoAssets.vjPreviews[6], thumb: Images.ScreenshotKH  },
+  { id: 8,  title: "Dulquer Salmaan",     role: "Actor · Producer",          link: "https://youtu.be/JzsDo_hf5cg",                    preview: VideoAssets.vjPreviews[7], thumb: Images.ScreenshotDQ  },
+  { id: 9,  title: "GVM",                 role: "Director · Visionary",      link: "https://youtu.be/hKbP91H0_Do",                    preview: VideoAssets.vjPreviews[8], thumb: Images.ScreenshotGVM },
+  { id: 10, title: "Ashok Selvan",        role: "Actor",                     link: "https://youtu.be/uXQOlL7EjzA",                    preview: VideoAssets.vjPreviews[9], thumb: Images.ScreenshotAS  },
 ];
 
-/* ─── VJ Card ───────────────────────────────── */
-function VJCard({ video, index }: { video: typeof vjVideos[0]; index: number }) {
+/* ─── Single Card ───────────────────────────── */
+function VJCard({
+  video,
+  index,
+  isActive,
+  onActivate,
+}: {
+  video: typeof vjVideos[0];
+  index: number;
+  isActive: boolean;
+  onActivate: () => void;
+}) {
   const [hovered, setHovered] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const rotateX = useTransform(mouseY, [-60, 60], [6, -6]);
-  const rotateY = useTransform(mouseX, [-80, 80], [-8, 8]);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    mouseX.set(e.clientX - rect.left - rect.width / 2);
-    mouseY.set(e.clientY - rect.top - rect.height / 2);
-  };
-  const handleMouseLeave = () => {
-    mouseX.set(0);
-    mouseY.set(0);
-    setHovered(false);
-  };
 
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
-    if (hovered) { v.muted = true; v.play().catch(() => {}); }
-    else v.pause();
-  }, [hovered]);
+    if (hovered || isActive) {
+      v.muted = true;
+      v.play().catch(() => {});
+    } else {
+      v.pause();
+      v.currentTime = 0;
+    }
+  }, [hovered, isActive]);
+
+  const showVideo = hovered || isActive;
 
   return (
-    <motion.div
-      className="vj-card"
-      data-index={index}
-      style={{ perspective: 800 }}
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{ delay: index * 0.07, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={handleMouseLeave}
+    <div
+      className={`vjl-card ${isActive ? "vjl-card--active" : ""}`}
+      onMouseEnter={() => { setHovered(true); onActivate(); }}
+      onMouseLeave={() => setHovered(false)}
+      onClick={onActivate}
     >
-      <motion.div
-        className="vj-card-inner"
-        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-      >
-        {/* Media */}
-        <div className="vj-media">
-          <img
-            src={video.thumb}
-            alt={video.title}
-            className={`vj-thumb ${hovered ? "vj-thumb--hidden" : ""}`}
-          />
-          <video
-            ref={videoRef}
-            src={video.preview}
-            className={`vj-video ${hovered ? "vj-video--visible" : ""}`}
-            muted loop playsInline
-          />
-          <div className="vj-media-overlay" />
-          <div className="vj-badge">
-            <span className="vj-badge-num">{String(video.id).padStart(2, "0")}</span>
-          </div>
-          <a
-            href={video.link}
-            target="_blank"
-            rel="noreferrer"
-            className={`vj-play-btn ${hovered ? "vj-play-btn--visible" : ""}`}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <Play fill="black" size={18} />
-          </a>
-          <motion.div
-            className="vj-spotlight"
-            animate={{ opacity: hovered ? 1 : 0 }}
-            transition={{ duration: 0.3 }}
-          />
-        </div>
-
-        {/* Info bar */}
-        <div className="vj-info">
-          <div className="vj-info-left">
-            <span className="vj-session-label">SESSION {String(video.id).padStart(2, "0")}</span>
-            <h4 className="vj-title">{video.title}</h4>
-            <span className="vj-role">{video.role}</span>
-          </div>
-          <motion.div
-            className="vj-info-arrow"
-            animate={{ x: hovered ? 4 : 0, opacity: hovered ? 1 : 0.35 }}
-          >
-            <ExternalLink size={14} />
-          </motion.div>
-        </div>
-
-        {/* Bottom accent line */}
-        <motion.div
-          className="vj-card-line"
-          animate={{ scaleX: hovered ? 1 : 0 }}
-          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      {/* media */}
+      <div className="vjl-media">
+        <img
+          src={video.thumb}
+          alt={video.title}
+          className={`vjl-thumb ${showVideo ? "vjl-thumb--hidden" : ""}`}
         />
-      </motion.div>
-    </motion.div>
+        <video
+          ref={videoRef}
+          src={video.preview}
+          className={`vjl-video ${showVideo ? "vjl-video--show" : ""}`}
+          muted loop playsInline
+        />
+
+        {/* overlay gradient */}
+        <div className="vjl-overlay" />
+
+        {/* session number tag */}
+        <div className="vjl-num-tag">
+          {String(video.id).padStart(2, "0")}
+        </div>
+
+        {/* play button — shows on hover/active */}
+        <a
+          href={video.link}
+          target="_blank"
+          rel="noreferrer"
+          className={`vjl-play ${showVideo ? "vjl-play--show" : ""}`}
+          onClick={e => e.stopPropagation()}
+        >
+          <Play fill="black" size={16} />
+        </a>
+
+        {/* active accent line at bottom of media */}
+        <div className={`vjl-active-bar ${isActive ? "vjl-active-bar--on" : ""}`} />
+      </div>
+
+      {/* info bar */}
+      <div className="vjl-info">
+        <div className="vjl-info-row">
+          <span className="vjl-session-lbl">SESSION {String(video.id).padStart(2, "0")}</span>
+          <ExternalLink size={12} className="vjl-ext" />
+        </div>
+        <h4 className="vjl-title">{video.title}</h4>
+        <span className="vjl-role">{video.role}</span>
+      </div>
+    </div>
   );
 }
 
-/* ─── Main Component ────────────────────────── */
+/* ─── Main ──────────────────────────────────── */
 const AboutWork = () => {
-  const sectionRef   = useRef<HTMLDivElement>(null);
-  const sliderRef    = useRef<HTMLDivElement>(null);
-  const vjHeaderRef  = useRef<HTMLDivElement>(null);
-  const rjHeaderRef  = useRef<HTMLDivElement>(null);
-  const vjInView     = useInView(vjHeaderRef, { once: true, amount: 0.5 });
-  const rjInView     = useInView(rjHeaderRef, { once: true, amount: 0.5 });
+  const vjHeaderRef = useRef<HTMLDivElement>(null);
+  const rjHeaderRef = useRef<HTMLDivElement>(null);
+  const trackRef    = useRef<HTMLDivElement>(null);
+  const vjInView    = useInView(vjHeaderRef, { once: true, amount: 0.4 });
+  const rjInView    = useInView(rjHeaderRef, { once: true, amount: 0.4 });
 
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused,    setIsPaused]    = useState(false);
 
-  /* Track which card is closest to center of slider */
-  const updateActiveIndex = useCallback(() => {
-    const slider = sliderRef.current;
-    if (!slider) return;
-    const sliderCenter = slider.scrollLeft + slider.clientWidth / 2;
-    const cards = slider.querySelectorAll<HTMLElement>(".vj-card");
-    let closest = 0;
-    let minDist = Infinity;
-    cards.forEach((card, i) => {
-      const cardCenter = card.offsetLeft + card.offsetWidth / 2;
-      const dist = Math.abs(sliderCenter - cardCenter);
-      if (dist < minDist) { minDist = dist; closest = i; }
-    });
-    setActiveIndex(closest);
-  }, []);
+  /* ── INFINITE LOOP LOGIC ──────────────────────
+     We render 3 clones of the list side-by-side.
+     When the scroll hits the 2nd clone boundary,
+     we silently jump back to the same visual
+     position in clone 1 — user never sees a seam.
+  ─────────────────────────────────────────────── */
+  const CARD_W    = 400; // px — keep in sync with CSS
+  const CARD_GAP  = 20; // px gap between cards
+  const CARD_STEP = CARD_W + CARD_GAP;
+  const TOTAL     = vjVideos.length;
+  const SET_W     = TOTAL * CARD_STEP;
 
-  /* Scroll to a card by index — snap it to center */
-  const scrollToIndex = (i: number) => {
-    const slider = sliderRef.current;
-    if (!slider) return;
-    const card = slider.querySelectorAll<HTMLElement>(".vj-card")[i];
-    if (!card) return;
-    const targetLeft = card.offsetLeft - (slider.clientWidth - card.offsetWidth) / 2;
-    slider.scrollTo({ left: targetLeft, behavior: "smooth" });
+  // tripled list
+  const loopList  = [...vjVideos, ...vjVideos, ...vjVideos];
+
+  /* auto-scroll */
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    // start at middle set
+    track.scrollLeft = SET_W;
+
+    let raf: number;
+    const speed = 0.7; // px per frame
+
+    const tick = () => {
+      if (!isPaused && track) {
+        track.scrollLeft += speed;
+        // seamless jump: if we've scrolled past the 2nd set, teleport back
+        if (track.scrollLeft >= SET_W * 2) {
+          track.scrollLeft -= SET_W;
+        }
+        // if somehow scrolled before set 1, jump forward
+        if (track.scrollLeft < SET_W) {
+          track.scrollLeft += SET_W;
+        }
+        // derive activeIndex from scroll within middle set
+        const posInSet = (track.scrollLeft - SET_W) % SET_W;
+        const idx = Math.round(posInSet / CARD_STEP) % TOTAL;
+        setActiveIndex(idx);
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [isPaused, SET_W, CARD_STEP, TOTAL]);
+
+  /* manual arrow scroll */
+  const arrowScroll = (dir: 1 | -1) => {
+    const track = trackRef.current;
+    if (!track) return;
+    track.scrollBy({ left: dir * CARD_STEP, behavior: "smooth" });
   };
 
-  /* On mount: scroll first card to center */
-  useEffect(() => {
-    const slider = sliderRef.current;
-    if (!slider) return;
-    const firstCard = slider.querySelector<HTMLElement>(".vj-card");
-    if (!firstCard) return;
-    const targetLeft = firstCard.offsetLeft - (slider.clientWidth - firstCard.offsetWidth) / 2;
-    slider.scrollLeft = targetLeft;
-    updateActiveIndex();
-  }, [updateActiveIndex]);
+  /* manual dot jump */
+  const jumpTo = (i: number) => {
+    const track = trackRef.current;
+    if (!track) return;
+    // target is middle set card i
+    const target = SET_W + i * CARD_STEP;
+    track.scrollTo({ left: target, behavior: "smooth" });
+    setActiveIndex(i);
+  };
 
   return (
-    <section id="production" className="work-section" ref={sectionRef}>
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,700;0,800;1,700;1,800&display=swap');
 
-      {/* ── VJ SESSIONS ───────────────────────── */}
-      <div className="work-block">
+        /* ══════════════════════════════════════════
+           SECTION SHELL
+        ══════════════════════════════════════════ */
+        .vjl-section {
+          background: #000;
+          padding: 90px 0 100px;
+          overflow: hidden;
+          position: relative;
+        }
+        .vjl-section::before {
+          content: '';
+          position: absolute; top: 0; left: 8%; right: 8%;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05) 50%, transparent);
+        }
 
-        <div className="cinema-section-header" ref={vjHeaderRef}>
-          <motion.div
-            className="cinema-header-rule"
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: vjInView ? 1 : 0 }}
-            transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-          />
-          <motion.div
-            className="cinema-header-content"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: vjInView ? 1 : 0, y: vjInView ? 0 : 20 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-          >
-            <div className="cinema-header-icon">
-              <Tv size={18} />
-            </div>
-            <div className="cinema-header-text">
-              <span className="cinema-overline">CURATED CONVERSATIONS</span>
-              <h2 className="cinema-heading">
-                VJ <span className="text-yellow">SESSIONS</span>
-              </h2>
-            </div>
-            <div className="cinema-header-count">
-              <span>{vjVideos.length.toString().padStart(2, "0")}</span>
-              <span className="count-label">EPISODES</span>
-            </div>
-          </motion.div>
-          <motion.div
-            className="cinema-header-rule cinema-header-rule--right"
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: vjInView ? 1 : 0 }}
-            transition={{ delay: 0.15, duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-          />
-        </div>
+        /* ══════════════════════════════════════════
+           SECTION HEADER
+        ══════════════════════════════════════════ */
+        .vjl-header {
+          display: flex; align-items: center; gap: 20px;
+          padding: 0 clamp(20px,6%,60px);
+          margin-bottom: 48px;
+        }
+        .vjl-header-rule {
+          flex: 1; height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(253,224,71,0.4));
+          transform-origin: left;
+        }
+        .vjl-header-rule--r {
+          background: linear-gradient(90deg, rgba(50,197,244,0.35), transparent);
+          transform-origin: right;
+        }
+        .vjl-header-content {
+          display: flex; align-items: center;
+          gap: 14px; flex-shrink: 0;
+        }
+        .vjl-header-icon {
+          width: 38px; height: 38px;
+          border: 1px solid rgba(253,224,71,0.3);
+          display: flex; align-items: center; justify-content: center;
+          color: #fde047; flex-shrink: 0;
+        }
+        .vjl-header-icon.cyan { border-color: rgba(50,197,244,0.3); color: #32c5f4; }
 
-        {/* Slider */}
-        <div className="vj-slider-wrap">
-          <div
-            className="vj-slider"
-            ref={sliderRef}
-            onScroll={updateActiveIndex}
-          >
-            {vjVideos.map((video, i) => (
-              <VJCard key={video.id} video={video} index={i} />
-            ))}
+        .vjl-overline {
+          display: block;
+          font-family: 'Courier New', monospace;
+          font-size: clamp(0.55rem, 1.8vw, 0.68rem);
+          letter-spacing: 5px; color: rgba(255,255,255,0.45);
+          text-transform: uppercase; margin-bottom: 4px;
+        }
+        .vjl-heading {
+          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-size: clamp(1.6rem, 4vw, 2.8rem);
+          font-weight: 800; font-style: italic;
+          color: #fff; line-height: 1; margin: 0;
+        }
+        .vjl-heading-yellow { color: #fde047; font-style: normal; }
+        .vjl-heading-cyan   { color: #32c5f4; font-style: normal; }
+
+        .vjl-ep-count {
+          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-size: clamp(1.8rem, 4vw, 2.6rem);
+          font-weight: 800; color: rgba(253,224,71,0.25);
+          line-height: 1; flex-shrink: 0;
+        }
+        .vjl-ep-lbl {
+          display: block;
+          font-family: 'Courier New', monospace;
+          font-size: clamp(0.44rem, 1.2vw, 0.54rem);
+          letter-spacing: 4px; color: rgba(255,255,255,0.3);
+          text-transform: uppercase;
+        }
+
+        /* ══════════════════════════════════════════
+           LOOP TRACK
+        ══════════════════════════════════════════ */
+        .vjl-track-wrap {
+          position: relative;
+          /* fade edges */
+        }
+        .vjl-track-wrap::before,
+        .vjl-track-wrap::after {
+          content: '';
+          position: absolute; top: 0; bottom: 0; width: 140px;
+          z-index: 5; pointer-events: none;
+        }
+        .vjl-track-wrap::before {
+          left: 0;
+          background: linear-gradient(to right, #000, transparent);
+        }
+        .vjl-track-wrap::after {
+          right: 0;
+          background: linear-gradient(to left, #000, transparent);
+        }
+
+        .vjl-track {
+          display: flex;
+          gap: 20px;
+          overflow-x: scroll;
+          scrollbar-width: none;
+          padding: 20px 140px 24px;
+          /* no snap — auto-scroll handles position */
+        }
+        .vjl-track::-webkit-scrollbar { display: none; }
+
+        /* ══════════════════════════════════════════
+           CARD
+        ══════════════════════════════════════════ */
+        .vjl-card {
+          flex: 0 0 400px;
+          background: rgba(10,10,10,0.9);
+          border: 1px solid rgba(255,255,255,0.07);
+          cursor: pointer;
+          transition: border-color 0.35s, transform 0.4s, box-shadow 0.4s;
+          position: relative;
+        }
+        .vjl-card:hover,
+        .vjl-card--active {
+          border-color: rgba(253,224,71,0.25);
+          transform: translateY(-6px);
+          box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+        }
+
+        /* media */
+        .vjl-media {
+          position: relative;
+          width: 100%; aspect-ratio: 16/9;
+          overflow: hidden; background: #0a0a0a;
+        }
+        .vjl-thumb, .vjl-video {
+          position: absolute; inset: 0;
+          width: 100%; height: 100%;
+          object-fit: cover;
+        }
+        .vjl-thumb { transition: opacity 0.4s; opacity: 1; }
+        .vjl-thumb--hidden { opacity: 0; }
+        .vjl-video { opacity: 0; transition: opacity 0.4s; }
+        .vjl-video--show { opacity: 1; }
+
+        /* overlay */
+        .vjl-overlay {
+          position: absolute; inset: 0;
+          background: linear-gradient(
+            to bottom,
+            transparent 35%,
+            rgba(0,0,0,0.45) 65%,
+            rgba(0,0,0,0.88) 100%
+          );
+          z-index: 2; pointer-events: none;
+        }
+
+        /* session number */
+        .vjl-num-tag {
+          position: absolute; top: 8px; left: 10px; z-index: 4;
+          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-size: 3rem; font-weight: 800; font-style: italic;
+          color: rgba(253,224,71,0.15); line-height: 1;
+          user-select: none;
+        }
+
+        /* play btn */
+        .vjl-play {
+          position: absolute; bottom: 12px; right: 12px; z-index: 5;
+          width: 42px; height: 42px; border-radius: 50%;
+          background: #fde047;
+          display: flex; align-items: center; justify-content: center;
+          text-decoration: none;
+          opacity: 0; transform: scale(0.7);
+          transition: opacity 0.3s, transform 0.3s;
+        }
+        .vjl-play--show {
+          opacity: 1; transform: scale(1);
+        }
+
+        /* active bottom bar */
+        .vjl-active-bar {
+          position: absolute; bottom: 0; left: 0; right: 0; z-index: 6;
+          height: 2px;
+          background: linear-gradient(90deg, #fde047, #32c5f4);
+          transform: scaleX(0); transform-origin: left;
+          transition: transform 0.5s ease;
+        }
+        .vjl-active-bar--on { transform: scaleX(1); }
+
+        /* ── INFO BAR ── */
+        .vjl-info {
+          padding: 14px 16px 16px;
+          background: rgba(0,0,0,0.9);
+        }
+        .vjl-info-row {
+          display: flex; align-items: center;
+          justify-content: space-between;
+          margin-bottom: 6px;
+        }
+        .vjl-session-lbl {
+          font-family: 'Courier New', monospace;
+          font-size: 0.6rem; letter-spacing: 4px;
+          color: rgba(253,224,71,0.75);
+          text-transform: uppercase;
+        }
+        .vjl-ext {
+          color: rgba(255,255,255,0.25);
+          flex-shrink: 0;
+          transition: color 0.3s;
+        }
+        .vjl-card:hover .vjl-ext { color: #32c5f4; }
+
+        .vjl-title {
+          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-size: clamp(1.1rem, 2.2vw, 1.3rem);
+          font-weight: 800; font-style: italic;
+          color: #fff; margin: 0 0 5px; line-height: 1.2;
+        }
+        .vjl-role {
+          font-family: 'Courier New', monospace;
+          font-size: 0.55rem; letter-spacing: 3px;
+          color: rgba(255,255,255,0.45);
+          text-transform: uppercase; display: block;
+        }
+        .vjl-card:hover .vjl-role { color: rgba(50,197,244,0.75); }
+
+        /* ══════════════════════════════════════════
+           CONTROLS ROW (arrows + dots)
+        ══════════════════════════════════════════ */
+        .vjl-controls {
+          display: flex; align-items: center;
+          justify-content: center; gap: 20px;
+          margin-top: 28px;
+          padding: 0 24px;
+        }
+
+        .vjl-arrow {
+          width: 40px; height: 40px;
+          border: 1px solid rgba(255,255,255,0.1);
+          background: rgba(255,255,255,0.03);
+          display: flex; align-items: center; justify-content: center;
+          cursor: pointer; color: rgba(255,255,255,0.5);
+          transition: border-color 0.3s, color 0.3s, background 0.3s;
+          flex-shrink: 0;
+        }
+        .vjl-arrow:hover {
+          border-color: #fde047; color: #fde047;
+          background: rgba(253,224,71,0.05);
+        }
+
+        /* dots */
+        .vjl-dots {
+          display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+          justify-content: center;
+        }
+        .vjl-dot {
+          width: 20px; height: 4px;
+          background: rgba(255,255,255,0.15);
+          border: none; border-radius: 2px;
+          cursor: pointer; padding: 0;
+          transition: width 0.35s cubic-bezier(0.77,0,0.18,1),
+                      background 0.35s, box-shadow 0.35s;
+          flex-shrink: 0;
+        }
+        .vjl-dot:hover { background: rgba(253,224,71,0.45); }
+        .vjl-dot--active {
+          width: 44px; background: #fde047;
+          box-shadow: 0 0 10px rgba(253,224,71,0.5);
+        }
+
+        /* pause indicator */
+        .vjl-pause-hint {
+          font-family: 'Courier New', monospace;
+          font-size: 0.5rem; letter-spacing: 4px;
+          color: rgba(255,255,255,0.2); text-transform: uppercase;
+          text-align: center; margin-top: 12px;
+          transition: color 0.3s;
+        }
+        .vjl-pause-hint.paused { color: rgba(253,224,71,0.5); }
+
+        /* ══════════════════════════════════════════
+           RJ BLOCK
+        ══════════════════════════════════════════ */
+        .vjl-rj-block {
+          margin-top: 100px;
+          padding: 0 clamp(20px,6%,60px);
+        }
+
+        .vjl-rj-stage {
+          display: grid;
+          grid-template-columns: 1.4fr 1fr;
+          gap: 60px; align-items: center;
+          margin-top: 48px;
+        }
+
+        /* rj card */
+        .vjl-rj-card {
+          position: relative; overflow: hidden;
+          display: block; text-decoration: none;
+          border: 1px solid rgba(255,255,255,0.07);
+          transition: border-color 0.35s;
+        }
+        .vjl-rj-card:hover { border-color: rgba(50,197,244,0.25); }
+
+        .vjl-rj-img {
+          width: 100%; aspect-ratio: 16/9;
+          object-fit: cover; display: block;
+          filter: grayscale(0.3);
+          transition: transform 0.6s, filter 0.5s;
+        }
+        .vjl-rj-card:hover .vjl-rj-img {
+          transform: scale(1.05); filter: grayscale(0);
+        }
+
+        /* strip */
+        .vjl-rj-strip {
+          position: absolute; bottom: 0; left: 0; right: 0;
+          display: flex; align-items: center; gap: 12px;
+          padding: 12px 16px;
+          background: rgba(0,0,0,0.82);
+          border-top: 1px solid rgba(255,255,255,0.06);
+          z-index: 4;
+        }
+        .vjl-rj-strip-left {
+          display: flex; align-items: center; gap: 7px; flex-shrink: 0;
+        }
+        .vjl-rj-on-air {
+          font-family: 'Courier New', monospace;
+          font-size: 0.58rem; letter-spacing: 3px;
+          color: rgba(255,255,255,0.55); text-transform: uppercase;
+        }
+        .vjl-rj-dot {
+          width: 7px; height: 7px; border-radius: 50%;
+          background: #ff3333;
+          box-shadow: 0 0 8px rgba(255,51,51,0.8);
+          flex-shrink: 0;
+          animation: vjlRec 1s step-end infinite;
+        }
+        @keyframes vjlRec { 0%,100%{opacity:1} 50%{opacity:0} }
+        .vjl-rj-strip-title {
+          font-family: 'Courier New', monospace;
+          font-size: 0.6rem; letter-spacing: 4px;
+          color: rgba(255,255,255,0.75); text-transform: uppercase;
+          flex: 1;
+        }
+        .vjl-rj-strip-icon { color: rgba(255,255,255,0.3); flex-shrink: 0; }
+
+        /* hover overlay */
+        .vjl-rj-hover {
+          position: absolute; inset: 0; z-index: 5;
+          background: rgba(0,0,0,0.78);
+          display: flex; align-items: center; justify-content: center;
+          flex-direction: column; gap: 12px;
+          opacity: 0; transition: opacity 0.35s;
+        }
+        .vjl-rj-card:hover .vjl-rj-hover { opacity: 1; }
+        .vjl-rj-play-btn {
+          width: 52px; height: 52px; border-radius: 50%;
+          background: #fde047;
+          display: flex; align-items: center; justify-content: center;
+        }
+        .vjl-rj-hover-cta {
+          font-family: 'Courier New', monospace;
+          font-size: 0.62rem; letter-spacing: 4px;
+          color: #fff; text-transform: uppercase;
+        }
+        .vjl-rj-hover-sub {
+          font-family: 'Courier New', monospace;
+          font-size: 0.52rem; letter-spacing: 3px;
+          color: rgba(255,255,255,0.45); text-transform: uppercase;
+        }
+
+        /* waveform */
+        .vjl-rj-wave {
+          display: flex; align-items: center; gap: 3px;
+          position: absolute; bottom: 52px; left: 16px; z-index: 3;
+          pointer-events: none;
+        }
+        .vjl-rj-wave-bar {
+          width: 3px; border-radius: 2px;
+          background: rgba(50,197,244,0.5);
+          animation: vjlWave 1.1s ease-in-out infinite;
+        }
+        @keyframes vjlWave {
+          0%,100% { height: 4px; } 50% { height: 20px; }
+        }
+
+        /* rj meta */
+        .vjl-rj-meta {
+          display: flex; flex-direction: column;
+          gap: 0;
+          border: 1px solid rgba(255,255,255,0.07);
+          background: rgba(255,255,255,0.02);
+          align-self: stretch;
+        }
+        .vjl-rj-meta-item {
+          flex: 1; display: flex; flex-direction: column;
+          align-items: flex-start; gap: 6px;
+          padding: 22px 24px;
+          border-bottom: 1px solid rgba(255,255,255,0.07);
+        }
+        .vjl-rj-meta-item:last-child { border-bottom: none; }
+        .vjl-rj-meta-num {
+          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+          font-weight: 800; color: #32c5f4; line-height: 1;
+        }
+        .vjl-rj-meta-plus { font-size: 0.6em; vertical-align: super; color: #fde047; }
+        .vjl-rj-meta-lbl {
+          font-family: 'Courier New', monospace;
+          font-size: 0.58rem; letter-spacing: 4px;
+          color: rgba(255,255,255,0.45);
+          text-transform: uppercase;
+        }
+
+        /* ══════════════════════════════════════════
+           RESPONSIVE
+        ══════════════════════════════════════════ */
+        @media (max-width: 900px) {
+          .vjl-rj-stage { grid-template-columns: 1fr; gap: 32px; }
+          .vjl-rj-meta  { flex-direction: row; }
+          .vjl-rj-meta-item { border-bottom: none; border-right: 1px solid rgba(255,255,255,0.07); }
+          .vjl-rj-meta-item:last-child { border-right: none; }
+        }
+        @media (max-width: 640px) {
+          .vjl-section  { padding: 70px 0 80px; }
+          .vjl-header   { flex-direction: column; align-items: flex-start; gap: 10px; }
+          .vjl-header-rule { display: none; }
+          .vjl-track    { padding: 16px 40px 20px; gap: 12px; }
+          .vjl-track-wrap::before,
+          .vjl-track-wrap::after { width: 40px; }
+          .vjl-card     { flex: 0 0 300px; }
+          .vjl-rj-block { padding: 0 16px; }
+          .vjl-rj-meta  { flex-direction: column; }
+          .vjl-rj-meta-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); }
+          .vjl-rj-meta-item:last-child { border-bottom: none; }
+          .vjl-dot      { width: 14px; }
+          .vjl-dot--active { width: 32px; }
+        }
+      `}</style>
+
+      <section className="vjl-section">
+
+        {/* ══ VJ SESSIONS ═══════════════════════ */}
+        <div>
+          {/* header */}
+          <div className="vjl-header" ref={vjHeaderRef}>
+            <motion.div className="vjl-header-rule"
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: vjInView ? 1 : 0 }}
+              transition={{ duration: 0.8, ease: [0.76,0,0.24,1] }}
+            />
+            <motion.div className="vjl-header-content"
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: vjInView ? 1 : 0, y: vjInView ? 0 : 18 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+            >
+              <div className="vjl-header-icon"><Tv size={18} /></div>
+              <div>
+                <span className="vjl-overline">CURATED CONVERSATIONS</span>
+                <h2 className="vjl-heading">
+                  VJ <span className="vjl-heading-yellow">SESSIONS</span>
+                </h2>
+              </div>
+              <div style={{ marginLeft: 12 }}>
+                <span className="vjl-ep-count">10</span>
+                <span className="vjl-ep-lbl">EPISODES</span>
+              </div>
+            </motion.div>
+            <motion.div className="vjl-header-rule vjl-header-rule--r"
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: vjInView ? 1 : 0 }}
+              transition={{ delay: 0.15, duration: 0.8, ease: [0.76,0,0.24,1] }}
+            />
           </div>
 
-          {/* Fade edges */}
-          <div className="slider-fade-left" />
-          <div className="slider-fade-right" />
-        </div>
-
-        {/* Dot indicators — visible only on small screens */}
-        <div className="vj-dots">
-          {vjVideos.map((_, i) => (
-            <button
-              key={i}
-              className={`vj-dot ${i === activeIndex ? "vj-dot--active" : ""}`}
-              onClick={() => scrollToIndex(i)}
-              aria-label={`Go to session ${i + 1}`}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* ── RJ ARCHIVES ───────────────────────── */}
-      <div className="work-block rj-block">
-
-        <div className="cinema-section-header" ref={rjHeaderRef}>
-          <motion.div
-            className="cinema-header-rule"
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: rjInView ? 1 : 0 }}
-            transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-          />
-          <motion.div
-            className="cinema-header-content"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: rjInView ? 1 : 0, y: rjInView ? 0 : 20 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
+          {/* ── INFINITE LOOP TRACK ── */}
+          <div
+            className="vjl-track-wrap"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
           >
-            <div className="cinema-header-icon cyan-icon">
-              <Mic2 size={18} />
+            <div className="vjl-track" ref={trackRef}>
+              {loopList.map((video, i) => {
+                const realIndex = i % TOTAL;
+                return (
+                  <VJCard
+                    key={`${i}-${video.id}`}
+                    video={video}
+                    index={realIndex}
+                    isActive={realIndex === activeIndex}
+                    onActivate={() => setActiveIndex(realIndex)}
+                  />
+                );
+              })}
             </div>
-            <div className="cinema-header-text">
-              <span className="cinema-overline">BROADCAST ARCHIVES</span>
-              <h2 className="cinema-heading">
-                RJ <span className="text-cyan">ARCHIVES</span>
-              </h2>
-            </div>
-          </motion.div>
-          <motion.div
-            className="cinema-header-rule cinema-header-rule--right"
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: rjInView ? 1 : 0 }}
-            transition={{ delay: 0.15, duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-          />
-        </div>
+          </div>
 
-        <motion.div
-          className="rj-stage"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <motion.a
-            href="https://soundcloud.com/rj-abishek"
-            target="_blank"
-            rel="noreferrer"
-            className="rj-card"
-            whileHover="hover"
-          >
-            <motion.img
-              src={Images.AbishakeAudio}
-              alt="RJ Archive"
-              className="rj-img"
-              variants={{ hover: { scale: 1.06, filter: "grayscale(0)" } }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              style={{ filter: "grayscale(0.3)" }}
-            />
-            <div className="rj-strip">
-              <div className="rj-strip-left">
-                <span className="rj-strip-label">ON AIR</span>
-                <span className="rj-strip-dot" />
-              </div>
-              <span className="rj-strip-title">RJ ABISHEK · ARCHIVES</span>
-              <ExternalLink size={13} className="rj-strip-icon" />
-            </div>
-            <motion.div
-              className="rj-hover-overlay"
-              variants={{ hover: { opacity: 1 } }}
-              initial={{ opacity: 0 }}
-              transition={{ duration: 0.35 }}
-            >
-              <motion.div
-                className="rj-overlay-inner"
-                variants={{ hover: { y: 0, opacity: 1 } }}
-                initial={{ y: 20, opacity: 0 }}
-                transition={{ delay: 0.1, duration: 0.4 }}
-              >
-                <div className="rj-overlay-play">
-                  <Play fill="black" size={22} />
-                </div>
-                <span className="rj-overlay-cta">LISTEN TO ALL EPISODES</span>
-                <span className="rj-overlay-sub">SOUNDCLOUD ARCHIVES</span>
-              </motion.div>
-            </motion.div>
-            <div className="rj-waveform">
-              {Array.from({ length: 28 }).map((_, i) => (
-                <div key={i} className="rj-wave-bar" style={{ animationDelay: `${i * 0.06}s` }} />
+          {/* ── CONTROLS ── */}
+          <div className="vjl-controls">
+            <button className="vjl-arrow" onClick={() => arrowScroll(-1)}>
+              <ChevronLeft size={18} />
+            </button>
+
+            <div className="vjl-dots">
+              {vjVideos.map((_, i) => (
+                <button
+                  key={i}
+                  className={`vjl-dot ${i === activeIndex ? "vjl-dot--active" : ""}`}
+                  onClick={() => jumpTo(i)}
+                  aria-label={`Jump to session ${i + 1}`}
+                />
               ))}
             </div>
-          </motion.a>
 
-          <div className="rj-meta">
-            <div className="rj-meta-item">
-              <span className="rj-meta-num">100<span className="rj-meta-plus">+</span></span>
-              <span className="rj-meta-label">EPISODES</span>
-            </div>
-            <div className="rj-meta-divider" />
-            <div className="rj-meta-item">
-              <span className="rj-meta-num">FM</span>
-              <span className="rj-meta-label">BROADCAST</span>
-            </div>
-            <div className="rj-meta-divider" />
-            <div className="rj-meta-item">
-              <span className="rj-meta-num">∞</span>
-              <span className="rj-meta-label">ON DEMAND</span>
-            </div>
+            <button className="vjl-arrow" onClick={() => arrowScroll(1)}>
+              <ChevronRight size={18} />
+            </button>
           </div>
-        </motion.div>
-      </div>
-    </section>
+
+          <p className={`vjl-pause-hint ${isPaused ? "paused" : ""}`}>
+            {isPaused ? "● PAUSED — HOVER TO PREVIEW" : "● AUTO SCROLLING — HOVER TO PAUSE"}
+          </p>
+        </div>
+
+        {/* ══ RJ ARCHIVES ═══════════════════════ */}
+        <div className="vjl-rj-block">
+          {/* header */}
+          <div className="vjl-header" ref={rjHeaderRef}>
+            <motion.div className="vjl-header-rule"
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: rjInView ? 1 : 0 }}
+              transition={{ duration: 0.8, ease: [0.76,0,0.24,1] }}
+            />
+            <motion.div className="vjl-header-content"
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: rjInView ? 1 : 0, y: rjInView ? 0 : 18 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+            >
+              <div className="vjl-header-icon cyan"><Mic2 size={18} /></div>
+              <div>
+                <span className="vjl-overline">BROADCAST ARCHIVES</span>
+                <h2 className="vjl-heading">
+                  RJ <span className="vjl-heading-cyan">ARCHIVES</span>
+                </h2>
+              </div>
+            </motion.div>
+            <motion.div className="vjl-header-rule vjl-header-rule--r"
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: rjInView ? 1 : 0 }}
+              transition={{ delay: 0.15, duration: 0.8, ease: [0.76,0,0.24,1] }}
+            />
+          </div>
+
+          {/* rj stage */}
+          <motion.div className="vjl-rj-stage"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.8, ease: [0.16,1,0.3,1] }}
+          >
+            {/* card */}
+            <a href="https://soundcloud.com/rj-abishek" target="_blank" rel="noreferrer" className="vjl-rj-card">
+              <img src={Images.AbishakeAudio} alt="RJ Archive" className="vjl-rj-img" />
+              <div className="vjl-rj-strip">
+                <div className="vjl-rj-strip-left">
+                  <span className="vjl-rj-on-air">ON AIR</span>
+                  <div className="vjl-rj-dot" />
+                </div>
+                <span className="vjl-rj-strip-title">RJ ABISHEK · ARCHIVES</span>
+                <ExternalLink size={13} className="vjl-rj-strip-icon" />
+              </div>
+              <div className="vjl-rj-hover">
+                <div className="vjl-rj-play-btn"><Play fill="black" size={20} /></div>
+                <span className="vjl-rj-hover-cta">LISTEN TO ALL EPISODES</span>
+                <span className="vjl-rj-hover-sub">SOUNDCLOUD ARCHIVES</span>
+              </div>
+              <div className="vjl-rj-wave">
+                {Array.from({ length: 24 }).map((_, i) => (
+                  <div key={i} className="vjl-rj-wave-bar"
+                    style={{ animationDelay: `${i * 0.07}s`, height: `${4 + Math.random() * 16}px` }}
+                  />
+                ))}
+              </div>
+            </a>
+
+            {/* meta */}
+            <div className="vjl-rj-meta">
+              <div className="vjl-rj-meta-item">
+                <span className="vjl-rj-meta-num">100<span className="vjl-rj-meta-plus">+</span></span>
+                <span className="vjl-rj-meta-lbl">EPISODES</span>
+              </div>
+              <div className="vjl-rj-meta-item">
+                <span className="vjl-rj-meta-num">FM</span>
+                <span className="vjl-rj-meta-lbl">BROADCAST</span>
+              </div>
+              <div className="vjl-rj-meta-item">
+                <span className="vjl-rj-meta-num">∞</span>
+                <span className="vjl-rj-meta-lbl">ON DEMAND</span>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+      </section>
+    </>
   );
 };
 

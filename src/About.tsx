@@ -1,11 +1,15 @@
-import { forwardRef } from 'react';
-import { motion } from 'framer-motion';
-import { Images } from './assets/assets';
+import { forwardRef } from "react";
+import { motion } from "framer-motion";
+import { Images } from "./assets/assets";
 
 const About = forwardRef<HTMLDivElement>((props, ref) => {
   const movieTrain = [
-    Images.bigboss, Images.stone, Images.levelup,
-    Images.startda, Images.logo, Images.madras,
+    Images.bigboss,
+    Images.stone,
+    Images.levelup,
+    Images.startda,
+    Images.logo,
+    Images.madras,
   ];
 
   return (
@@ -52,39 +56,41 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
         .cp-ab-grain {
           position: absolute; inset: 0;
           background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-          pointer-events: none; z-index: 0; opacity: 0.4;
+          pointer-events: none; z-index: 0; opacity: 0.15;
         }
 
         /* ═══════════════════════════════════════════
            BACKGROUND LOGO TRAIN
         ═══════════════════════════════════════════ */
         .cp-ab-train-wrap {
-          position: absolute;
-          top: 15%; left: 0;
-          width: 100%; height: 200px;
-          opacity: 0.07;
-          z-index: 1;
-          pointer-events: none;
-          display: flex; align-items: center;
-          overflow: hidden;
-        }
+  position: absolute;
+  top: 15%; left: 0;
+  width: 100%; height: 200px;
+  opacity: 0.07;
+  z-index: 1;
+  pointer-events: none;
+  display: flex; align-items: center;
+  overflow: hidden;
+  filter: grayscale(100%) brightness(1.8);
+}
 
         .cp-ab-train-track {
           display: flex;
           width: max-content;
           animation: cpAbTrain 38s linear infinite;
-        }
+          will-change: transform;
+     }
+
         @keyframes cpAbTrain {
           0%   { transform: translateX(0); }
           100% { transform: translateX(-33.33%); }
         }
 
         .cp-ab-train-logo {
-          height: 100px;
-          margin-right: 80px;
-          filter: grayscale(100%) brightness(1.8);
-          object-fit: contain;
-        }
+  height: 100px;
+  margin-right: 80px;
+  object-fit: contain;
+}
 
         /* ═══════════════════════════════════════════
            MAIN LAYOUT
@@ -124,13 +130,13 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
         }
 
         .cp-ab-img {
-          width: 100%;
-          max-width: 480px;
-          height: auto;
-          display: block;
-          filter: drop-shadow(0 20px 60px rgba(0,0,0,0.9));
-          transition: transform 0.6s ease;
-        }
+  width: 100%;
+  max-width: 480px;
+  height: auto;
+  display: block;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.9);
+  transition: transform 0.6s ease;
+}
         .cp-ab-visual:hover .cp-ab-img { transform: scale(1.015); }
 
         /* status badge — cp-insta-btn style */
@@ -139,8 +145,8 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
           top: 20px; left: -18px;
           display: flex; align-items: center; gap: 9px;
           font-family: 'Courier New', monospace;
-          font-size: 0.42rem; letter-spacing: 3px;
-          color: rgba(255,255,255,0.5);
+          font-size: 0.58rem; letter-spacing: 3px;
+          color: rgba(255,255,255,0.8);
           background: rgba(0,0,0,0.72);
           backdrop-filter: blur(14px);
           border: 1px solid rgba(255,255,255,0.08);
@@ -149,6 +155,7 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
           text-transform: uppercase;
           white-space: nowrap;
           transition: border-color 0.3s, color 0.3s;
+          will-change: transform;
         }
         .cp-ab-visual:hover .cp-ab-badge {
           border-color: #fde047; color: #fde047;
@@ -178,12 +185,12 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
         }
         .cp-ab-pre-line {
           width: 32px; height: 1px;
-          background: #fde047; opacity: 0.5;
+          background: #fde047; opacity: 0.7;
         }
         .cp-ab-pre-text {
           font-family: 'Courier New', monospace;
-          font-size: 0.44rem; letter-spacing: 6px;
-          color: rgba(253,224,71,0.55); text-transform: uppercase;
+          font-size: 0.62rem; letter-spacing: 5px;
+          color: rgba(253,224,71,0.85); text-transform: uppercase;
         }
 
         /* main heading */
@@ -208,23 +215,24 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
         .cp-ab-lead {
           font-family: 'Cormorant Garamond', Georgia, serif;
           font-size: clamp(1rem, 1.5vw, 1.2rem);
-          color: rgba(255,255,255,0.85);
+          color: rgba(255,255,255,0.95);
           line-height: 1.7; margin: 0 0 14px;
         }
-        .cp-ab-lead-cyan { color: #32c5f4; font-weight: 700; }
+        .cp-ab-lead-cyan { color: #32c5f4; font-weight: 700; text-shadow: 0 0 18px rgba(50,197,244,0.3); }
 
         /* philosophy */
         .cp-ab-philosophy {
           font-family: 'Cormorant Garamond', Georgia, serif;
           font-size: clamp(0.95rem, 1.3vw, 1.05rem);
           font-style: italic;
-          color: rgba(255,255,255,0.38);
+          color: rgba(255,255,255,0.65);
           line-height: 1.9; max-width: 520px;
           margin: 0;
         }
         .cp-ab-philosophy-hl {
-          color: rgba(255,255,255,0.8);
-          font-style: normal; font-weight: 600;
+          color: #fff;
+          font-style: normal; font-weight: 700;
+          border-bottom: 1px solid rgba(253,224,71,0.4);
         }
 
         /* ─── STATS STRIP ───────────────────────── */
@@ -258,8 +266,8 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
 
         .cp-ab-stat-label {
           font-family: 'Courier New', monospace;
-          font-size: 0.38rem; letter-spacing: 3px;
-          color: rgba(255,255,255,0.22);
+          font-size: 0.56rem; letter-spacing: 3px;
+          color: rgba(255,255,255,0.6);
           text-transform: uppercase; line-height: 1.5;
         }
 
@@ -280,14 +288,15 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
           .cp-ab-stats    { justify-content: center; max-width: 340px; margin: 38px auto 0; }
         }
         @media (max-width: 768px) {
-          .cp-ab-section  { padding: 80px 5%; }
+          .cp-ab-section  { padding: 70px 5% 80px; }
           .cp-ab-train-logo { height: 65px; margin-right: 40px; }
           .cp-ab-title    { font-size: 3.5rem; }
         }
         @media (max-width: 480px) {
-          .cp-ab-title    { font-size: 2.8rem; }
+          .cp-ab-section  { padding: 60px 4% 70px; }
+          .cp-ab-title    { font-size: clamp(2.2rem, 9vw, 2.8rem); }
           .cp-ab-stat-num { font-size: 1.8rem; }
-          .cp-ab-stat-label { font-size: 0.35rem; }
+          .cp-ab-stat-label { font-size: 0.5rem; }
         }
       `}</style>
 
@@ -305,7 +314,6 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
 
         {/* ── MAIN LAYOUT ─────────────────────────── */}
         <div className="cp-ab-layout">
-
           {/* Visual */}
           <motion.div
             className="cp-ab-visual"
@@ -314,7 +322,11 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <img src={Images.abishakeRaja} alt="Abishek Raaja" className="cp-ab-img" />
+            <img
+              src={Images.abishakeRaja}
+              alt="Abishek Raaja"
+              className="cp-ab-img"
+            />
             <div className="cp-ab-badge">
               <span className="cp-ab-dot" />
               <span>STILL SEARCHING</span>
@@ -332,12 +344,15 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
             {/* pre-label */}
             <div className="cp-ab-pre">
               <div className="cp-ab-pre-line" />
-              <span className="cp-ab-pre-text">ESTABLISHED &bull; REDEFINING DAILY</span>
+              <span className="cp-ab-pre-text">
+                ESTABLISHED &bull; REDEFINING DAILY
+              </span>
             </div>
 
             {/* heading */}
             <h2 className="cp-ab-title">
-              Abishek<br />
+              Abishek
+              <br />
               <span className="cp-ab-title-yellow">Raaja</span>
             </h2>
 
@@ -346,30 +361,45 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
 
             {/* bio */}
             <p className="cp-ab-lead">
-              Founder of{' '}
+              Founder of{" "}
               <span className="cp-ab-lead-cyan">CINEMAPAYYAN PRODUCTIONS</span>.
             </p>
             <p className="cp-ab-philosophy">
-              Success isn't a destination; it's a constant state of motion. Even now, we are{' '}
-              <span className="cp-ab-philosophy-hl">searching for the unseen</span>.
-              To us, every sunrise is a blank script and every day is a new opportunity to
-              redefine what cinema can be.
+              Success isn't a destination; it's a constant state of motion. Even
+              now, we are{" "}
+              <span className="cp-ab-philosophy-hl">
+                searching for the unseen
+              </span>
+              . To us, every sunrise is a blank script and every day is a new
+              opportunity to redefine what cinema can be.
             </p>
 
             {/* stats strip — exact cp-stats pattern */}
             <div className="cp-ab-stats">
               <div className="cp-ab-stat">
-                <span className="cp-ab-stat-num">10<sup style={{ fontSize:'0.5em', verticalAlign:'super' }}>+</sup></span>
-                <span className="cp-ab-stat-label">YEARS OF<br />EVOLUTION</span>
+                <span className="cp-ab-stat-num">
+                  10
+                  <sup style={{ fontSize: "0.5em", verticalAlign: "super" }}>
+                    +
+                  </sup>
+                </span>
+                <span className="cp-ab-stat-label">
+                  YEARS OF
+                  <br />
+                  EVOLUTION
+                </span>
               </div>
               <div className="cp-ab-stat-divider" />
               <div className="cp-ab-stat">
                 <span className="cp-ab-stat-num">44.6K</span>
-                <span className="cp-ab-stat-label">INSTAGRAM<br />FOLLOWERS</span>
+                <span className="cp-ab-stat-label">
+                  INSTAGRAM
+                  <br />
+                  FOLLOWERS
+                </span>
               </div>
             </div>
           </motion.div>
-
         </div>
       </section>
     </>

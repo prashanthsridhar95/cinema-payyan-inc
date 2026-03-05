@@ -103,12 +103,12 @@ const Work: React.FC = () => {
           flex-shrink: 0;
         }
         .cp-work-pre-text {
-          font-family: 'Courier New', monospace;
-          font-size: 0.44rem;
-          letter-spacing: 6px;
-          color: rgba(253,224,71,0.55);
-          text-transform: uppercase;
-        }
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 5px;
+  color: rgba(253,224,71,0.85);
+  text-transform: uppercase;
+}
 
         /* main title */
         .cp-work-title {
@@ -137,13 +137,13 @@ const Work: React.FC = () => {
 
         /* partner tag */
         .cp-work-tag {
-          font-family: 'Courier New', monospace;
-          font-size: 0.44rem;
-          letter-spacing: 6px;
-          color: rgba(253,224,71,0.45);
-          text-transform: uppercase;
-          margin: 0;
-        }
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 5px;
+  color: rgba(253,224,71,0.75);
+  text-transform: uppercase;
+  margin: 0;
+}
 
         /* ─── MARQUEE ─────────────────────────────── */
         .cp-marquee-wrapper {
@@ -258,14 +258,14 @@ const Work: React.FC = () => {
 
         /* promo label */
         .cp-card-label {
-          font-family: 'Courier New', monospace;
-          font-size: 0.4rem;
-          letter-spacing: 3px;
-          text-transform: uppercase;
-          color: rgba(50,197,244,0.8);
-          margin-bottom: 8px;
-          display: block;
-        }
+  font-family: 'Courier New', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(50,197,244,0.95);
+  margin-bottom: 8px;
+  display: block;
+}
 
         /* film title */
         .cp-card-title {
@@ -304,12 +304,12 @@ const Work: React.FC = () => {
         }
 
         .cp-hint-text {
-          font-family: 'Courier New', monospace;
-          font-size: 0.38rem;
-          letter-spacing: 4px;
-          text-transform: uppercase;
-          color: rgba(255,255,255,0.18);
-        }
+  font-family: 'Courier New', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+}
 
         /* ─── RESPONSIVE ──────────────────────────── */
         @media (max-width: 1024px) {

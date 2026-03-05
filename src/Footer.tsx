@@ -68,10 +68,10 @@ const Footer: React.FC = () => {
           background: #fde047; opacity: 0.5;
         }
         .cp-ft-brand-pre-text {
-          font-family: 'Courier New', monospace;
-          font-size: 0.38rem; letter-spacing: 5px;
-          color: rgba(253,224,71,0.5); text-transform: uppercase;
-        }
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem; letter-spacing: 4px;
+  color: rgba(253,224,71,0.85); text-transform: uppercase;
+}
 
         /* logo */
         .cp-ft-logo {
@@ -92,13 +92,13 @@ const Footer: React.FC = () => {
 
         /* tagline */
         .cp-ft-tagline {
-          font-family: 'Courier New', monospace;
-          font-size: 0.4rem; letter-spacing: 4px;
-          color: rgba(255,255,255,0.22);
-          text-transform: uppercase;
-          max-width: 240px; line-height: 1.8;
-          margin: 0;
-        }
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem; letter-spacing: 4px;
+  color: rgba(255,255,255,0.6);
+  text-transform: uppercase;
+  max-width: 240px; line-height: 1.8;
+  margin: 0;
+}
 
         /* social icons */
         .cp-ft-socials {
@@ -130,21 +130,21 @@ const Footer: React.FC = () => {
         }
 
         .cp-ft-col h4 {
-          font-family: 'Courier New', monospace;
-          font-size: 0.44rem; letter-spacing: 6px;
-          color: rgba(253,224,71,0.55); text-transform: uppercase;
-          margin: 0 0 20px; font-weight: normal;
-        }
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem; letter-spacing: 5px;
+  color: rgba(253,224,71,0.85); text-transform: uppercase;
+  margin: 0 0 20px; font-weight: normal;
+}
 
         .cp-ft-col a {
-          display: block; text-decoration: none;
-          font-family: 'Cormorant Garamond', Georgia, serif;
-          font-size: 1rem; font-weight: 600;
-          color: rgba(255,255,255,0.28);
-          margin-bottom: 10px;
-          transition: color 0.3s, padding-left 0.3s;
-          position: relative;
-        }
+  display: block; text-decoration: none;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1rem; font-weight: 600;
+  color: rgba(255,255,255,0.65);
+  margin-bottom: 10px;
+  transition: color 0.3s, padding-left 0.3s;
+  position: relative;
+}
         .cp-ft-col a::before {
           content: '';
           position: absolute; left: -12px;
@@ -161,18 +161,18 @@ const Footer: React.FC = () => {
         .cp-ft-contact {}
 
         .cp-ft-contact h4 {
-          font-family: 'Courier New', monospace;
-          font-size: 0.44rem; letter-spacing: 6px;
-          color: rgba(253,224,71,0.55); text-transform: uppercase;
-          margin: 0 0 20px; font-weight: normal;
-        }
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem; letter-spacing: 5px;
+  color: rgba(253,224,71,0.85); text-transform: uppercase;
+  margin: 0 0 20px; font-weight: normal;
+}
 
         .cp-ft-contact p {
-          font-family: 'Cormorant Garamond', Georgia, serif;
-          font-size: 0.95rem;
-          color: rgba(255,255,255,0.28);
-          margin: 0 0 10px; line-height: 1.6;
-        }
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.65);
+  margin: 0 0 10px; line-height: 1.6;
+}
 
         /* ─── BOTTOM BAR ────────────────────────── */
         .cp-ft-bottom {
@@ -187,10 +187,10 @@ const Footer: React.FC = () => {
           display: flex; gap: 20px; flex-wrap: wrap;
         }
         .cp-ft-legal span {
-          font-family: 'Courier New', monospace;
-          font-size: 0.38rem; letter-spacing: 2px;
-          color: rgba(255,255,255,0.18); text-transform: uppercase;
-        }
+  font-family: 'Courier New', monospace;
+  font-size: 0.65rem; letter-spacing: 2px;
+  color: rgba(255,255,255,0.55); text-transform: uppercase;
+}
 
         /* scroll-top button — cp-cta style */
         .cp-ft-scroll-btn {
@@ -199,9 +199,9 @@ const Footer: React.FC = () => {
           padding: 10px 22px;
           border: 1px solid rgba(255,255,255,0.1);
           background: transparent;
-          color: rgba(255,255,255,0.3);
+          color: rgba(255,255,255,0.65);
           font-family: 'Courier New', monospace;
-          font-size: 0.38rem; letter-spacing: 4px;
+          font-size: 0.65rem; letter-spacing: 4px;
           text-transform: uppercase; cursor: pointer;
           transition: color 0.4s, border-color 0.4s;
         }

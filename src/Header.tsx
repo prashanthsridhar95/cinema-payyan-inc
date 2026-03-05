@@ -109,14 +109,14 @@ function Header({ onScrollRequest, refs, isMenuOpen, setIsMenuOpen }: HeaderProp
 
         /* label */
         .cp-hd-label {
-          position: relative; z-index: 5;
-          font-family: 'Courier New', monospace;
-          font-size: 0.48rem; letter-spacing: 4px;
-          color: rgba(255,255,255,0.6);
-          text-transform: uppercase;
-          transition: color 0.3s, letter-spacing 0.3s;
-          white-space: nowrap;
-        }
+  position: relative; z-index: 5;
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem; letter-spacing: 4px;
+  color: rgba(255,255,255,0.85);
+  text-transform: uppercase;
+  transition: color 0.3s, letter-spacing 0.3s;
+  white-space: nowrap;
+}
         .cp-hd-item:hover .cp-hd-label {
           color: #fde047;
           letter-spacing: 5px;
@@ -194,21 +194,21 @@ function Header({ onScrollRequest, refs, isMenuOpen, setIsMenuOpen }: HeaderProp
 
         /* number */
         .cp-hd-mobile-num {
-          font-family: 'Courier New', monospace;
-          font-size: 0.38rem; letter-spacing: 3px;
-          color: rgba(253,224,71,0.3);
-        }
+  font-family: 'Courier New', monospace;
+  font-size: 0.65rem; letter-spacing: 3px;
+  color: rgba(253,224,71,0.7);
+}
 
         /* label */
         .cp-hd-mobile-label {
-          font-family: 'Cormorant Garamond', Georgia, serif;
-          font-size: clamp(2.4rem, 7vw, 4rem);
-          font-weight: 800; font-style: italic;
-          color: rgba(255,255,255,0.5);
-          letter-spacing: -1px; line-height: 1;
-          transition: color 0.3s, letter-spacing 0.3s;
-          position: relative; z-index: 2;
-        }
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2.4rem, 7vw, 4rem);
+  font-weight: 800; font-style: italic;
+  color: rgba(255,255,255,0.85);
+  letter-spacing: -1px; line-height: 1;
+  transition: color 0.3s, letter-spacing 0.3s;
+  position: relative; z-index: 2;
+}
         .cp-hd-mobile-item:hover .cp-hd-mobile-label,
         .cp-hd-mobile-item.active .cp-hd-mobile-label {
           color: #fde047;
@@ -217,11 +217,11 @@ function Header({ onScrollRequest, refs, isMenuOpen, setIsMenuOpen }: HeaderProp
 
         /* arrow */
         .cp-hd-mobile-arrow {
-          font-family: 'Courier New', monospace;
-          font-size: 0.4rem; letter-spacing: 2px;
-          color: rgba(255,255,255,0.15);
-          transition: color 0.3s, transform 0.3s;
-        }
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem; letter-spacing: 2px;
+  color: rgba(255,255,255,0.55);
+  transition: color 0.3s, transform 0.3s;
+}
         .cp-hd-mobile-item:hover .cp-hd-mobile-arrow,
         .cp-hd-mobile-item.active .cp-hd-mobile-arrow {
           color: rgba(50,197,244,0.5);
@@ -255,10 +255,10 @@ function Header({ onScrollRequest, refs, isMenuOpen, setIsMenuOpen }: HeaderProp
           background: rgba(255,255,255,0.05);
         }
         .cp-hd-mobile-bottom-text {
-          font-family: 'Courier New', monospace;
-          font-size: 0.36rem; letter-spacing: 4px;
-          color: rgba(255,255,255,0.12); text-transform: uppercase;
-        }
+  font-family: 'Courier New', monospace;
+  font-size: 0.65rem; letter-spacing: 4px;
+  color: rgba(255,255,255,0.55); text-transform: uppercase;
+}
 
         /* ─── RESPONSIVE ────────────────────────── */
         @media (max-width: 1024px) {

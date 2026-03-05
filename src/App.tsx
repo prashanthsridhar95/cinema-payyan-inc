@@ -29,8 +29,18 @@ function App() {
   const { scrollToSection, refs }   = useScrollTo();
   const repoBasename = "/cinima-payan-inc";
 
+  // ── FIX 2: throttled scroll listener via rAF ──
   useEffect(() => {
-    const h = () => { if (!isMenuOpen) setOffset(window.pageYOffset); };
+    let ticking = false;
+    const h = () => {
+      if (!isMenuOpen && !ticking) {
+        ticking = true;
+        requestAnimationFrame(() => {
+          setOffset(window.pageYOffset);
+          ticking = false;
+        });
+      }
+    };
     window.addEventListener("scroll", h, { passive: true });
     return () => window.removeEventListener("scroll", h);
   }, [isMenuOpen]);
@@ -46,12 +56,8 @@ function App() {
 
   return (
     <Router basename={repoBasename}>
-      {/* ══════════════════════════════════════════════
-          HAMBURGER — visible only on mobile (≤1024px)
-          Styled with CP language: yellow lines, sharp
-          edges, fills on open state.
-      ══════════════════════════════════════════════ */}
       <style>{`
+        /* ── HAMBURGER ── */
         .cp-app-burger {
           position: fixed;
           top: 18px; right: 18px;
@@ -59,10 +65,11 @@ function App() {
           display: none;
           flex-direction: column; gap: 6px;
           cursor: pointer; padding: 12px 14px;
-          background: rgba(0,0,0,0.82);
-          backdrop-filter: blur(14px);
+          /* FIX 4: removed backdrop-filter blur, use solid bg + will-change */
+          background: rgba(0,0,0,0.92);
           border: 1px solid rgba(253,224,71,0.22);
           transition: border-color 0.3s;
+          will-change: transform;
         }
         .cp-app-burger:hover { border-color: rgba(253,224,71,0.55); }
         .cp-app-burger.open  { border-color: rgba(253,224,71,0.5); background: rgba(0,0,0,0.95); }
@@ -79,6 +86,12 @@ function App() {
 
         @media (max-width: 1024px) {
           .cp-app-burger { display: flex; }
+        }
+
+        /* ── FIX 1: parallax banner — no background-attachment:fixed ── */
+        .cinenaPaitanBanner {
+          background-attachment: scroll !important;
+          will-change: transform;
         }
       `}</style>
 
