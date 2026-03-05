@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaInstagram, FaTwitter, FaYoutube, FaExternalLinkAlt } from 'react-icons/fa';
-import emailjs from '@emailjs/browser';
 
 const BookingContact: React.FC = () => {
   const [isTorn,    setIsTorn]    = useState(false);
@@ -10,28 +9,42 @@ const BookingContact: React.FC = () => {
 
   const filmStrip = " • CINEMA PAYYAN • NOW BOOKING • ".repeat(20);
 
-  const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
+  // ── REPLACE THE VALUE BELOW WITH YOUR WEB3FORMS ACCESS KEY ──
+  const WEB3FORMS_KEY = "0a0de93d-ef93-4e5a-93cb-c33ad78dfb75";
+
+  const sendEmail = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!formRef.current) return;
     setIsSending(true);
-    if (formRef.current) {
-      const fd = new FormData(formRef.current);
-      emailjs.send(
-        'service_hq6bpkh',
-        '__ejs-test-mail-service__',
-        {
-          user_name:  fd.get('user_name'),
-          user_email: fd.get('user_email'),
-          user_phone: fd.get('user_phone'),
-          message:    fd.get('message'),
-        },
-        'PCxhelMbj51llHZmn'
-      )
-      .then(() => { setIsTorn(true); setIsSending(false); })
-      .catch((err) => {
-        console.error(err);
-        alert(`Booking failed: ${err.text || 'Check console'}`);
-        setIsSending(false);
+
+    const fd = new FormData(formRef.current);
+
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          subject:    "New Booking — Cinema Payyan Productions",
+          from_name:  "Cinema Payyan Booking",
+          name:       fd.get("name"),
+          email:      fd.get("email"),
+          phone:      fd.get("phone"),
+          message:    fd.get("message"),
+        }),
       });
+      const data = await res.json();
+
+      if (data.success) {
+        setIsTorn(true);
+      } else {
+        alert(`Booking failed: ${data.message || "Please try again."}`);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Network error. Please try again.");
+    } finally {
+      setIsSending(false);
     }
   };
 
@@ -93,14 +106,14 @@ const BookingContact: React.FC = () => {
         .cp-bk-band--bottom { bottom: 5%; transform: rotate(1deg);  }
 
         .cp-bk-band-text {
-  white-space: nowrap;
-  font-family: 'Courier New', monospace;
-  font-weight: 900;
-  font-size: 0.75rem;
-  letter-spacing: 5px;
-  color: #000;
-  text-transform: uppercase;
-}
+          white-space: nowrap;
+          font-family: 'Courier New', monospace;
+          font-weight: 900;
+          font-size: 0.75rem;
+          letter-spacing: 5px;
+          color: #000;
+          text-transform: uppercase;
+        }
 
         /* ═══════════════════════════════════════════
            TICKET AREA
@@ -127,7 +140,6 @@ const BookingContact: React.FC = () => {
           position: relative;
         }
 
-        /* corner marks on ticket */
         .cp-bk-ticket::before {
           content: '';
           position: absolute; top: 0; left: 0;
@@ -159,7 +171,6 @@ const BookingContact: React.FC = () => {
           padding-bottom: 14px;
         }
 
-        /* pre row inside ticket */
         .cp-bk-ticket-pre {
           display: flex; align-items: center; gap: 10px;
           margin-bottom: 8px;
@@ -169,10 +180,10 @@ const BookingContact: React.FC = () => {
           background: rgba(0,0,0,0.35);
         }
         .cp-bk-ticket-pre-text {
-  font-family: 'Courier New', monospace;
-  font-size: 0.7rem; letter-spacing: 4px;
-  color: rgba(0,0,0,0.7); text-transform: uppercase;
-}
+          font-family: 'Courier New', monospace;
+          font-size: 0.7rem; letter-spacing: 4px;
+          color: rgba(0,0,0,0.7); text-transform: uppercase;
+        }
 
         .cp-bk-ticket-title {
           font-family: 'Cormorant Garamond', Georgia, serif;
@@ -182,11 +193,11 @@ const BookingContact: React.FC = () => {
           letter-spacing: -0.5px; line-height: 1;
         }
         .cp-bk-ticket-sub {
-  font-family: 'Courier New', monospace;
-  font-size: 0.7rem; letter-spacing: 4px;
-  color: rgba(0,0,0,0.65); text-transform: uppercase;
-  margin: 0;
-}
+          font-family: 'Courier New', monospace;
+          font-size: 0.7rem; letter-spacing: 4px;
+          color: rgba(0,0,0,0.65); text-transform: uppercase;
+          margin: 0;
+        }
 
         /* inputs */
         .cp-bk-grid {
@@ -198,11 +209,11 @@ const BookingContact: React.FC = () => {
         .cp-bk-field--full { grid-column: span 2; }
 
         .cp-bk-label {
-  font-family: 'Courier New', monospace;
-  font-size: 0.65rem; letter-spacing: 4px;
-  color: rgba(0,0,0,0.7); text-transform: uppercase;
-  font-weight: 700;
-}
+          font-family: 'Courier New', monospace;
+          font-size: 0.65rem; letter-spacing: 4px;
+          color: rgba(0,0,0,0.7); text-transform: uppercase;
+          font-weight: 700;
+        }
 
         .cp-bk-input,
         .cp-bk-textarea {
@@ -259,11 +270,11 @@ const BookingContact: React.FC = () => {
         }
 
         .cp-bk-stub-label {
-  font-family: 'Courier New', monospace;
-  font-size: 0.65rem; letter-spacing: 4px;
-  color: rgba(0,0,0,0.7); text-transform: uppercase;
-  margin: 0 0 12px; font-weight: 700;
-}
+          font-family: 'Courier New', monospace;
+          font-size: 0.65rem; letter-spacing: 4px;
+          color: rgba(0,0,0,0.7); text-transform: uppercase;
+          margin: 0 0 12px; font-weight: 700;
+        }
 
         .cp-bk-icons {
           display: flex; gap: 14px;
@@ -277,7 +288,6 @@ const BookingContact: React.FC = () => {
         }
         .cp-bk-icons a:hover { opacity: 0.5; }
 
-        /* notion link — cp-cta style but black */
         .cp-bk-notion {
           display: flex; align-items: center;
           justify-content: center; gap: 8px;
@@ -303,7 +313,6 @@ const BookingContact: React.FC = () => {
         .cp-bk-notion span,
         .cp-bk-notion svg { position: relative; z-index: 1; }
 
-        /* confirm button — fill sweep inverted */
         .cp-bk-confirm {
           position: relative; overflow: hidden;
           width: 100%; padding: 15px;
@@ -362,11 +371,11 @@ const BookingContact: React.FC = () => {
         }
 
         .cp-bk-success-sub {
-  font-family: 'Courier New', monospace;
-  font-size: 0.7rem; letter-spacing: 5px;
-  color: rgba(0,0,0,0.65); text-transform: uppercase;
-  margin: 0 0 28px;
-}
+          font-family: 'Courier New', monospace;
+          font-size: 0.7rem; letter-spacing: 5px;
+          color: rgba(0,0,0,0.65); text-transform: uppercase;
+          margin: 0 0 28px;
+        }
 
         .cp-bk-success-rule {
           width: 80px; height: 1px;
@@ -450,7 +459,6 @@ const BookingContact: React.FC = () => {
           <AnimatePresence mode="wait">
             {!isTorn ? (
 
-              /* ── TICKET ── */
               <motion.div
                 key="ticket"
                 className="cp-bk-ticket"
@@ -460,6 +468,11 @@ const BookingContact: React.FC = () => {
                 transition={{ type: 'spring', damping: 20 }}
               >
                 <form ref={formRef} className="cp-bk-form" onSubmit={sendEmail}>
+
+                  {/* Hidden Web3Forms fields */}
+                  <input type="hidden" name="access_key" value={WEB3FORMS_KEY} />
+                  <input type="hidden" name="subject"    value="New Booking — Cinema Payyan Productions" />
+                  <input type="hidden" name="from_name"  value="Cinema Payyan Booking" />
 
                   {/* INFO SIDE */}
                   <div className="cp-bk-info">
@@ -475,15 +488,15 @@ const BookingContact: React.FC = () => {
                     <div className="cp-bk-grid">
                       <div className="cp-bk-field">
                         <label className="cp-bk-label">NAME</label>
-                        <input name="user_name" type="text" placeholder="Your Name" className="cp-bk-input" required />
+                        <input name="name" type="text" placeholder="Your Name" className="cp-bk-input" required />
                       </div>
                       <div className="cp-bk-field">
                         <label className="cp-bk-label">EMAIL</label>
-                        <input name="user_email" type="email" placeholder="Email Address" className="cp-bk-input" required />
+                        <input name="email" type="email" placeholder="Email Address" className="cp-bk-input" required />
                       </div>
                       <div className="cp-bk-field cp-bk-field--full">
                         <label className="cp-bk-label">CONTACT NUMBER</label>
-                        <input name="user_phone" type="tel" placeholder="+91" className="cp-bk-input" />
+                        <input name="phone" type="tel" placeholder="+91" className="cp-bk-input" />
                       </div>
                       <div className="cp-bk-field cp-bk-field--full">
                         <label className="cp-bk-label">ABOUT THE PROJECT</label>
@@ -505,7 +518,7 @@ const BookingContact: React.FC = () => {
                       <div className="cp-bk-icons">
                         <a href="https://www.instagram.com/cinemapayyan.inc/" target="_blank" rel="noreferrer"><FaInstagram /></a>
                         <a href="https://x.com/cinemapayyan"                  target="_blank" rel="noreferrer"><FaTwitter /></a>
-                        <a href="https://www.youtube.com/@OpenPannaa"><FaYoutube /></a>
+                        <a href="https://www.youtube.com/@OpenPannaa"         target="_blank" rel="noreferrer"><FaYoutube /></a>
                       </div>
                       <a
                         href="https://woolen-sodalite-e73.notion.site/16909085b6758040a618e11e9b9dabef"
@@ -527,7 +540,6 @@ const BookingContact: React.FC = () => {
 
             ) : (
 
-              /* ── SUCCESS ── */
               <motion.div
                 key="success"
                 className="cp-bk-success"

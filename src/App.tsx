@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Images } from "./assets/assets";
-import "./App.css";
+// import "./App.css";
 import Header           from "./Header";
 import Hero             from "./Hero";
 import Logo             from "./Logo";
