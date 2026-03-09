@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Images } from "./assets/assets";
-// import "./App.css";
 import Header           from "./Header";
 import Hero             from "./Hero";
 import Logo             from "./Logo";
@@ -22,6 +21,7 @@ import Director         from "./Director";
 import CreativeProducer from "./CreativeProducer";
 import Accelerator      from "./Accelerator";
 import SectionDivider   from "./Sectiondivider";
+import CinemaScrubber   from "./ScrollIndicator";
 
 function App() {
   const [offset,     setOffset]     = useState(0);
@@ -104,6 +104,9 @@ function App() {
         <span className="cp-app-burger-line" />
         <span className="cp-app-burger-line" />
       </div>
+
+      {/* ── CINEMA SCRUBBER ── */}
+      <CinemaScrubber refs={refs} />
 
       <Routes>
         <Route

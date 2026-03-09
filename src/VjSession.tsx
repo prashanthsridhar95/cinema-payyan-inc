@@ -143,6 +143,7 @@ const AboutWork = () => {
         ══════════════════════════════════════════ */
         .vjl-section {
           background: #000;
+          background: radial-gradient(circle at center, #080a0f 0%, #000000 100%);
           padding: 90px 0 100px;
           overflow: hidden;
           position: relative;
