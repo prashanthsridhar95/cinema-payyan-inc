@@ -21,7 +21,7 @@ import Director from "./Director";
 import CreativeProducer from "./CreativeProducer";
 import Accelerator from "./Accelerator";
 import SectionDivider from "./Sectiondivider";
-import CinemaNavigator from "./ScrollIndicator";
+import CinemaNavigator from "./RotaryNavigator"; // ← same filename as before
 
 function App() {
   const [offset, setOffset] = useState<number>(0);
@@ -56,50 +56,11 @@ function App() {
   return (
     <Router basename={repoBasename}>
       <style>{`
-        .cp-app-burger {
-          position: fixed;
-          top: 18px; right: 18px;
-          z-index: 9999;
-          display: none;
-          flex-direction: column; gap: 6px;
-          cursor: pointer; padding: 12px 14px;
-          background: rgba(0,0,0,0.92);
-          border: 1px solid rgba(253,224,71,0.22);
-          transition: border-color 0.3s;
-          will-change: transform;
-        }
-        .cp-app-burger:hover { border-color: rgba(253,224,71,0.55); }
-        .cp-app-burger.open  { border-color: rgba(253,224,71,0.5); background: rgba(0,0,0,0.95); }
-
-        .cp-app-burger-line {
-          width: 26px; height: 1.5px;
-          background: #fde047;
-          transition: transform 0.38s cubic-bezier(0.77,0,0.18,1), opacity 0.25s;
-          transform-origin: center;
-        }
-        .cp-app-burger.open .cp-app-burger-line:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
-        .cp-app-burger.open .cp-app-burger-line:nth-child(2) { opacity: 0; transform: scaleX(0); }
-        .cp-app-burger.open .cp-app-burger-line:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
-
-        @media (max-width: 1024px) {
-          .cp-app-burger { display: flex; }
-        }
-
         .cinenaPaitanBanner {
           background-attachment: scroll !important;
           will-change: transform;
         }
       `}</style>
-
-      <div
-        className={`cp-app-burger ${isMenuOpen ? "open" : ""}`}
-        onClick={() => setIsMenuOpen((v) => !v)}
-        aria-label="Toggle menu"
-      >
-        <span className="cp-app-burger-line" />
-        <span className="cp-app-burger-line" />
-        <span className="cp-app-burger-line" />
-      </div>
 
       <CinemaNavigator refs={refs} />
 
@@ -137,24 +98,34 @@ function App() {
               </section>
 
               <SectionDivider variant="filmstrip" label="VJ SESSION" />
-              <AboutWork />
+              <section id="vjsession">
+                <AboutWork />
+              </section>
 
               <SectionDivider variant="slash" label="OPEN PANNAA" index={3} />
-              <Filmcritic />
+              <section id="openpannaa">
+                <Filmcritic />
+              </section>
 
               <SectionDivider variant="reel" label="HOST" />
-              <Host />
+              <section id="host">
+                <Host />
+              </section>
 
               <SectionDivider variant="scanline" label="DIRECTOR" index={5} />
-              <Director />
+              <section id="director">
+                <Director />
+              </section>
 
               <SectionDivider variant="marquee" label="CINEMAPAYYAN • CREATIVE PRODUCER" />
-              <section id="promotions" ref={refs.promotionsRef}>
+              <section id="producer" ref={refs.promotionsRef}>
                 <CreativeProducer />
               </section>
 
               <SectionDivider variant="timecode" label="THE ACCELERATOR" index={7} />
-              <Accelerator />
+              <section id="accelerator">
+                <Accelerator />
+              </section>
 
               <SectionDivider variant="filmstrip" label="FINISHED PROJECTS" />
               <section id="work" ref={refs.workRef}>
@@ -162,16 +133,24 @@ function App() {
               </section>
 
               <SectionDivider variant="slash" label="TIE-UP PARTNERS" index={9} />
-              <ProductionLogo />
+              <section id="partners">
+                <ProductionLogo />
+              </section>
 
               <SectionDivider variant="reel" label="RETRO BTS COMIC" />
-              <Comic />
+              <section id="comic">
+                <Comic />
+              </section>
 
               <SectionDivider variant="scanline" label="SHORTS PROMOTION" index={11} />
-              <ShortsPromotion />
+              <section id="shorts">
+                <ShortsPromotion />
+              </section>
 
               <SectionDivider variant="marquee" label="SHADOW PROMOTION" />
-              <ShadowPromotion />
+              <section id="shadow">
+                <ShadowPromotion />
+              </section>
 
               <SectionDivider variant="timecode" label="BOOK A SESSION" index={13} />
               <section id="contact" ref={refs.contactRef}>

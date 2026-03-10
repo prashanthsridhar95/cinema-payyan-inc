@@ -86,8 +86,13 @@ const Filmcritic = () => {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;700;900&display=swap');
 
+        /* ══════════════════════════════════════════
+           SECTION SHELL — DEEP BURGUNDY / CINEMA RED
+           Red curtain screening room
+        ══════════════════════════════════════════ */
         .fcc-section {
-          background: #000;
+          background: #130609;
+          background: radial-gradient(ellipse at top center, #2a0c12 0%, #130609 55%, #0e0407 100%);
           padding: 90px 0 110px;
           overflow: hidden;
           position: relative;
@@ -96,13 +101,13 @@ const Filmcritic = () => {
           content: '';
           position: absolute; top: 0; left: 8%; right: 8%;
           height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06) 50%, transparent);
+          background: linear-gradient(90deg, transparent, rgba(253,224,71,0.12) 50%, transparent);
         }
         .fcc-section::after {
           content: '評';
           position: absolute; right: 2%; bottom: -60px;
           font-size: 28rem; font-family: serif; line-height: 1;
-          color: rgba(255,255,255,0.012);
+          color: rgba(180,20,40,0.07);
           pointer-events: none; user-select: none; z-index: 0;
         }
 
@@ -184,7 +189,7 @@ const Filmcritic = () => {
         .fcc-hero {
           position: relative; overflow: hidden;
           width: 100%; margin-bottom: 40px;
-          border: 1px solid rgba(255,255,255,0.07);
+          border: 1px solid rgba(253,224,71,0.08);
           cursor: pointer;
           transition: border-color 0.4s;
         }
@@ -197,7 +202,7 @@ const Filmcritic = () => {
         .fcc-hero:hover .fcc-hero-img { transform: scale(1.04); }
         .fcc-hero-vig {
           position: absolute; inset: 0;
-          background: linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.72) 100%);
+          background: linear-gradient(to bottom, transparent 30%, rgba(13,6,9,0.82) 100%);
           pointer-events: none; z-index: 2;
         }
         .fcc-hero-corner { position: absolute; width: 16px; height: 16px; z-index: 4; pointer-events: none; }
@@ -209,8 +214,8 @@ const Filmcritic = () => {
           position: absolute; bottom: 0; left: 0; right: 0; z-index: 5;
           display: flex; align-items: center; justify-content: space-between;
           padding: 12px 18px;
-          background: rgba(0,0,0,0.82);
-          border-top: 1px solid rgba(255,255,255,0.06);
+          background: rgba(13,6,9,0.92);
+          border-top: 1px solid rgba(253,224,71,0.08);
           gap: 14px;
         }
         .fcc-hero-bar-left { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
@@ -257,9 +262,11 @@ const Filmcritic = () => {
           gap: 20px;
           margin-bottom: 56px;
         }
+
+        /* ── CARD — deep burgundy bg ── */
         .fcc-card {
-          background: rgba(255,255,255,0.02);
-          border: 1px solid rgba(255,255,255,0.07);
+          background: #1e0a0d;
+          border: 1px solid rgba(253,224,71,0.07);
           overflow: hidden;
           text-decoration: none; display: block;
           transition: border-color 0.35s, box-shadow 0.35s, transform 0.4s;
@@ -272,7 +279,7 @@ const Filmcritic = () => {
         .fcc-media {
           position: relative; width: 100%;
           aspect-ratio: 16/9;
-          background: #0a0a0a; overflow: hidden;
+          background: #160508; overflow: hidden;
         }
         .fcc-video {
           position: absolute; inset: 0;
@@ -317,12 +324,14 @@ const Filmcritic = () => {
           border-bottom: 1px solid rgba(50,197,244,0.4);
           border-right: 1px solid rgba(50,197,244,0.4);
         }
+
+        /* ── card info — deep burgundy ── */
         .fcc-info {
           padding: 14px 16px;
           display: flex; align-items: center;
           justify-content: space-between; gap: 10px;
-          background: rgba(0,0,0,0.92);
-          border-top: 1px solid rgba(255,255,255,0.05);
+          background: #160508;
+          border-top: 1px solid rgba(253,224,71,0.06);
         }
         .fcc-info-left { display: flex; align-items: center; gap: 12px; }
 

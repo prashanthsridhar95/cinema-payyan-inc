@@ -15,7 +15,7 @@ const logos = [
   { id: 4,  img: Images.Tseries           },
   { id: 5,  img: Images.PotentialStudio   },
   { id: 6,  img: Images.NutmegProduction  },
-  { id: 7,  img: Images.EtakiLogo        },
+  { id: 7,  img: Images.EtakiLogo         },
   { id: 8,  img: Images.Srinivass         },
   { id: 9,  img: Images.MaliMovieMAkers   },
   { id: 10, img: Images.Arupthangles      },
@@ -44,9 +44,13 @@ const ProductionLogo: React.FC = () => {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap');
 
-        /* ─── SECTION ─────────────────────────────── */
+        /* ─── BG: Cold Steel Ink #080d12 ─────────────
+           Previous section (Work) = #111009 warm charcoal
+           This section cools down  → blue-grey steel ink
+           Transition feels: warm amber → cold steel
+        ──────────────────────────────────────────── */
         .cp-prod-section {
-          background: #000;
+          background: #080d12;
           padding: 110px 0 120px;
           width: 100%;
           overflow: hidden;
@@ -56,21 +60,24 @@ const ProductionLogo: React.FC = () => {
           align-items: center;
         }
 
+        /* Top fade — blends from warm Work bg into cold steel */
         .cp-prod-section::before {
           content: '';
           position: absolute;
-          top: 0; left: 8%; right: 8%;
-          height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06) 50%, transparent);
+          top: 0; left: 0; right: 0;
+          height: 120px;
+          background: linear-gradient(to bottom, rgba(17,16,9,0.45), transparent);
           pointer-events: none;
+          z-index: 1;
         }
 
+        /* Kanji watermark — kept, tinted steel-blue */
         .cp-prod-section::after {
           content: '映';
           position: absolute;
           right: 4%; bottom: -40px;
           font-size: 22rem;
-          color: rgba(255,255,255,0.012);
+          color: rgba(50,197,244,0.018);
           font-family: serif;
           line-height: 1;
           pointer-events: none;
@@ -78,16 +85,40 @@ const ProductionLogo: React.FC = () => {
           z-index: 0;
         }
 
-        /* ─── RADIAL GLOW ─────────────────────────── */
+        /* Cold blue ambient glow — center */
         .cp-prod-glow {
           position: absolute;
           top: 50%; left: 50%;
           transform: translate(-50%, -50%);
-          width: 100%; height: 70%;
-          background: radial-gradient(circle, rgba(50,197,244,0.04) 0%, transparent 65%);
-          filter: blur(80px);
+          width: 80%; height: 60%;
+          background: radial-gradient(
+            ellipse at center,
+            rgba(50,197,244,0.055) 0%,
+            rgba(8,13,18,0) 70%
+          );
+          filter: blur(60px);
           z-index: 1;
           pointer-events: none;
+        }
+
+        /* Subtle top-right yellow warmth — echo from previous section */
+        .cp-prod-warm-echo {
+          position: absolute;
+          top: 0; right: 0;
+          width: 300px; height: 300px;
+          background: radial-gradient(circle at top right, rgba(253,224,71,0.04) 0%, transparent 65%);
+          pointer-events: none;
+          z-index: 1;
+        }
+
+        /* Top separator line */
+        .cp-prod-top-rule {
+          position: absolute;
+          top: 0; left: 8%; right: 8%;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(50,197,244,0.12) 50%, transparent);
+          pointer-events: none;
+          z-index: 2;
         }
 
         /* ─── HEADER ──────────────────────────────── */
@@ -118,6 +149,7 @@ const ProductionLogo: React.FC = () => {
           text-transform: uppercase;
         }
 
+        /* Bebas Neue — main title */
         .cp-prod-title {
           font-family: 'Bebas Neue', sans-serif;
           font-size: clamp(3rem, 9vw, 6.5rem);
@@ -126,6 +158,8 @@ const ProductionLogo: React.FC = () => {
           margin: 0 0 18px;
           line-height: 0.95;
           letter-spacing: 3px;
+          /* cool blue text shadow on steel bg */
+          text-shadow: 0 0 80px rgba(50,197,244,0.10);
         }
         .cp-prod-title-yellow {
           color: #fde047;
@@ -143,9 +177,10 @@ const ProductionLogo: React.FC = () => {
           position: relative;
           width: 100%;
           height: 210px;
-          background: rgba(255,255,255,0.02);
-          border-top: 1px solid rgba(253,224,71,0.15);
-          border-bottom: 1px solid rgba(50,197,244,0.15);
+          /* strip bg tinted to match section */
+          background: rgba(50,197,244,0.025);
+          border-top: 1px solid rgba(50,197,244,0.14);
+          border-bottom: 1px solid rgba(253,224,71,0.10);
           display: flex;
           align-items: center;
           z-index: 5;
@@ -157,8 +192,8 @@ const ProductionLogo: React.FC = () => {
           inset: 0;
           pointer-events: none;
           background-image:
-            radial-gradient(circle, rgba(253,224,71,0.55) 42%, transparent 45%),
-            radial-gradient(circle, rgba(253,224,71,0.55) 42%, transparent 45%);
+            radial-gradient(circle, rgba(50,197,244,0.45) 42%, transparent 45%),
+            radial-gradient(circle, rgba(50,197,244,0.45) 42%, transparent 45%);
           background-size: 70px 22px;
           background-position: 0 10%, 0 90%;
           background-repeat: repeat-x;
@@ -209,13 +244,13 @@ const ProductionLogo: React.FC = () => {
         }
         .cp-logo-cell::before {
           top: 0; left: 0;
-          border-top: 1px solid rgba(253,224,71,0.5);
-          border-left: 1px solid rgba(253,224,71,0.5);
+          border-top: 1px solid rgba(50,197,244,0.5);
+          border-left: 1px solid rgba(50,197,244,0.5);
         }
         .cp-logo-cell::after {
           bottom: 0; right: 0;
-          border-bottom: 1px solid rgba(253,224,71,0.5);
-          border-right: 1px solid rgba(253,224,71,0.5);
+          border-bottom: 1px solid rgba(50,197,244,0.5);
+          border-right: 1px solid rgba(50,197,244,0.5);
         }
         .cp-logo-cell:hover::before,
         .cp-logo-cell:hover::after { opacity: 1; }
@@ -230,10 +265,11 @@ const ProductionLogo: React.FC = () => {
           transition: filter 0.35s;
         }
         .cp-logo-cell:hover img {
-          filter: drop-shadow(0 0 14px rgba(253,224,71,0.25))
+          filter: drop-shadow(0 0 14px rgba(50,197,244,0.22))
                   drop-shadow(0 8px 18px rgba(0,0,0,0.9));
         }
 
+        /* Vignette matches steel-ink bg */
         .cp-vignette {
           position: absolute;
           top: 0; bottom: 0;
@@ -241,8 +277,14 @@ const ProductionLogo: React.FC = () => {
           z-index: 20;
           pointer-events: none;
         }
-        .cp-vignette--left  { left: 0;  background: linear-gradient(to right, #000, transparent); }
-        .cp-vignette--right { right: 0; background: linear-gradient(to left,  #000, transparent); }
+        .cp-vignette--left  {
+          left: 0;
+          background: linear-gradient(to right, #080d12, transparent);
+        }
+        .cp-vignette--right {
+          right: 0;
+          background: linear-gradient(to left, #080d12, transparent);
+        }
 
         /* ─── HINT ────────────────────────────────── */
         .cp-prod-hint {
@@ -270,7 +312,7 @@ const ProductionLogo: React.FC = () => {
           font-weight: 600;
           letter-spacing: 4px;
           text-transform: uppercase;
-          color: rgba(255,255,255,0.5);
+          color: rgba(255,255,255,0.45);
         }
 
         /* ─── RESPONSIVE ──────────────────────────── */
@@ -289,7 +331,9 @@ const ProductionLogo: React.FC = () => {
       `}</style>
 
       <section className="cp-prod-section">
+        <div className="cp-prod-top-rule" />
         <div className="cp-prod-glow" />
+        <div className="cp-prod-warm-echo" />
 
         {/* ── HEADER ──────────────────────────────── */}
         <div className="cp-prod-header">

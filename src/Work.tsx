@@ -30,11 +30,6 @@ const projects = [
 
 const duplicatedProjects = [...projects, ...projects];
 
-/* ─── FONT TOKENS ───────────────────────────────────────────────────────────
-   Display  → 'Bebas Neue'  (bold condensed caps — titles & card headings)
-   Body     → 'Inter'       (clean sans-serif — labels, tags, hint text)
-─────────────────────────────────────────────────────────────────────────── */
-
 const Work: React.FC = () => {
   const baseX = useMotionValue(0);
 
@@ -63,18 +58,21 @@ const Work: React.FC = () => {
   return (
     <>
       <style>{`
-        /* ── FONT IMPORTS ── */
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap');
 
-        /* ── FONT TOKENS ── */
         :root {
           --font-display : 'Bebas Neue', sans-serif;
           --font-body    : 'Inter', sans-serif;
+          --cyan         : #32c5f4;
+          --yellow       : #fde047;
+          --white        : #ffffff;
+          --black        : #000000;
+          --work-bg      : #111009;
         }
 
         /* ─── SECTION ─────────────────────────────── */
         .cp-work-section {
-          background: #000;
+          background: var(--work-bg);
           padding: 100px 0 110px;
           overflow: hidden;
           width: 100%;
@@ -84,19 +82,60 @@ const Work: React.FC = () => {
           justify-content: center;
           position: relative;
         }
+
+        /* Warm yellow glow — top right corner */
+        .cp-work-section::after {
+          content: '';
+          position: absolute;
+          top: -80px;
+          right: -80px;
+          width: 520px;
+          height: 520px;
+          background: radial-gradient(circle, rgba(253,224,71,0.06) 0%, transparent 65%);
+          pointer-events: none;
+          z-index: 0;
+        }
+
+        /* Cyan glow — bottom left */
         .cp-work-section::before {
           content: '';
           position: absolute;
+          bottom: -60px;
+          left: -60px;
+          width: 420px;
+          height: 420px;
+          background: radial-gradient(circle, rgba(50,197,244,0.05) 0%, transparent 65%);
+          pointer-events: none;
+          z-index: 0;
+        }
+
+        /* Subtle warm grain texture overlay */
+        .cp-work-noise {
+          position: absolute;
+          inset: 0;
+          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+          background-size: 160px 160px;
+          opacity: 0.35;
+          pointer-events: none;
+          z-index: 0;
+        }
+
+        /* top border rule */
+        .cp-work-top-rule {
+          position: absolute;
           top: 0; left: 8%; right: 8%;
           height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06) 50%, transparent);
+          background: linear-gradient(90deg, transparent, rgba(253,224,71,0.10) 50%, transparent);
           pointer-events: none;
+          z-index: 1;
         }
 
         /* ─── HEADER ──────────────────────────────── */
         .cp-work-header {
           padding: 0 clamp(20px, 8%, 80px);
           margin-bottom: 50px;
+          position: relative;
+          z-index: 2;
         }
 
         /* pre-label — Inter */
@@ -108,7 +147,7 @@ const Work: React.FC = () => {
         }
         .cp-work-pre-line {
           width: 32px; height: 1px;
-          background: #fde047;
+          background: var(--yellow);
           opacity: 0.5;
           flex-shrink: 0;
         }
@@ -127,16 +166,18 @@ const Work: React.FC = () => {
           font-size: clamp(3.5rem, 11vw, 9rem);
           font-weight: 400;
           font-style: normal;
-          color: #fff;
+          color: var(--white);
           line-height: 0.92;
           letter-spacing: 2px;
           margin: 0 0 16px;
+          /* warm text shadow to reinforce non-black bg */
+          text-shadow: 0 0 80px rgba(253,224,71,0.08);
         }
         .cp-work-title-stroke {
           font-family: var(--font-display);
           font-weight: 400;
           font-style: normal;
-          -webkit-text-stroke: 1.5px #32c5f4;
+          -webkit-text-stroke: 1.5px var(--cyan);
           color: transparent;
           letter-spacing: 2px;
         }
@@ -168,6 +209,8 @@ const Work: React.FC = () => {
           mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
           -webkit-mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
           overflow: hidden;
+          position: relative;
+          z-index: 2;
         }
         .cp-marquee-wrapper:active { cursor: grabbing; }
 
@@ -196,13 +239,13 @@ const Work: React.FC = () => {
           width: 100%;
           height: 100%;
           overflow: hidden;
-          border: 1px solid rgba(255,255,255,0.05);
-          background: #0a0a0a;
+          border: 1px solid rgba(255,255,255,0.06);
+          background: #0d0b07;
           position: relative;
         }
         .cp-film-card:hover .cp-img-box {
           border-color: rgba(50,197,244,0.22);
-          box-shadow: 0 14px 44px rgba(0,0,0,0.7);
+          box-shadow: 0 14px 44px rgba(0,0,0,0.75), 0 0 20px rgba(253,224,71,0.04);
         }
 
         .cp-img-box::before {
@@ -245,8 +288,8 @@ const Work: React.FC = () => {
           inset: 0;
           background: linear-gradient(
             to top,
-            rgba(0,0,0,0.9) 0%,
-            rgba(0,0,0,0.2) 45%,
+            rgba(17,16,9,0.92) 0%,
+            rgba(17,16,9,0.18) 45%,
             transparent 65%
           );
           display: flex;
@@ -284,13 +327,13 @@ const Work: React.FC = () => {
           font-size: clamp(1.8rem, 3vw, 2.8rem);
           font-weight: 400;
           font-style: normal;
-          color: #fff;
+          color: var(--white);
           margin: 0;
           letter-spacing: 1.5px;
           line-height: 1;
           transition: color 0.35s;
         }
-        .cp-film-card:hover .cp-card-title { color: #fde047; }
+        .cp-film-card:hover .cp-card-title { color: var(--yellow); }
 
         /* ─── HINT BAR ────────────────────────────── */
         .cp-work-hint {
@@ -299,6 +342,8 @@ const Work: React.FC = () => {
           align-items: center;
           margin-top: 46px;
           gap: 12px;
+          position: relative;
+          z-index: 2;
         }
 
         .cp-hint-line {
@@ -311,7 +356,7 @@ const Work: React.FC = () => {
         .cp-hint-fill {
           position: absolute;
           width: 100%; height: 100%;
-          background: linear-gradient(90deg, #32c5f4, #fde047);
+          background: linear-gradient(90deg, var(--cyan), var(--yellow));
         }
 
         /* hint text — Inter */
@@ -321,7 +366,7 @@ const Work: React.FC = () => {
           font-weight: 400;
           letter-spacing: 4px;
           text-transform: uppercase;
-          color: rgba(255,255,255,0.5);
+          color: rgba(255,255,255,0.45);
         }
 
         /* ─── RESPONSIVE ──────────────────────────── */
@@ -338,6 +383,8 @@ const Work: React.FC = () => {
       `}</style>
 
       <section className="cp-work-section">
+        <div className="cp-work-top-rule" />
+        <div className="cp-work-noise" />
 
         {/* Header */}
         <div className="cp-work-header">

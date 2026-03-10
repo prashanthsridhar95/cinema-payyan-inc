@@ -22,10 +22,12 @@ const Director = () => {
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;700;900&display=swap');
 
         /* ══════════════════════════════════════════
-           SECTION
+           SECTION — DEEP STEEL BLUE-GREY
+           Film lab · Editing suite · Cinematic craft
         ══════════════════════════════════════════ */
         .dir-section {
-          background: #000;
+          background: #080c12;
+          background: radial-gradient(ellipse at top center, #111e2e 0%, #080c12 55%, #050810 100%);
           padding: 90px 0 110px;
           overflow: hidden;
           position: relative;
@@ -34,13 +36,13 @@ const Director = () => {
           content: '';
           position: absolute; top: 0; left: 8%; right: 8%;
           height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06) 50%, transparent);
+          background: linear-gradient(90deg, transparent, rgba(50,197,244,0.12) 50%, transparent);
         }
         .dir-section::after {
           content: '監';
           position: absolute; right: 2%; bottom: -60px;
           font-size: 28rem; font-family: serif; line-height: 1;
-          color: rgba(255,255,255,0.012);
+          color: rgba(50,197,244,0.04);
           pointer-events: none; user-select: none; z-index: 0;
         }
 
@@ -99,15 +101,15 @@ const Director = () => {
         .dir-heading-yellow { color: #fde047; }
 
         /* ══════════════════════════════════════════
-           FEATURE CARD
+           FEATURE CARD — steel blue tint
         ══════════════════════════════════════════ */
         .dir-card {
           display: grid;
           grid-template-columns: 1fr 1.3fr;
           gap: 60px;
           align-items: center;
-          border: 1px solid rgba(255,255,255,0.06);
-          background: rgba(6,6,6,0.9);
+          border: 1px solid rgba(50,197,244,0.1);
+          background: #0d1520;
           padding: clamp(24px,4vw,48px);
           position: relative;
           overflow: hidden;
@@ -149,7 +151,7 @@ const Director = () => {
         }
         .dir-img-vignette {
           position: absolute; inset: 0;
-          background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.55) 100%);
+          background: linear-gradient(to bottom, transparent 50%, rgba(8,12,18,0.6) 100%);
           pointer-events: none; z-index: 2;
         }
 
@@ -157,15 +159,15 @@ const Director = () => {
         .dir-filmstrip {
           position: absolute; top: 0; left: 0; bottom: 0;
           width: 18px; z-index: 4;
-          background: rgba(0,0,0,0.7);
+          background: rgba(5,8,16,0.85);
           display: flex; flex-direction: column;
           align-items: center; justify-content: space-around;
           padding: 8px 0;
-          border-right: 1px solid rgba(255,255,255,0.06);
+          border-right: 1px solid rgba(50,197,244,0.08);
         }
         .dir-filmstrip-hole {
           width: 8px; height: 8px; border-radius: 1px;
-          background: rgba(253,224,71,0.25); flex-shrink: 0;
+          background: rgba(50,197,244,0.2); flex-shrink: 0;
         }
 
         /* Inter — format badge */
@@ -176,8 +178,8 @@ const Director = () => {
           font-size: clamp(0.44rem, 1vw, 0.54rem);
           font-weight: 400; letter-spacing: 3px;
           color: rgba(255,255,255,0.7);
-          background: rgba(0,0,0,0.78); backdrop-filter: blur(8px);
-          border: 1px solid rgba(255,255,255,0.12);
+          background: rgba(5,8,16,0.88); backdrop-filter: blur(8px);
+          border: 1px solid rgba(50,197,244,0.15);
           padding: 5px 12px; text-transform: uppercase;
         }
         .dir-format-sep { color: #fde047; }
@@ -244,7 +246,7 @@ const Director = () => {
         }
         .dir-mention { color: #32c5f4; font-weight: 700; text-shadow: 0 0 12px rgba(50,197,244,0.2); }
 
-        /* crew */
+        /* crew — steel tinted */
         .dir-crew { display: flex; flex-direction: column; gap: 10px; }
         .dir-crew-label {
           font-family: 'Inter', sans-serif;
@@ -259,8 +261,8 @@ const Director = () => {
           font-size: clamp(0.42rem, 1vw, 0.52rem);
           font-weight: 300; letter-spacing: 2px;
           color: rgba(255,255,255,0.6);
-          background: rgba(255,255,255,0.03);
-          border: 1px solid rgba(255,255,255,0.1);
+          background: rgba(50,197,244,0.04);
+          border: 1px solid rgba(50,197,244,0.12);
           padding: 5px 10px; text-transform: lowercase;
           transition: border-color 0.3s, color 0.3s; cursor: default;
         }

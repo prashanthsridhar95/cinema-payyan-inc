@@ -3,15 +3,15 @@ import { motion } from 'framer-motion';
 import { Images } from './assets/assets';
 
 const sections = [
-  { img: Images.Munai1, title: "THE ARCHITECTS",  desc: "A CINEMAPAYYAN PRODUCT", bg: "#0a0f0e" },
-  { img: Images.Munai2, title: "NARRATIVE DEPTH", desc: "A CINEMAPAYYAN PRODUCT", bg: "#0c0f0a" },
-  { img: Images.Munai3, title: "THE SCRIPT LAB",  desc: "A CINEMAPAYYAN PRODUCT", bg: "#080e0e" },
-  { img: Images.Munai4, title: "ARC CRAFTING",    desc: "A CINEMAPAYYAN PRODUCT", bg: "#0e0e0a" },
-  { img: Images.Munai5, title: "VISIONARY FLOW",  desc: "A CINEMAPAYYAN PRODUCT", bg: "#090a0e" },
-  { img: Images.Munai6, title: "DIALOGUE DESIGN", desc: "A CINEMAPAYYAN PRODUCT", bg: "#0a0e0c" },
-  { img: Images.Munai7, title: "STORY PULSE",     desc: "A CINEMAPAYYAN PRODUCT", bg: "#070a09" },
-  { img: Images.Munai8, title: "MUNAI CORE",      desc: "A CINEMAPAYYAN PRODUCT", bg: "#0d0e0a" },
-  { img: Images.Munai9, title: "FINAL EDITION",   desc: "A CINEMAPAYYAN PRODUCT", bg: "#0a0f0e" },
+  { img: Images.Munai1, title: "THE ARCHITECTS",  desc: "A CINEMAPAYYAN PRODUCT" },
+  { img: Images.Munai2, title: "NARRATIVE DEPTH", desc: "A CINEMAPAYYAN PRODUCT" },
+  { img: Images.Munai3, title: "THE SCRIPT LAB",  desc: "A CINEMAPAYYAN PRODUCT" },
+  { img: Images.Munai4, title: "ARC CRAFTING",    desc: "A CINEMAPAYYAN PRODUCT" },
+  { img: Images.Munai5, title: "VISIONARY FLOW",  desc: "A CINEMAPAYYAN PRODUCT" },
+  { img: Images.Munai6, title: "DIALOGUE DESIGN", desc: "A CINEMAPAYYAN PRODUCT" },
+  { img: Images.Munai7, title: "STORY PULSE",     desc: "A CINEMAPAYYAN PRODUCT" },
+  { img: Images.Munai8, title: "MUNAI CORE",      desc: "A CINEMAPAYYAN PRODUCT" },
+  { img: Images.Munai9, title: "FINAL EDITION",   desc: "A CINEMAPAYYAN PRODUCT" },
 ];
 
 const Munai: React.FC = () => {
@@ -29,45 +29,69 @@ const Munai: React.FC = () => {
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap');
 
         /* ═══════════════════════════════════════════
-           WRAPPER
+           COLORS EXTRACTED FROM Munai1.jpg
+           ─────────────────────────────────────────
+           bg main  : #1c2e22  chalkboard green
+           bg alt   : #172619  darker green rows
+           bg deep  : #111d16  deepest — wrapper
+           gold     : #c9922a  amber headings in img
+           gold lt  : #e8b84b  lighter gold labels
+           chalk    : #e8e4d8  aged white chalk text
+           chalk50  : rgba(232,228,216,0.55)
+           NO image backgrounds anywhere.
         ═══════════════════════════════════════════ */
+
         .cp-mn-wrapper {
           width: 100%;
-          background: #000;
-          color: #fff;
+          background: #111d16;
+          color: #e8e4d8;
         }
 
-        /* ═══════════════════════════════════════════
-           HEADER
-        ═══════════════════════════════════════════ */
+        /* ── HEADER ─────────────────────────────── */
         .cp-mn-header {
           text-align: center;
           padding: 110px 20px 90px;
-          background: #000;
+          background: #1c2e22;
           position: relative;
           overflow: hidden;
         }
 
-        .cp-mn-header::before,
+        /* warm gold center glow */
+        .cp-mn-header::before {
+          content: '';
+          position: absolute;
+          top: 0; left: 8%; right: 8%;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(201,146,42,0.30), transparent);
+          z-index: 1;
+        }
         .cp-mn-header::after {
           content: '';
           position: absolute;
-          left: 8%; right: 8%;
+          bottom: 28px; left: 8%; right: 8%;
           height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(253,224,71,0.25), transparent);
+          background: linear-gradient(90deg, transparent, rgba(201,146,42,0.30), transparent);
+          z-index: 1;
         }
-        .cp-mn-header::before { top: 28px; }
-        .cp-mn-header::after  { bottom: 28px; }
 
+        .cp-mn-header-glow {
+          position: absolute;
+          top: 50%; left: 50%;
+          transform: translate(-50%, -50%);
+          width: 700px; height: 500px;
+          background: radial-gradient(ellipse, rgba(201,146,42,0.07) 0%, transparent 65%);
+          pointer-events: none; z-index: 0;
+        }
+
+        /* kanji watermark — gold tint */
         .cp-mn-kanji {
           position: absolute;
           left: 50%; top: 50%;
           transform: translate(-50%, -50%);
           font-size: 38rem;
-          color: rgba(255,255,255,0.008);
+          color: rgba(201,146,42,0.04);
           font-family: serif; line-height: 1;
-          pointer-events: none; user-select: none;
-          z-index: 0;
+          pointer-events: none; user-select: none; z-index: 0;
         }
 
         .cp-mn-header-pre {
@@ -76,88 +100,80 @@ const Munai: React.FC = () => {
         }
         .cp-mn-header-pre-line {
           width: 32px; height: 1px;
-          background: #fde047; opacity: 0.5;
+          background: #c9922a; opacity: 0.6;
         }
         .cp-mn-header-pre-text {
           font-family: 'Inter', sans-serif;
-          font-size: 0.65rem;
-          font-weight: 600;
+          font-size: 0.65rem; font-weight: 600;
           letter-spacing: 5px;
-          color: rgba(253,224,71,0.85); text-transform: uppercase;
+          color: #e8b84b;
+          text-transform: uppercase;
         }
 
-        /* giant display title */
         .cp-mn-logo {
           font-family: 'Bebas Neue', sans-serif;
           font-size: clamp(72px, 14vw, 170px);
           font-weight: 400;
-          color: #fde047;
+          color: #e8b84b;
           letter-spacing: 8px; line-height: 0.9;
-          text-shadow: 0 0 80px rgba(253,224,71,0.12);
+          text-shadow: 0 0 80px rgba(201,146,42,0.22);
           position: relative; z-index: 2;
           margin: 0 0 14px;
         }
 
         .cp-mn-meta {
           font-family: 'Inter', sans-serif;
-          font-size: 0.65rem;
-          font-weight: 500;
+          font-size: 0.65rem; font-weight: 500;
           letter-spacing: 6px;
-          color: rgba(255,255,255,0.65);
+          color: rgba(232,228,216,0.55);
           text-transform: uppercase;
           position: relative; z-index: 2;
         }
 
         .cp-mn-header-rule {
           width: 120px; height: 1px;
-          background: linear-gradient(90deg, transparent, #32c5f4, #fde047, transparent);
-          margin: 18px auto 0;
-          opacity: 0.5;
+          background: linear-gradient(90deg, transparent, #c9922a, #e8b84b, transparent);
+          margin: 18px auto 0; opacity: 0.55;
           position: relative; z-index: 2;
         }
 
-        /* ═══════════════════════════════════════════
-           SECTIONS
-        ═══════════════════════════════════════════ */
+        /* ── SECTIONS ───────────────────────────── */
         .cp-mn-section {
           display: flex;
-          align-items: center;
-          justify-content: center;
+          align-items: center; justify-content: center;
           min-height: 90vh;
           padding: 80px 9%;
           gap: 90px;
-          position: relative;
-          overflow: hidden;
-          transition: background-color 1.2s ease;
+          position: relative; overflow: hidden;
         }
 
-        .cp-mn-section.row         { flex-direction: row; }
-        .cp-mn-section.row-reverse { flex-direction: row-reverse; }
+        /* even rows — main chalk green */
+        .cp-mn-section.row         { background: #1c2e22; flex-direction: row; }
+        /* odd rows  — darker chalk green */
+        .cp-mn-section.row-reverse { background: #172619; flex-direction: row-reverse; }
 
+        /* top separator */
         .cp-mn-section::before {
           content: '';
           position: absolute;
-          top: 0; left: 6%; right: 6%;
-          height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05) 50%, transparent);
-          pointer-events: none;
+          top: 0; left: 6%; right: 6%; height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(201,146,42,0.14) 50%, transparent);
+          pointer-events: none; z-index: 1;
         }
 
         /* section number watermark */
         .cp-mn-section-num {
           position: absolute;
           font-family: 'Bebas Neue', sans-serif;
-          font-size: 18rem;
-          font-weight: 400;
-          color: rgba(255,255,255,0.018);
+          font-size: 18rem; font-weight: 400;
+          color: rgba(201,146,42,0.05);
           line-height: 1; pointer-events: none; user-select: none;
-          z-index: 0;
-          letter-spacing: 5px;
+          z-index: 0; letter-spacing: 5px;
         }
         .cp-mn-section.row         .cp-mn-section-num { right: 5%; bottom: -40px; }
         .cp-mn-section.row-reverse .cp-mn-section-num { left: 5%;  bottom: -40px; }
 
-        /* ─── TEXT BLOCK ────────────────────────── */
+        /* ── TEXT ───────────────────────────────── */
         .cp-mn-text {
           flex: 1; max-width: 460px;
           position: relative; z-index: 2;
@@ -169,59 +185,55 @@ const Munai: React.FC = () => {
         }
         .cp-mn-text-pre-line {
           width: 28px; height: 1px;
-          background: #fde047; opacity: 0.4;
+          background: #c9922a; opacity: 0.5;
         }
         .cp-mn-text-pre-txt {
           font-family: 'Inter', sans-serif;
-          font-size: 0.65rem;
-          font-weight: 600;
+          font-size: 0.65rem; font-weight: 600;
           letter-spacing: 5px;
-          color: rgba(253,224,71,0.85); text-transform: uppercase;
+          color: #e8b84b; text-transform: uppercase;
         }
 
-        /* section title */
+        /* title — aged chalk white */
         .cp-mn-title {
           font-family: 'Bebas Neue', sans-serif;
           font-size: clamp(3rem, 6vw, 6rem);
           font-weight: 400;
-          color: #fff; line-height: 0.92;
-          letter-spacing: 3px; margin: 0 0 14px;
+          color: #e8e4d8;
+          line-height: 0.92; letter-spacing: 3px; margin: 0 0 14px;
+          text-shadow: 0 1px 0 rgba(0,0,0,0.35);
         }
 
         .cp-mn-rule {
           width: 100%; height: 1px;
-          background: linear-gradient(90deg, rgba(50,197,244,0.35), rgba(253,224,71,0.2), transparent);
+          background: linear-gradient(90deg, rgba(201,146,42,0.45), rgba(232,228,216,0.08), transparent);
           margin-bottom: 22px;
         }
 
         .cp-mn-desc {
           font-family: 'Inter', sans-serif;
-          font-size: 0.65rem;
-          font-weight: 500;
+          font-size: 0.65rem; font-weight: 500;
           letter-spacing: 5px;
-          color: rgba(255,255,255,0.7); text-transform: uppercase;
-          line-height: 2;
+          color: rgba(232,228,216,0.55);
+          text-transform: uppercase; line-height: 2;
         }
 
-        /* CTA link */
+        /* CTA */
         .cp-mn-section-cta {
           display: inline-flex; align-items: center; gap: 10px;
-          margin-top: 28px;
-          position: relative; overflow: hidden;
+          margin-top: 28px; position: relative; overflow: hidden;
           padding: 11px 24px;
-          border: 1px solid rgba(253,224,71,0.25);
-          color: rgba(253,224,71,0.9);
+          border: 1px solid rgba(201,146,42,0.40);
+          color: #e8b84b;
           text-decoration: none;
           font-family: 'Inter', sans-serif;
-          font-size: 0.65rem;
-          font-weight: 600;
-          letter-spacing: 4px;
-          text-transform: uppercase;
+          font-size: 0.65rem; font-weight: 600;
+          letter-spacing: 4px; text-transform: uppercase;
           transition: color 0.4s;
         }
         .cp-mn-section-cta::before {
           content: ''; position: absolute; inset: 0;
-          background: #fde047;
+          background: #c9922a;
           transform: scaleX(0); transform-origin: left; z-index: 0;
           transition: transform 0.4s cubic-bezier(0.77,0,0.18,1);
         }
@@ -229,53 +241,49 @@ const Munai: React.FC = () => {
         .cp-mn-section-cta:hover { color: #000; }
         .cp-mn-section-cta span { position: relative; z-index: 1; }
 
-        /* ─── IMAGE BLOCK ───────────────────────── */
+        /* ── IMAGE ──────────────────────────────── */
         .cp-mn-img-block {
           flex: 1.6;
           display: flex; justify-content: center;
           position: relative; z-index: 2;
         }
 
-        .cp-mn-img-frame {
-          position: relative; display: inline-block;
-        }
+        .cp-mn-img-frame { position: relative; display: inline-block; }
 
         .cp-mn-img-frame::before {
           content: '';
           position: absolute; top: -8px; left: -8px;
           width: 24px; height: 24px;
-          border-top: 1px solid rgba(253,224,71,0.4);
-          border-left: 1px solid rgba(253,224,71,0.4);
+          border-top: 1px solid rgba(201,146,42,0.55);
+          border-left: 1px solid rgba(201,146,42,0.55);
           z-index: 5; pointer-events: none;
         }
         .cp-mn-img-frame::after {
           content: '';
           position: absolute; bottom: -8px; right: -8px;
           width: 24px; height: 24px;
-          border-bottom: 1px solid rgba(50,197,244,0.35);
-          border-right: 1px solid rgba(50,197,244,0.35);
+          border-bottom: 1px solid rgba(50,197,244,0.30);
+          border-right: 1px solid rgba(50,197,244,0.30);
           z-index: 5; pointer-events: none;
         }
 
         .cp-mn-img-tag {
-          position: absolute;
-          top: 10px; right: 10px;
+          position: absolute; top: 10px; right: 10px;
           font-family: 'Inter', sans-serif;
-          font-size: 0.58rem;
-          font-weight: 600;
+          font-size: 0.58rem; font-weight: 600;
           letter-spacing: 3px;
-          color: #000; background: #fde047;
+          color: #000; background: #c9922a;
           padding: 3px 8px; z-index: 6;
-          text-transform: uppercase;
-          pointer-events: none;
+          text-transform: uppercase; pointer-events: none;
         }
 
         .cp-mn-img {
           max-width: 100%; max-height: 78vh;
           width: auto; height: auto;
-          object-fit: contain;
-          display: block;
-          box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+          object-fit: contain; display: block;
+          box-shadow:
+            0 40px 100px rgba(0,0,0,0.65),
+            0 0 30px rgba(201,146,42,0.06);
           transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
         }
         .cp-mn-img-frame:hover .cp-mn-img { transform: scale(1.015); }
@@ -283,44 +291,35 @@ const Munai: React.FC = () => {
         .cp-mn-img-scan {
           position: absolute; bottom: 0; left: 0; right: 0;
           height: 2px;
-          background: linear-gradient(90deg, #32c5f4, #fde047);
+          background: linear-gradient(90deg, #c9922a, #e8b84b);
           transform: scaleX(0); transform-origin: left; z-index: 6;
           transition: transform 0.5s cubic-bezier(0.77,0,0.18,1);
           pointer-events: none;
         }
         .cp-mn-img-frame:hover .cp-mn-img-scan { transform: scaleX(1); }
 
-        /* ═══════════════════════════════════════════
-           FIXED CTA
-        ═══════════════════════════════════════════ */
+        /* ── FIXED CTA ──────────────────────────── */
         .cp-mn-cta {
           position: fixed;
           bottom: 38px; right: 38px;
-          z-index: 1000;
-          overflow: hidden;
+          z-index: 1000; overflow: hidden;
           display: flex; align-items: center;
           padding: 16px 32px;
-          border: 1px solid #fde047;
-          background: #fde047;
-          color: #000;
-          text-decoration: none;
+          border: 1px solid #c9922a;
+          background: #c9922a;
+          color: #000; text-decoration: none;
           font-family: 'Inter', sans-serif;
-          font-size: 0.65rem;
-          font-weight: 700;
-          letter-spacing: 4px;
-          text-transform: uppercase;
+          font-size: 0.65rem; font-weight: 700;
+          letter-spacing: 4px; text-transform: uppercase;
           opacity: 0; transform: translateY(20px);
           transition: opacity 0.5s cubic-bezier(0.22,1,0.36,1),
-                      transform 0.5s cubic-bezier(0.22,1,0.36,1),
-                      background 0.35s, color 0.35s;
-          box-shadow: 0 8px 30px rgba(253,224,71,0.2);
+                      transform 0.5s cubic-bezier(0.22,1,0.36,1);
+          box-shadow: 0 8px 30px rgba(201,146,42,0.25);
         }
-        .cp-mn-cta.show {
-          opacity: 1; transform: translateY(0);
-        }
+        .cp-mn-cta.show { opacity: 1; transform: translateY(0); }
         .cp-mn-cta::before {
           content: ''; position: absolute; inset: 0;
-          background: #32c5f4;
+          background: #e8e4d8;
           transform: scaleX(0); transform-origin: left; z-index: 0;
           transition: transform 0.4s cubic-bezier(0.77,0,0.18,1);
         }
@@ -328,9 +327,7 @@ const Munai: React.FC = () => {
         .cp-mn-cta:hover { color: #000; }
         .cp-mn-cta span { position: relative; z-index: 1; }
 
-        /* ═══════════════════════════════════════════
-           RESPONSIVE
-        ═══════════════════════════════════════════ */
+        /* ── RESPONSIVE ─────────────────────────── */
         @media (max-width: 1100px) {
           .cp-mn-section {
             flex-direction: column !important;
@@ -343,20 +340,16 @@ const Munai: React.FC = () => {
           .cp-mn-section-cta { margin: 24px auto 0; }
         }
         @media (max-width: 768px) {
-          .cp-mn-cta {
-            bottom: 16px; right: 16px;
-            padding: 10px 16px; font-size: 0.6rem;
-          }
+          .cp-mn-cta { bottom: 16px; right: 16px; padding: 10px 16px; font-size: 0.6rem; }
         }
         @media (max-width: 480px) {
-          .cp-mn-logo  { font-size: 72px; }
-          .cp-mn-cta   { bottom: 12px; right: 12px; padding: 9px 12px; }
+          .cp-mn-logo { font-size: 72px; }
+          .cp-mn-cta  { bottom: 12px; right: 12px; padding: 9px 12px; }
         }
       `}</style>
 
       <div className="cp-mn-wrapper">
 
-        {/* ── FIXED CTA ────────────────────────────── */}
         <a
           href="https://woolen-sodalite-e73.notion.site/16909085b6758040a618e11e9b9dabef"
           target="_blank" rel="noreferrer"
@@ -365,8 +358,8 @@ const Munai: React.FC = () => {
           <span>MUNAI — FOCUS GROUP SUBMISSION</span>
         </a>
 
-        {/* ── HEADER ───────────────────────────────── */}
         <header className="cp-mn-header">
+          <div className="cp-mn-header-glow" />
           <div className="cp-mn-kanji">文</div>
 
           <div className="cp-mn-header-pre">
@@ -388,13 +381,11 @@ const Munai: React.FC = () => {
           <div className="cp-mn-header-rule" />
         </header>
 
-        {/* ── SECTIONS ─────────────────────────────── */}
         <main>
           {sections.map((item, i) => (
             <section
               key={i}
               className={`cp-mn-section ${i % 2 === 0 ? 'row' : 'row-reverse'}`}
-              style={{ backgroundColor: item.bg }}
             >
               <span className="cp-mn-section-num">{String(i + 1).padStart(2, '0')}</span>
 

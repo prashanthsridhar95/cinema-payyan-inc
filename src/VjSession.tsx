@@ -135,15 +135,14 @@ const AboutWork = () => {
   return (
     <>
       <style>{`
-        /* ── same font stack as Hero ── */
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;700;900&display=swap');
 
         /* ══════════════════════════════════════════
-           SECTION SHELL
+           SECTION SHELL — DEEP NAVY (not black)
         ══════════════════════════════════════════ */
         .vjl-section {
-          background: #000;
-          background: radial-gradient(circle at center, #080a0f 0%, #000000 100%);
+          background: #0a0f1a;
+          background: radial-gradient(circle at center, #0f1628 0%, #0a0f1a 100%);
           padding: 90px 0 100px;
           overflow: hidden;
           position: relative;
@@ -152,7 +151,7 @@ const AboutWork = () => {
           content: '';
           position: absolute; top: 0; left: 8%; right: 8%;
           height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05) 50%, transparent);
+          background: linear-gradient(90deg, transparent, rgba(50,197,244,0.08) 50%, transparent);
         }
 
         /* ══════════════════════════════════════════
@@ -184,7 +183,6 @@ const AboutWork = () => {
         }
         .vjl-header-icon.cyan { border-color: rgba(50,197,244,0.3); color: #32c5f4; }
 
-        /* Inter — overline label (same as h3-pre-txt) */
         .vjl-overline {
           display: block;
           font-family: 'Inter', sans-serif;
@@ -194,7 +192,6 @@ const AboutWork = () => {
           text-transform: uppercase; margin-bottom: 6px;
         }
 
-        /* Bebas Neue — section heading (same style as h3-name) */
         .vjl-heading {
           font-family: 'Bebas Neue', sans-serif;
           font-size: clamp(1.8rem, 4.5vw, 3.2rem);
@@ -205,14 +202,12 @@ const AboutWork = () => {
         .vjl-heading-yellow { color: #fde047; }
         .vjl-heading-cyan   { color: #32c5f4; }
 
-        /* Bebas Neue — episode count (same as h3-ep-count) */
         .vjl-ep-count {
           font-family: 'Bebas Neue', sans-serif;
           font-size: clamp(1.8rem, 4vw, 2.8rem);
           font-weight: 400; color: rgba(253,224,71,0.25);
           line-height: 1; flex-shrink: 0; letter-spacing: 2px;
         }
-        /* Inter — episode label */
         .vjl-ep-lbl {
           display: block;
           font-family: 'Inter', sans-serif;
@@ -223,7 +218,7 @@ const AboutWork = () => {
         }
 
         /* ══════════════════════════════════════════
-           LOOP TRACK — same on ALL screen sizes
+           LOOP TRACK
         ══════════════════════════════════════════ */
         .vjl-track-wrap {
           position: relative;
@@ -234,13 +229,14 @@ const AboutWork = () => {
           position: absolute; top: 0; bottom: 0; width: 80px;
           z-index: 5; pointer-events: none;
         }
+        /* ── fade edges match navy bg ── */
         .vjl-track-wrap::before {
           left: 0;
-          background: linear-gradient(to right, #000, transparent);
+          background: linear-gradient(to right, #0a0f1a, transparent);
         }
         .vjl-track-wrap::after {
           right: 0;
-          background: linear-gradient(to left, #000, transparent);
+          background: linear-gradient(to left, #0a0f1a, transparent);
         }
 
         .vjl-track {
@@ -253,13 +249,12 @@ const AboutWork = () => {
         .vjl-track::-webkit-scrollbar { display: none; }
 
         /* ══════════════════════════════════════════
-           CARD
+           CARD — navy bg
         ══════════════════════════════════════════ */
         .vjl-card {
-          /* fluid width: 340px desktop → 240px mobile */
           flex: 0 0 clamp(220px, 35vw, 400px);
-          background: rgba(10,10,10,0.9);
-          border: 1px solid rgba(255,255,255,0.07);
+          background: #0d1220;
+          border: 1px solid rgba(50,197,244,0.08);
           cursor: pointer;
           transition: border-color 0.35s, transform 0.4s, box-shadow 0.4s;
           position: relative;
@@ -274,7 +269,7 @@ const AboutWork = () => {
         .vjl-media {
           position: relative;
           width: 100%; aspect-ratio: 16/9;
-          overflow: hidden; background: #0a0a0a;
+          overflow: hidden; background: #080d15;
         }
         .vjl-thumb, .vjl-video {
           position: absolute; inset: 0;
@@ -297,7 +292,6 @@ const AboutWork = () => {
           z-index: 2; pointer-events: none;
         }
 
-        /* Bebas Neue — big ghost number */
         .vjl-num-tag {
           position: absolute; top: 8px; left: 10px; z-index: 4;
           font-family: 'Bebas Neue', sans-serif;
@@ -327,9 +321,10 @@ const AboutWork = () => {
         }
         .vjl-active-bar--on { transform: scaleX(1); }
 
+        /* ── card info — navy bg ── */
         .vjl-info {
           padding: 12px 14px 14px;
-          background: rgba(0,0,0,0.9);
+          background: #080d15;
         }
         .vjl-info-row {
           display: flex; align-items: center;
@@ -337,7 +332,6 @@ const AboutWork = () => {
           margin-bottom: 5px;
         }
 
-        /* Inter — SESSION label */
         .vjl-session-lbl {
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.44rem, 1.2vw, 0.56rem);
@@ -352,7 +346,6 @@ const AboutWork = () => {
         }
         .vjl-card:hover .vjl-ext { color: #32c5f4; }
 
-        /* Bebas Neue — guest name */
         .vjl-title {
           font-family: 'Bebas Neue', sans-serif;
           font-size: clamp(1rem, 2.5vw, 1.4rem);
@@ -360,7 +353,6 @@ const AboutWork = () => {
           color: #fff; margin: 0 0 4px; line-height: 1.1;
         }
 
-        /* Inter — role */
         .vjl-role {
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.42rem, 1vw, 0.54rem);
@@ -372,7 +364,7 @@ const AboutWork = () => {
         .vjl-card:hover .vjl-role { color: rgba(50,197,244,0.75); }
 
         /* ══════════════════════════════════════════
-           TICKER — shown on ALL sizes
+           TICKER
         ══════════════════════════════════════════ */
         .vjl-ticker {
           display: flex;
@@ -404,7 +396,6 @@ const AboutWork = () => {
           border-right: 1px solid rgba(255,255,255,0.08);
         }
 
-        /* Bebas Neue — big index number */
         .vjl-ticker-idx {
           font-family: 'Bebas Neue', sans-serif;
           font-size: clamp(1.8rem, 5vw, 2.8rem);
@@ -420,7 +411,6 @@ const AboutWork = () => {
           display: flex; flex-direction: column; gap: 4px;
         }
 
-        /* Bebas Neue — active name in ticker */
         .vjl-ticker-name {
           font-family: 'Bebas Neue', sans-serif;
           font-size: clamp(0.9rem, 2.5vw, 1.1rem);
@@ -428,7 +418,6 @@ const AboutWork = () => {
           color: #fff; line-height: 1;
         }
 
-        /* Inter — active role in ticker */
         .vjl-ticker-role {
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.42rem, 1vw, 0.54rem);
@@ -437,7 +426,6 @@ const AboutWork = () => {
           color: rgba(50,197,244,0.8); text-transform: uppercase;
         }
 
-        /* Inter — /10 total */
         .vjl-ticker-total {
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.44rem, 1vw, 0.56rem);
@@ -448,7 +436,6 @@ const AboutWork = () => {
           align-self: center;
         }
 
-        /* Inter — pause hint */
         .vjl-pause-hint {
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.42rem, 1.2vw, 0.56rem);
@@ -497,14 +484,13 @@ const AboutWork = () => {
           position: absolute; bottom: 0; left: 0; right: 0;
           display: flex; align-items: center; gap: 12px;
           padding: 12px 16px;
-          background: rgba(0,0,0,0.82);
-          border-top: 1px solid rgba(255,255,255,0.06);
+          background: rgba(8,13,21,0.92);
+          border-top: 1px solid rgba(50,197,244,0.08);
           z-index: 4;
         }
         .vjl-rj-strip-left {
           display: flex; align-items: center; gap: 7px; flex-shrink: 0;
         }
-        /* Inter — ON AIR */
         .vjl-rj-on-air {
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.44rem, 1.2vw, 0.56rem);
@@ -520,7 +506,6 @@ const AboutWork = () => {
         }
         @keyframes vjlRec { 0%,100%{opacity:1} 50%{opacity:0} }
 
-        /* Bebas Neue — strip title */
         .vjl-rj-strip-title {
           font-family: 'Bebas Neue', sans-serif;
           font-size: clamp(0.75rem, 2vw, 1rem);
@@ -542,14 +527,12 @@ const AboutWork = () => {
           background: #fde047;
           display: flex; align-items: center; justify-content: center;
         }
-        /* Bebas Neue — hover CTA */
         .vjl-rj-hover-cta {
           font-family: 'Bebas Neue', sans-serif;
           font-size: clamp(0.85rem, 2vw, 1rem);
           letter-spacing: 5px;
           color: #fff; text-transform: uppercase;
         }
-        /* Inter — hover sub */
         .vjl-rj-hover-sub {
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.42rem, 1vw, 0.52rem);
@@ -570,22 +553,22 @@ const AboutWork = () => {
         }
         @keyframes vjlWave { 0%,100%{height:4px} 50%{height:20px} }
 
+        /* ── RJ meta panel — navy bg ── */
         .vjl-rj-meta {
           display: flex; flex-direction: column;
           gap: 0;
-          border: 1px solid rgba(255,255,255,0.07);
-          background: rgba(255,255,255,0.02);
+          border: 1px solid rgba(50,197,244,0.08);
+          background: #0d1220;
           align-self: stretch;
         }
         .vjl-rj-meta-item {
           flex: 1; display: flex; flex-direction: column;
           align-items: flex-start; gap: 6px;
           padding: 22px 24px;
-          border-bottom: 1px solid rgba(255,255,255,0.07);
+          border-bottom: 1px solid rgba(50,197,244,0.07);
         }
         .vjl-rj-meta-item:last-child { border-bottom: none; }
 
-        /* Bebas Neue — stat numbers */
         .vjl-rj-meta-num {
           font-family: 'Bebas Neue', sans-serif;
           font-size: clamp(1.8rem, 3.5vw, 2.6rem);
@@ -594,7 +577,6 @@ const AboutWork = () => {
         }
         .vjl-rj-meta-plus { font-size: 0.6em; vertical-align: super; color: #fde047; }
 
-        /* Inter — stat labels */
         .vjl-rj-meta-lbl {
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.44rem, 1vw, 0.54rem);
@@ -604,32 +586,28 @@ const AboutWork = () => {
         }
 
         /* ══════════════════════════════════════════
-           RESPONSIVE — only layout tweaks, no style change
+           RESPONSIVE
         ══════════════════════════════════════════ */
         @media (max-width: 900px) {
           .vjl-rj-stage { grid-template-columns: 1fr; gap: 32px; }
           .vjl-rj-meta  { flex-direction: row; }
-          .vjl-rj-meta-item { border-bottom: none; border-right: 1px solid rgba(255,255,255,0.07); }
+          .vjl-rj-meta-item { border-bottom: none; border-right: 1px solid rgba(50,197,244,0.07); }
           .vjl-rj-meta-item:last-child { border-right: none; }
         }
 
         @media (max-width: 640px) {
           .vjl-section   { padding: 60px 0 70px; }
-          /* header: collapse rules, keep content centred */
           .vjl-header    { justify-content: center; }
           .vjl-header-rule { display: none; }
-          /* card already shrinks via clamp — just tighten track padding */
           .vjl-track     { padding: 16px 40px 20px; gap: 12px; }
           .vjl-track-wrap::before,
           .vjl-track-wrap::after { width: 40px; }
-          /* ticker: shrink panel slightly */
           .vjl-ticker    { padding: 0 clamp(12px,4%,40px); }
           .vjl-ticker-panel { padding: 0 12px; gap: 8px; }
           .vjl-ticker-total { display: none; }
-          /* RJ grid */
           .vjl-rj-block  { padding: 0 16px; }
           .vjl-rj-meta   { flex-direction: column; }
-          .vjl-rj-meta-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); }
+          .vjl-rj-meta-item { border-right: none; border-bottom: 1px solid rgba(50,197,244,0.07); }
           .vjl-rj-meta-item:last-child { border-bottom: none; }
         }
       `}</style>
@@ -690,7 +668,7 @@ const AboutWork = () => {
             </div>
           </div>
 
-          {/* ── TICKER — shown on all sizes ── */}
+          {/* ── TICKER ── */}
           <div className="vjl-ticker">
             <div className="vjl-ticker-bar">
               <div

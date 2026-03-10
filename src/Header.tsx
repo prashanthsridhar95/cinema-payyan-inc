@@ -56,6 +56,11 @@ function Header({ onScrollRequest, refs, isMenuOpen, setIsMenuOpen }: HeaderProp
 
         /* ═══════════════════════════════════════════
            DESKTOP HEADER
+           Glass bar floats over every section.
+           Resting: warm-tinted near-black glass
+           Scrolled: deep #0a0800 amber-black solid
+                     — matches BookingContact/Footer
+                       end-of-site warmth
         ═══════════════════════════════════════════ */
         .cp-hd-fixed {
           position: fixed;
@@ -68,19 +73,26 @@ function Header({ onScrollRequest, refs, isMenuOpen, setIsMenuOpen }: HeaderProp
         }
         .cp-hd-fixed.scrolled { padding-top: 8px; }
 
+        /* resting — warm amber tint glass, not cold blue */
         .cp-hd-bar {
-          background: rgba(0,0,0,0.35);
+          background: rgba(8, 5, 0, 0.38);
           backdrop-filter: blur(18px);
           -webkit-backdrop-filter: blur(18px);
-          border: 1px solid rgba(255,255,255,0.07);
-          box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+          border: 1px solid rgba(253,224,71,0.06);
+          box-shadow:
+            0 8px 32px rgba(0,0,0,0.45),
+            0 1px 0 rgba(253,224,71,0.04) inset;
           display: flex;
           transition: background 0.5s, border-color 0.5s, box-shadow 0.5s;
         }
+
+        /* scrolled — deep amber-black solid, matches site finale */
         .cp-hd-fixed.scrolled .cp-hd-bar {
-          background: rgba(0,0,0,0.94);
-          border-color: rgba(253,224,71,0.18);
-          box-shadow: 0 4px 30px rgba(253,224,71,0.06);
+          background: rgba(10, 8, 0, 0.96);
+          border-color: rgba(253,224,71,0.16);
+          box-shadow:
+            0 4px 30px rgba(0,0,0,0.6),
+            0 0 20px rgba(253,224,71,0.04);
         }
 
         /* ── NAV ITEM ──────────────────────────── */
@@ -93,9 +105,10 @@ function Header({ onScrollRequest, refs, isMenuOpen, setIsMenuOpen }: HeaderProp
           transition: background 0.3s;
         }
 
+        /* hover sweep — warm amber tint */
         .cp-hd-fill {
           position: absolute; inset: 0;
-          background: rgba(253,224,71,0.06);
+          background: rgba(253,224,71,0.055);
           transform: scaleX(0); transform-origin: left; z-index: 0;
           transition: transform 0.35s cubic-bezier(0.77,0,0.18,1);
           pointer-events: none;
@@ -105,10 +118,9 @@ function Header({ onScrollRequest, refs, isMenuOpen, setIsMenuOpen }: HeaderProp
         .cp-hd-label {
           position: relative; z-index: 5;
           font-family: 'Inter', sans-serif;
-          font-size: 0.65rem;
-          font-weight: 600;
+          font-size: 0.65rem; font-weight: 600;
           letter-spacing: 4px;
-          color: rgba(255,255,255,0.85);
+          color: rgba(255,255,255,0.80);
           text-transform: uppercase;
           transition: color 0.3s, letter-spacing 0.3s;
           white-space: nowrap;
@@ -119,6 +131,7 @@ function Header({ onScrollRequest, refs, isMenuOpen, setIsMenuOpen }: HeaderProp
         }
         .cp-hd-item.active .cp-hd-label { color: #fde047; }
 
+        /* active underline — gold */
         .cp-hd-active-bar {
           position: absolute;
           bottom: 0; left: 15%;
@@ -127,48 +140,61 @@ function Header({ onScrollRequest, refs, isMenuOpen, setIsMenuOpen }: HeaderProp
           z-index: 10;
         }
 
+        /* separator between items */
         .cp-hd-sep {
           width: 1px;
-          background: rgba(255,255,255,0.06);
+          background: rgba(253,224,71,0.06);
           align-self: stretch;
           flex-shrink: 0;
         }
 
         /* ═══════════════════════════════════════════
            MOBILE OVERLAY
+           Deep amber-black — #080500 — not pure black.
+           Matches the warm dark end of the site.
         ═══════════════════════════════════════════ */
         .cp-hd-overlay {
           position: fixed; inset: 0;
-          background: rgba(0,0,0,0.97);
+          background: rgba(8, 5, 0, 0.98);
           z-index: 1000;
           display: flex; align-items: center; justify-content: center;
           backdrop-filter: blur(20px);
         }
 
+        /* kanji watermark — warm amber tint */
         .cp-hd-overlay::before {
           content: '映';
           position: absolute;
           left: 50%; top: 50%;
           transform: translate(-50%, -50%);
           font-size: 40rem; font-family: serif;
-          color: rgba(255,255,255,0.012);
+          color: rgba(253,180,30,0.025);
           pointer-events: none; user-select: none;
           line-height: 1;
         }
 
+        /* top rule — gold gradient */
         .cp-hd-overlay::after {
           content: '';
           position: absolute;
-          top: 0; left: 8%; right: 8%;
-          height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(253,224,71,0.2), transparent);
+          top: 0; left: 8%; right: 8%; height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(253,224,71,0.22), transparent);
           pointer-events: none;
+        }
+
+        /* ambient warm glow — centre of overlay */
+        .cp-hd-overlay-glow {
+          position: absolute;
+          top: 50%; left: 50%;
+          transform: translate(-50%, -50%);
+          width: 600px; height: 600px;
+          background: radial-gradient(circle, rgba(253,180,30,0.04) 0%, transparent 65%);
+          pointer-events: none; z-index: 0;
         }
 
         .cp-hd-mobile-nav {
           display: flex; flex-direction: column;
-          align-items: center;
-          gap: 0;
+          align-items: center; gap: 0;
           position: relative; z-index: 5;
           width: 100%; padding: 0 8%;
         }
@@ -178,24 +204,24 @@ function Header({ onScrollRequest, refs, isMenuOpen, setIsMenuOpen }: HeaderProp
           display: flex; align-items: center;
           justify-content: space-between;
           padding: 22px 0;
-          border-bottom: 1px solid rgba(255,255,255,0.05);
+          /* separator — warm amber instead of cold white */
+          border-bottom: 1px solid rgba(253,224,71,0.06);
           cursor: pointer;
           position: relative; overflow: hidden;
         }
 
         .cp-hd-mobile-num {
           font-family: 'Inter', sans-serif;
-          font-size: 0.6rem;
-          font-weight: 600;
+          font-size: 0.6rem; font-weight: 600;
           letter-spacing: 3px;
-          color: rgba(253,224,71,0.7);
+          color: rgba(253,200,71,0.65);
         }
 
         .cp-hd-mobile-label {
           font-family: 'Bebas Neue', sans-serif;
           font-size: clamp(2.8rem, 8vw, 5rem);
           font-weight: 400;
-          color: rgba(255,255,255,0.85);
+          color: rgba(255,255,255,0.82);
           letter-spacing: 3px; line-height: 1;
           transition: color 0.3s, letter-spacing 0.3s;
           position: relative; z-index: 2;
@@ -208,32 +234,34 @@ function Header({ onScrollRequest, refs, isMenuOpen, setIsMenuOpen }: HeaderProp
 
         .cp-hd-mobile-arrow {
           font-family: 'Inter', sans-serif;
-          font-size: 0.7rem;
-          font-weight: 500;
+          font-size: 0.7rem; font-weight: 500;
           letter-spacing: 2px;
-          color: rgba(255,255,255,0.55);
+          color: rgba(255,255,255,0.40);
           transition: color 0.3s, transform 0.3s;
         }
         .cp-hd-mobile-item:hover .cp-hd-mobile-arrow,
         .cp-hd-mobile-item.active .cp-hd-mobile-arrow {
-          color: rgba(50,197,244,0.5);
+          color: rgba(50,197,244,0.55);
           transform: translateX(6px);
         }
 
+        /* hover fill — warm amber sweep */
         .cp-hd-mobile-fill {
           position: absolute; inset: 0;
-          background: rgba(253,224,71,0.03);
+          background: rgba(253,224,71,0.028);
           transform: scaleX(0); transform-origin: left; z-index: 1;
           transition: transform 0.4s cubic-bezier(0.77,0,0.18,1);
           pointer-events: none;
         }
         .cp-hd-mobile-item:hover .cp-hd-mobile-fill { transform: scaleX(1); }
 
+        /* active left bar — gold */
         .cp-hd-mobile-active-bar {
           position: absolute; left: 0; top: 0; bottom: 0;
           width: 2px; background: #fde047; z-index: 5;
         }
 
+        /* bottom tag */
         .cp-hd-mobile-bottom {
           margin-top: 32px;
           display: flex; align-items: center; gap: 12px;
@@ -241,14 +269,13 @@ function Header({ onScrollRequest, refs, isMenuOpen, setIsMenuOpen }: HeaderProp
         }
         .cp-hd-mobile-bottom-line {
           flex: 1; height: 1px;
-          background: rgba(255,255,255,0.05);
+          background: rgba(253,224,71,0.07);
         }
         .cp-hd-mobile-bottom-text {
           font-family: 'Inter', sans-serif;
-          font-size: 0.6rem;
-          font-weight: 600;
+          font-size: 0.6rem; font-weight: 600;
           letter-spacing: 4px;
-          color: rgba(255,255,255,0.55);
+          color: rgba(253,200,71,0.50);
           text-transform: uppercase;
         }
 
@@ -299,6 +326,8 @@ function Header({ onScrollRequest, refs, isMenuOpen, setIsMenuOpen }: HeaderProp
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
+            <div className="cp-hd-overlay-glow" />
+
             <div className="cp-hd-mobile-nav">
               {navItems.map((item, i) => (
                 <motion.div

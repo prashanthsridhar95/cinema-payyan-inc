@@ -21,35 +21,79 @@ const Comic: React.FC = () => {
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap');
 
         /* ═══════════════════════════════════════════
-           SECTION
+           BG: Deep Sepia Ink — #0e0a04
+           Flow: cold steel #080d12 → warm sepia #0e0a04
+           Feels like: stepping from a cinema lobby
+           into an aged comic archive room.
+           Yellow accents glow richly on this base.
         ═══════════════════════════════════════════ */
         .cp-comic-section {
-          background: #000;
+          background: #0e0a04;
           color: #fff;
           padding: 100px 0 120px;
           overflow-x: hidden;
           position: relative;
         }
-        .cp-comic-section::before {
-          content: '';
+
+        /* Top fade — blends cold steel into sepia */
+        .cp-comic-section-top-fade {
           position: absolute;
-          top: 0; left: 8%; right: 8%;
-          height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06) 50%, transparent);
+          top: 0; left: 0; right: 0;
+          height: 140px;
+          background: linear-gradient(to bottom, rgba(8,13,18,0.5), transparent);
           pointer-events: none;
+          z-index: 1;
         }
-        /* kanji watermark */
+
+        /* Warm sepia ambient glow — center */
+        .cp-comic-ambient {
+          position: absolute;
+          top: 30%; left: 50%;
+          transform: translate(-50%, -50%);
+          width: 70%; height: 50%;
+          background: radial-gradient(
+            ellipse at center,
+            rgba(253,224,71,0.04) 0%,
+            rgba(180,100,20,0.03) 40%,
+            transparent 70%
+          );
+          filter: blur(80px);
+          pointer-events: none;
+          z-index: 1;
+        }
+
+        /* Bottom-right cyan accent glow */
+        .cp-comic-cool-accent {
+          position: absolute;
+          bottom: 0; right: 0;
+          width: 380px; height: 380px;
+          background: radial-gradient(circle at bottom right, rgba(50,197,244,0.045) 0%, transparent 65%);
+          pointer-events: none;
+          z-index: 1;
+        }
+
+        /* Kanji watermark — sepia tinted */
         .cp-comic-section::after {
           content: '物';
           position: absolute;
           right: 3%; bottom: -20px;
           font-size: 22rem;
-          color: rgba(255,255,255,0.012);
+          color: rgba(253,200,80,0.018);
           font-family: serif;
           line-height: 1;
           pointer-events: none;
           user-select: none;
           z-index: 0;
+        }
+
+        /* Top separator — warm gold tint */
+        .cp-comic-section::before {
+          content: '';
+          position: absolute;
+          top: 0; left: 8%; right: 8%;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(253,224,71,0.10) 50%, transparent);
+          pointer-events: none;
         }
 
         /* ═══════════════════════════════════════════
@@ -89,6 +133,8 @@ const Comic: React.FC = () => {
           line-height: 0.95;
           letter-spacing: 3px;
           margin: 0 0 18px;
+          /* sepia paper glow on title */
+          text-shadow: 0 0 100px rgba(253,200,80,0.10);
         }
         .cp-comic-title-cyan   { color: #32c5f4; }
         .cp-comic-title-yellow { color: #fde047; }
@@ -113,14 +159,14 @@ const Comic: React.FC = () => {
 
         .cp-bts-container {
           position: relative;
-          border: 1px solid rgba(255,255,255,0.06);
-          background: #050505;
+          border: 1px solid rgba(253,224,71,0.08);
+          background: #0a0702;
           overflow: hidden;
           transition: border-color 0.5s, box-shadow 0.5s;
         }
         .cp-bts-container:hover {
-          border-color: rgba(253,224,71,0.15);
-          box-shadow: 0 30px 80px rgba(0,0,0,0.65);
+          border-color: rgba(253,224,71,0.18);
+          box-shadow: 0 30px 80px rgba(0,0,0,0.7), 0 0 40px rgba(253,200,80,0.06);
         }
 
         /* BTS badge */
@@ -133,7 +179,7 @@ const Comic: React.FC = () => {
           font-weight: 600;
           letter-spacing: 3px;
           color: rgba(255,255,255,0.85);
-          background: rgba(0,0,0,0.75);
+          background: rgba(14,10,4,0.82);
           border: 1px solid rgba(255,255,255,0.08);
           padding: 7px 14px;
           z-index: 10;
@@ -160,7 +206,7 @@ const Comic: React.FC = () => {
           width: 100%; height: 100%;
           object-fit: cover;
           object-position: center 20%;
-          filter: contrast(1.06) brightness(0.88);
+          filter: contrast(1.06) brightness(0.85) sepia(0.08);
           transition: transform 0.6s ease;
           display: block;
         }
@@ -168,7 +214,7 @@ const Comic: React.FC = () => {
 
         .cp-bts-vignette {
           position: absolute; inset: 0;
-          background: radial-gradient(circle, transparent 30%, rgba(0,0,0,0.7) 100%);
+          background: radial-gradient(circle, transparent 30%, rgba(14,10,4,0.72) 100%);
           pointer-events: none;
         }
 
@@ -213,10 +259,12 @@ const Comic: React.FC = () => {
 
         .cp-comic-sheet {
           aspect-ratio: 3/4.2;
-          border: 1px solid rgba(255,255,255,0.08);
+          border: 1px solid rgba(253,224,71,0.10);
           position: relative;
-          background: #080808;
-          box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+          background: #09060100;
+          box-shadow:
+            0 20px 60px rgba(0,0,0,0.75),
+            0 0 30px rgba(253,200,80,0.05);
           overflow: hidden;
         }
         .cp-comic-sheet-img {
@@ -246,8 +294,8 @@ const Comic: React.FC = () => {
           align-items: center;
           margin-top: 20px;
           padding: 13px 18px;
-          background: rgba(255,255,255,0.02);
-          border: 1px solid rgba(255,255,255,0.06);
+          background: rgba(253,224,71,0.025);
+          border: 1px solid rgba(253,224,71,0.08);
         }
 
         /* nav buttons */
@@ -291,16 +339,16 @@ const Comic: React.FC = () => {
         /* ── Vision card ── */
         .cp-vision-card {
           padding: 42px;
-          background: rgba(255,255,255,0.015);
-          border: 1px solid rgba(255,255,255,0.06);
-          border-left: 1px solid rgba(253,224,71,0.25);
+          background: rgba(253,224,71,0.02);
+          border: 1px solid rgba(253,224,71,0.08);
+          border-left: 2px solid rgba(253,224,71,0.30);
           position: relative;
           overflow: hidden;
-          transition: border-color 0.4s;
+          transition: border-color 0.4s, box-shadow 0.4s;
         }
         .cp-vision-card:hover {
-          border-color: rgba(253,224,71,0.18);
-          box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+          border-color: rgba(253,224,71,0.20);
+          box-shadow: 0 20px 60px rgba(0,0,0,0.55), 0 0 30px rgba(253,200,80,0.05);
         }
         /* watermark */
         .cp-vision-card::before {
@@ -308,7 +356,7 @@ const Comic: React.FC = () => {
           position: absolute;
           right: -10px; bottom: -30px;
           font-size: 14rem;
-          color: rgba(255,255,255,0.015);
+          color: rgba(253,200,80,0.022);
           font-family: serif; line-height: 1;
           pointer-events: none; user-select: none;
         }
@@ -359,7 +407,7 @@ const Comic: React.FC = () => {
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.8rem, 1.1vw, 0.875rem);
           font-weight: 300;
-          color: rgba(255,255,255,0.4);
+          color: rgba(255,255,255,0.40);
           line-height: 1.85;
           margin-bottom: 28px;
         }
@@ -381,7 +429,7 @@ const Comic: React.FC = () => {
           margin-bottom: 30px;
         }
 
-        /* CTA — fill sweep */
+        /* CTA */
         .cp-vision-cta {
           position: relative; overflow: hidden;
           display: block; width: 100%;
@@ -423,7 +471,7 @@ const Comic: React.FC = () => {
           position: absolute;
           top: 40px; left: 8%; right: 8%;
           height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06) 50%, transparent);
+          background: linear-gradient(90deg, transparent, rgba(253,224,71,0.08) 50%, transparent);
           pointer-events: none;
         }
 
@@ -460,19 +508,18 @@ const Comic: React.FC = () => {
           justify-content: center;
         }
 
-        /* side panels */
+        /* side panels — sepia tinted */
         .cp-reel-side {
           flex: 1;
           height: 390px;
-          background: #060606;
-          border-top: 1px solid rgba(255,255,255,0.04);
-          border-bottom: 1px solid rgba(255,255,255,0.04);
+          border-top: 1px solid rgba(253,224,71,0.04);
+          border-bottom: 1px solid rgba(253,224,71,0.04);
         }
         .cp-reel-side--left {
-          background: linear-gradient(to right, #060606, #000);
+          background: linear-gradient(to right, #0e0a04, transparent);
         }
         .cp-reel-side--right {
-          background: linear-gradient(to left, #060606, #000);
+          background: linear-gradient(to left, #0e0a04, transparent);
         }
 
         /* video frame */
@@ -480,24 +527,24 @@ const Comic: React.FC = () => {
           width: 270px;
           aspect-ratio: 9/16;
           position: relative;
-          border: 1px solid rgba(255,255,255,0.08);
+          border: 1px solid rgba(253,224,71,0.10);
           z-index: 10;
-          background: #000;
+          background: #090601;
           box-shadow:
             0 0 60px rgba(0,0,0,1),
-            0 0 30px rgba(50,197,244,0.06);
+            0 0 30px rgba(253,200,80,0.06);
           flex-shrink: 0;
           overflow: hidden;
           transition: border-color 0.4s, box-shadow 0.4s;
         }
         .cp-video-frame:hover {
-          border-color: rgba(253,224,71,0.2);
+          border-color: rgba(253,224,71,0.25);
           box-shadow:
             0 0 60px rgba(0,0,0,1),
-            0 0 40px rgba(253,224,71,0.1);
+            0 0 40px rgba(253,224,71,0.10);
         }
 
-        /* corner marks on video */
+        /* corner marks */
         .cp-video-corner-tl,
         .cp-video-corner-br {
           position: absolute; z-index: 5;
@@ -564,6 +611,9 @@ const Comic: React.FC = () => {
       `}</style>
 
       <section className="cp-comic-section">
+        <div className="cp-comic-section-top-fade" />
+        <div className="cp-comic-ambient" />
+        <div className="cp-comic-cool-accent" />
 
         {/* ── HEADER ──────────────────────────────── */}
         <header className="cp-comic-header">

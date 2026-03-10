@@ -11,16 +11,44 @@ const Footer: React.FC = () => {
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap');
 
         /* ═══════════════════════════════════════════
-           FOOTER
+           BG: Deep Ember Dark — #060401
+           Flow: amber-black #0c0800 → ember dark #060401
+           Feels like: the theatre going completely dark
+           after the show — not black, but dying embers.
+           The warmest dark possible without being black.
         ═══════════════════════════════════════════ */
         .cp-ft-footer {
-          background: #000;
+          background: #060401;
           color: #fff;
           padding: 90px 10% 48px;
           position: relative;
           overflow: hidden;
         }
 
+        /* Top fade — amber booking section fades into ember dark */
+        .cp-ft-top-fade {
+          position: absolute;
+          top: 0; left: 0; right: 0;
+          height: 120px;
+          background: linear-gradient(to bottom, rgba(12,8,0,0.6), transparent);
+          pointer-events: none; z-index: 1;
+        }
+
+        /* Faint ember center glow — dying warmth */
+        .cp-ft-ember {
+          position: absolute;
+          top: 0; left: 50%;
+          transform: translateX(-50%);
+          width: 700px; height: 300px;
+          background: radial-gradient(
+            ellipse at center top,
+            rgba(253,180,30,0.04) 0%,
+            transparent 65%
+          );
+          pointer-events: none; z-index: 0;
+        }
+
+        /* Top separator — warm gold-to-cyan, echoes the whole site journey */
         .cp-ft-footer::before {
           content: '';
           position: absolute;
@@ -28,18 +56,20 @@ const Footer: React.FC = () => {
           height: 1px;
           background: linear-gradient(90deg,
             transparent,
-            rgba(50,197,244,0.4) 30%,
-            rgba(253,224,71,0.4) 70%,
+            rgba(50,197,244,0.35) 30%,
+            rgba(253,224,71,0.35) 70%,
             transparent
           );
+          z-index: 2;
         }
 
+        /* Closing kanji — '終' means "The End" — ember tinted */
         .cp-ft-footer::after {
           content: '終';
           position: absolute;
           right: 4%; bottom: -30px;
           font-size: 22rem;
-          color: rgba(255,255,255,0.012);
+          color: rgba(253,150,20,0.022);
           font-family: serif; line-height: 1;
           pointer-events: none; user-select: none; z-index: 0;
         }
@@ -64,36 +94,35 @@ const Footer: React.FC = () => {
         }
         .cp-ft-brand-pre-text {
           font-family: 'Inter', sans-serif;
-          font-size: 0.6rem;
-          font-weight: 600;
+          font-size: 0.6rem; font-weight: 600;
           letter-spacing: 4px;
           color: rgba(253,224,71,0.85); text-transform: uppercase;
         }
 
+        /* Bebas — logo title */
         .cp-ft-logo {
           font-family: 'Bebas Neue', sans-serif;
           font-size: clamp(1.8rem, 3vw, 2.6rem);
-          font-weight: 400;
-          color: #fde047;
+          font-weight: 400; color: #fde047;
           letter-spacing: 3px; line-height: 1;
           margin: 0 0 12px;
+          /* dying ember glow on the logo */
+          text-shadow: 0 0 40px rgba(253,180,30,0.20);
         }
 
         .cp-ft-brand-rule {
           width: 100%; height: 1px;
-          background: linear-gradient(90deg, rgba(253,224,71,0.2), rgba(50,197,244,0.15), transparent);
+          background: linear-gradient(90deg, rgba(253,224,71,0.18), rgba(50,197,244,0.12), transparent);
           margin-bottom: 14px;
         }
 
         .cp-ft-tagline {
           font-family: 'Inter', sans-serif;
-          font-size: 0.6rem;
-          font-weight: 500;
+          font-size: 0.6rem; font-weight: 500;
           letter-spacing: 4px;
-          color: rgba(255,255,255,0.6);
+          color: rgba(255,255,255,0.55);
           text-transform: uppercase;
-          max-width: 240px; line-height: 1.8;
-          margin: 0;
+          max-width: 240px; line-height: 1.8; margin: 0;
         }
 
         .cp-ft-socials {
@@ -102,10 +131,9 @@ const Footer: React.FC = () => {
         .cp-ft-socials a {
           width: 34px; height: 34px;
           display: flex; align-items: center; justify-content: center;
-          border: 1px solid rgba(255,255,255,0.08);
-          color: rgba(255,255,255,0.35);
-          font-size: 0.9rem;
-          text-decoration: none;
+          border: 1px solid rgba(255,255,255,0.07);
+          color: rgba(255,255,255,0.30);
+          font-size: 0.9rem; text-decoration: none;
           transition: border-color 0.3s, color 0.3s;
           position: relative; overflow: hidden;
         }
@@ -126,19 +154,17 @@ const Footer: React.FC = () => {
 
         .cp-ft-col h4 {
           font-family: 'Inter', sans-serif;
-          font-size: 0.6rem;
-          font-weight: 600;
+          font-size: 0.6rem; font-weight: 600;
           letter-spacing: 5px;
-          color: rgba(253,224,71,0.85); text-transform: uppercase;
+          color: rgba(253,224,71,0.80); text-transform: uppercase;
           margin: 0 0 20px;
         }
 
         .cp-ft-col a {
           display: block; text-decoration: none;
           font-family: 'Inter', sans-serif;
-          font-size: 0.875rem;
-          font-weight: 400;
-          color: rgba(255,255,255,0.65);
+          font-size: 0.875rem; font-weight: 400;
+          color: rgba(255,255,255,0.55);
           margin-bottom: 10px;
           transition: color 0.3s, padding-left 0.3s;
           position: relative;
@@ -148,28 +174,25 @@ const Footer: React.FC = () => {
           position: absolute; left: -12px;
           top: 50%; transform: translateY(-50%);
           width: 6px; height: 1px;
-          background: #fde047;
-          opacity: 0;
+          background: #fde047; opacity: 0;
           transition: opacity 0.3s;
         }
-        .cp-ft-col a:hover { color: rgba(255,255,255,0.9); padding-left: 10px; }
+        .cp-ft-col a:hover { color: rgba(255,255,255,0.88); padding-left: 10px; }
         .cp-ft-col a:hover::before { opacity: 1; }
 
         /* ─── CONTACT ───────────────────────────── */
         .cp-ft-contact h4 {
           font-family: 'Inter', sans-serif;
-          font-size: 0.6rem;
-          font-weight: 600;
+          font-size: 0.6rem; font-weight: 600;
           letter-spacing: 5px;
-          color: rgba(253,224,71,0.85); text-transform: uppercase;
+          color: rgba(253,224,71,0.80); text-transform: uppercase;
           margin: 0 0 20px;
         }
 
         .cp-ft-contact p {
           font-family: 'Inter', sans-serif;
-          font-size: 0.85rem;
-          font-weight: 300;
-          color: rgba(255,255,255,0.65);
+          font-size: 0.85rem; font-weight: 300;
+          color: rgba(255,255,255,0.55);
           margin: 0 0 10px; line-height: 1.7;
         }
 
@@ -178,7 +201,7 @@ const Footer: React.FC = () => {
           display: flex; justify-content: space-between;
           align-items: center;
           padding-top: 36px;
-          border-top: 1px solid rgba(255,255,255,0.05);
+          border-top: 1px solid rgba(255,255,255,0.04);
           position: relative; z-index: 2;
         }
 
@@ -187,24 +210,23 @@ const Footer: React.FC = () => {
         }
         .cp-ft-legal span {
           font-family: 'Inter', sans-serif;
-          font-size: 0.6rem;
-          font-weight: 400;
+          font-size: 0.6rem; font-weight: 400;
           letter-spacing: 2px;
-          color: rgba(255,255,255,0.4); text-transform: uppercase;
+          color: rgba(255,255,255,0.30); text-transform: uppercase;
         }
 
+        /* Scroll-to-top button */
         .cp-ft-scroll-btn {
           position: relative; overflow: hidden;
           display: inline-flex; align-items: center; gap: 10px;
           padding: 10px 22px;
-          border: 1px solid rgba(255,255,255,0.1);
+          border: 1px solid rgba(253,224,71,0.18);
           background: transparent;
-          color: rgba(255,255,255,0.65);
+          color: rgba(255,255,255,0.55);
           font-family: 'Inter', sans-serif;
-          font-size: 0.6rem;
-          font-weight: 600;
-          letter-spacing: 4px;
-          text-transform: uppercase; cursor: pointer;
+          font-size: 0.6rem; font-weight: 600;
+          letter-spacing: 4px; text-transform: uppercase;
+          cursor: pointer;
           transition: color 0.4s, border-color 0.4s;
         }
         .cp-ft-scroll-btn::before {
@@ -242,6 +264,9 @@ const Footer: React.FC = () => {
       `}</style>
 
       <footer className="cp-ft-footer">
+        <div className="cp-ft-top-fade" />
+        <div className="cp-ft-ember" />
+
         <div className="cp-ft-grid">
 
           {/* ── BRAND ─────────────────────────────── */}

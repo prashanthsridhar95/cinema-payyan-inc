@@ -53,10 +53,14 @@ const BookingContact: React.FC = () => {
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap');
 
         /* ═══════════════════════════════════════════
-           SECTION
+           BG: Deep Cinematic Amber-Black — #0c0800
+           Flow: graphite-violet #0a0a0e → amber-black #0c0800
+           Feels like: theatre house lights dimming to gold
+           just before the curtain rises.
+           The yellow ticket EXPLODES on this warm base.
         ═══════════════════════════════════════════ */
         .cp-bk-section {
-          background: #000;
+          background: #0c0800;
           min-height: 100vh;
           width: 100%;
           display: flex;
@@ -68,28 +72,60 @@ const BookingContact: React.FC = () => {
           padding: 80px 0;
         }
 
+        /* Top fade — violet graphite dissolves into amber-black */
+        .cp-bk-top-fade {
+          position: absolute;
+          top: 0; left: 0; right: 0;
+          height: 140px;
+          background: linear-gradient(to bottom, rgba(10,10,14,0.55), transparent);
+          pointer-events: none; z-index: 1;
+        }
+
+        /* Grand amber radial glow — center stage */
         .cp-bk-section::before {
           content: '';
           position: absolute;
           top: 50%; left: 50%;
           transform: translate(-50%, -50%);
-          width: 800px; height: 600px;
-          background: radial-gradient(circle, rgba(253,224,71,0.04) 0%, transparent 65%);
+          width: 900px; height: 700px;
+          background: radial-gradient(
+            ellipse at center,
+            rgba(253,224,71,0.07) 0%,
+            rgba(200,120,10,0.04) 40%,
+            transparent 70%
+          );
           pointer-events: none; z-index: 0;
         }
 
+        /* Kanji watermark — warm amber tint, finale theme */
         .cp-bk-section::after {
           content: '映';
           position: absolute;
           right: 3%; bottom: -20px;
           font-size: 22rem;
-          color: rgba(255,255,255,0.012);
+          color: rgba(253,180,30,0.025);
           font-family: serif; line-height: 1;
           pointer-events: none; user-select: none; z-index: 0;
         }
 
+        /* Corner amber glow accents */
+        .cp-bk-corner-tl {
+          position: absolute;
+          top: -80px; left: -80px;
+          width: 400px; height: 400px;
+          background: radial-gradient(circle, rgba(253,224,71,0.05) 0%, transparent 60%);
+          pointer-events: none; z-index: 0;
+        }
+        .cp-bk-corner-br {
+          position: absolute;
+          bottom: -80px; right: -80px;
+          width: 400px; height: 400px;
+          background: radial-gradient(circle, rgba(253,224,71,0.04) 0%, transparent 60%);
+          pointer-events: none; z-index: 0;
+        }
+
         /* ═══════════════════════════════════════════
-           MARQUEE BANDS
+           MARQUEE BANDS — amber bg on amber-black = 🔥
         ═══════════════════════════════════════════ */
         .cp-bk-band {
           position: absolute;
@@ -98,6 +134,8 @@ const BookingContact: React.FC = () => {
           padding: 10px 0;
           z-index: 1;
           overflow: hidden;
+          /* subtle amber glow on band */
+          box-shadow: 0 0 30px rgba(253,224,71,0.25);
         }
         .cp-bk-band--top    { top: 5%;    transform: rotate(-2deg); }
         .cp-bk-band--bottom { bottom: 5%; transform: rotate(1deg);  }
@@ -132,7 +170,8 @@ const BookingContact: React.FC = () => {
           min-height: 480px;
           display: flex;
           box-shadow:
-            0 40px 100px rgba(0,0,0,0.7),
+            0 40px 100px rgba(0,0,0,0.8),
+            0 0 60px rgba(253,224,71,0.12),
             0 0 0 1px rgba(255,255,255,0.04);
           position: relative;
         }
@@ -178,8 +217,7 @@ const BookingContact: React.FC = () => {
         }
         .cp-bk-ticket-pre-text {
           font-family: 'Inter', sans-serif;
-          font-size: 0.6rem;
-          font-weight: 600;
+          font-size: 0.6rem; font-weight: 600;
           letter-spacing: 4px;
           color: rgba(0,0,0,0.7); text-transform: uppercase;
         }
@@ -187,17 +225,15 @@ const BookingContact: React.FC = () => {
         .cp-bk-ticket-title {
           font-family: 'Bebas Neue', sans-serif;
           font-size: clamp(2.5rem, 6vw, 4.2rem);
-          font-weight: 400;
-          color: #000; margin: 0 0 4px;
+          font-weight: 400; color: #000;
+          margin: 0 0 4px;
           letter-spacing: 3px; line-height: 1;
         }
         .cp-bk-ticket-sub {
           font-family: 'Inter', sans-serif;
-          font-size: 0.65rem;
-          font-weight: 600;
+          font-size: 0.65rem; font-weight: 600;
           letter-spacing: 4px;
-          color: rgba(0,0,0,0.65); text-transform: uppercase;
-          margin: 0;
+          color: rgba(0,0,0,0.65); text-transform: uppercase; margin: 0;
         }
 
         /* inputs */
@@ -211,8 +247,7 @@ const BookingContact: React.FC = () => {
 
         .cp-bk-label {
           font-family: 'Inter', sans-serif;
-          font-size: 0.6rem;
-          font-weight: 600;
+          font-size: 0.6rem; font-weight: 600;
           letter-spacing: 4px;
           color: rgba(0,0,0,0.7); text-transform: uppercase;
         }
@@ -225,17 +260,14 @@ const BookingContact: React.FC = () => {
           border-bottom: 1px solid rgba(0,0,0,0.2);
           padding: 7px 0;
           font-family: 'Inter', sans-serif;
-          font-weight: 500;
-          font-size: 0.95rem;
-          color: #000;
+          font-weight: 500; font-size: 0.95rem; color: #000;
           transition: border-color 0.25s;
           box-sizing: border-box;
         }
         .cp-bk-input::placeholder,
         .cp-bk-textarea::placeholder {
           color: rgba(0,0,0,0.3);
-          font-style: italic;
-          font-weight: 300;
+          font-style: italic; font-weight: 300;
         }
         .cp-bk-input:focus,
         .cp-bk-textarea:focus {
@@ -246,17 +278,15 @@ const BookingContact: React.FC = () => {
 
         /* ── DIVIDER ── */
         .cp-bk-divider {
-          width: 2px;
-          position: relative;
+          width: 2px; position: relative;
           border-left: 2px dashed rgba(0,0,0,0.2);
           margin: 28px 0;
         }
         .cp-bk-punch {
           width: 40px; height: 40px;
-          background: #000;
+          background: #0c0800;
           border-radius: 50%;
-          position: absolute;
-          left: -21px;
+          position: absolute; left: -21px;
         }
         .cp-bk-punch--top    { top: -50px; }
         .cp-bk-punch--bottom { bottom: -50px; }
@@ -265,8 +295,7 @@ const BookingContact: React.FC = () => {
         .cp-bk-stub {
           flex: 0.8;
           padding: clamp(20px, 3.5vw, 40px);
-          display: flex;
-          flex-direction: column;
+          display: flex; flex-direction: column;
           justify-content: space-between;
           background: rgba(0,0,0,0.07);
           position: relative;
@@ -274,22 +303,17 @@ const BookingContact: React.FC = () => {
 
         .cp-bk-stub-label {
           font-family: 'Inter', sans-serif;
-          font-size: 0.6rem;
-          font-weight: 600;
+          font-size: 0.6rem; font-weight: 600;
           letter-spacing: 4px;
-          color: rgba(0,0,0,0.7); text-transform: uppercase;
-          margin: 0 0 12px;
+          color: rgba(0,0,0,0.7); text-transform: uppercase; margin: 0 0 12px;
         }
 
         .cp-bk-icons {
-          display: flex; gap: 14px;
-          margin-bottom: 16px;
+          display: flex; gap: 14px; margin-bottom: 16px;
         }
         .cp-bk-icons a {
-          color: #000;
-          font-size: 1.3rem;
-          transition: opacity 0.2s;
-          text-decoration: none;
+          color: #000; font-size: 1.3rem;
+          transition: opacity 0.2s; text-decoration: none;
         }
         .cp-bk-icons a:hover { opacity: 0.5; }
 
@@ -301,13 +325,10 @@ const BookingContact: React.FC = () => {
           background: transparent;
           color: #000; text-decoration: none;
           font-family: 'Inter', sans-serif;
-          font-size: 0.6rem;
-          font-weight: 600;
-          letter-spacing: 3px;
-          text-transform: uppercase;
+          font-size: 0.6rem; font-weight: 600;
+          letter-spacing: 3px; text-transform: uppercase;
           position: relative; overflow: hidden;
-          transition: color 0.35s;
-          margin-bottom: 0;
+          transition: color 0.35s; margin-bottom: 0;
         }
         .cp-bk-notion::before {
           content: ''; position: absolute; inset: 0;
@@ -326,11 +347,9 @@ const BookingContact: React.FC = () => {
           border: 1px solid #000;
           background: #000; color: #fde047;
           font-family: 'Inter', sans-serif;
-          font-size: 0.65rem;
-          font-weight: 700;
-          letter-spacing: 4px;
-          text-transform: uppercase; cursor: pointer;
-          transition: color 0.35s;
+          font-size: 0.65rem; font-weight: 700;
+          letter-spacing: 4px; text-transform: uppercase;
+          cursor: pointer; transition: color 0.35s;
         }
         .cp-bk-confirm::before {
           content: ''; position: absolute; inset: 0;
@@ -353,7 +372,9 @@ const BookingContact: React.FC = () => {
           text-align: center;
           padding: clamp(40px, 8vw, 100px);
           position: relative;
-          box-shadow: 0 40px 100px rgba(0,0,0,0.7);
+          box-shadow:
+            0 40px 100px rgba(0,0,0,0.8),
+            0 0 60px rgba(253,224,71,0.15);
         }
         .cp-bk-success::before {
           content: '';
@@ -373,18 +394,16 @@ const BookingContact: React.FC = () => {
         .cp-bk-success-title {
           font-family: 'Bebas Neue', sans-serif;
           font-size: clamp(4rem, 12vw, 8rem);
-          font-weight: 400;
-          color: #000; margin: 0 0 10px;
+          font-weight: 400; color: #000;
+          margin: 0 0 10px;
           letter-spacing: 5px; line-height: 1;
         }
 
         .cp-bk-success-sub {
           font-family: 'Inter', sans-serif;
-          font-size: 0.65rem;
-          font-weight: 600;
+          font-size: 0.65rem; font-weight: 600;
           letter-spacing: 5px;
-          color: rgba(0,0,0,0.65); text-transform: uppercase;
-          margin: 0 0 28px;
+          color: rgba(0,0,0,0.65); text-transform: uppercase; margin: 0 0 28px;
         }
 
         .cp-bk-success-rule {
@@ -399,11 +418,9 @@ const BookingContact: React.FC = () => {
           border: 1px solid #000;
           background: #000; color: #fde047;
           font-family: 'Inter', sans-serif;
-          font-size: 0.65rem;
-          font-weight: 700;
-          letter-spacing: 4px;
-          text-transform: uppercase; cursor: pointer;
-          transition: color 0.35s;
+          font-size: 0.65rem; font-weight: 700;
+          letter-spacing: 4px; text-transform: uppercase;
+          cursor: pointer; transition: color 0.35s;
         }
         .cp-bk-back::before {
           content: ''; position: absolute; inset: 0;
@@ -452,6 +469,9 @@ const BookingContact: React.FC = () => {
       `}</style>
 
       <section className="cp-bk-section">
+        <div className="cp-bk-top-fade" />
+        <div className="cp-bk-corner-tl" />
+        <div className="cp-bk-corner-br" />
 
         {/* ── TOP BAND ────────────────────────────── */}
         <div className="cp-bk-band cp-bk-band--top">

@@ -135,8 +135,13 @@ const CreativeProducer = () => {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;700;900&display=swap');
 
+        /* ══════════════════════════════════════════
+           SECTION — DEEP RICH PURPLE / VIOLET
+           Digital campaign war room · Cinema marketing
+        ══════════════════════════════════════════ */
         .cpcp-section {
-          background: #000;
+          background: #0e0814;
+          background: radial-gradient(ellipse at top center, #1a0d28 0%, #0e0814 55%, #090610 100%);
           padding: 90px 0 110px;
           overflow: hidden;
           position: relative;
@@ -145,7 +150,7 @@ const CreativeProducer = () => {
           content: '';
           position: absolute; top: 0; left: 8%; right: 8%;
           height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06) 50%, transparent);
+          background: linear-gradient(90deg, transparent, rgba(253,224,71,0.1) 50%, transparent);
         }
 
         .cpcp-inner {
@@ -207,7 +212,6 @@ const CreativeProducer = () => {
           margin-bottom: 100px;
         }
 
-        /* Image side — extra bottom padding to give room for insta btn */
         .cpcp-img-side {
           position: relative;
           display: flex; align-items: center; justify-content: center;
@@ -223,36 +227,32 @@ const CreativeProducer = () => {
           max-width: 100%; height: auto; display: block;
           filter: drop-shadow(0 20px 50px rgba(0,0,0,0.85));
         }
+        /* purple glow instead of cyan */
         .cpcp-img-glow {
           position: absolute; inset: 0;
-          background: radial-gradient(circle at center, rgba(50,197,244,0.07) 0%, transparent 65%);
+          background: radial-gradient(circle at center, rgba(160,80,255,0.08) 0%, transparent 65%);
           pointer-events: none; z-index: 0;
         }
 
-        /* ── Instagram button — fixed bottom of image side ── */
         .cpcp-insta-btn {
           position: absolute;
           bottom: 0; left: 50%;
           transform: translateX(-50%);
           display: inline-flex; align-items: center; gap: 9px;
-          /* Inter */
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.44rem, 1.2vw, 0.56rem);
           font-weight: 700; letter-spacing: 4px;
           text-transform: uppercase; text-decoration: none;
           white-space: nowrap;
-          /* pill style */
           color: rgba(255,255,255,0.85);
-          background: rgba(0,0,0,0.78);
+          background: rgba(14,8,20,0.85);
           backdrop-filter: blur(14px);
           border: 1px solid rgba(253,224,71,0.35);
           padding: 10px 22px;
           z-index: 8;
           transition: border-color 0.3s, color 0.3s, background 0.3s;
           overflow: hidden;
-          position: absolute;
         }
-        /* fill sweep on hover */
         .cpcp-insta-btn::before {
           content: '';
           position: absolute; inset: 0;
@@ -265,7 +265,6 @@ const CreativeProducer = () => {
         .cpcp-insta-btn svg,
         .cpcp-insta-btn span { position: relative; z-index: 1; }
 
-        /* content side */
         .cpcp-pre { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
         .cpcp-pre-line { width: 28px; height: 1px; background: #fde047; opacity: 0.5; }
 
@@ -308,15 +307,16 @@ const CreativeProducer = () => {
         }
         .cpcp-highlight { color: #fff; font-weight: 700; border-bottom: 1px solid rgba(253,224,71,0.4); }
 
+        /* stats — purple tinted */
         .cpcp-stats {
           display: flex; align-items: stretch;
-          border: 1px solid rgba(255,255,255,0.07);
-          background: rgba(255,255,255,0.02);
+          border: 1px solid rgba(160,80,255,0.15);
+          background: rgba(160,80,255,0.04);
           padding: 18px 24px; margin-bottom: 32px; gap: 0;
           position: relative; z-index: 1;
         }
         .cpcp-stat { display: flex; flex-direction: column; gap: 5px; flex: 1; }
-        .cpcp-stat-divider { width: 1px; flex-shrink: 0; background: rgba(255,255,255,0.08); margin: 0 20px; }
+        .cpcp-stat-divider { width: 1px; flex-shrink: 0; background: rgba(160,80,255,0.15); margin: 0 20px; }
 
         /* Bebas Neue — stat numbers */
         .cpcp-stat-num {
@@ -359,7 +359,7 @@ const CreativeProducer = () => {
         .cpcp-tabs-wrap { margin-top: 10px; }
         .cpcp-tab-bar {
           display: flex; gap: 0;
-          border: 1px solid rgba(255,255,255,0.08);
+          border: 1px solid rgba(160,80,255,0.15);
           width: fit-content; margin-bottom: 28px; overflow: hidden;
         }
         .cpcp-tab {
@@ -369,7 +369,7 @@ const CreativeProducer = () => {
           font-size: clamp(0.44rem, 1.2vw, 0.58rem);
           font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
           color: rgba(255,255,255,0.45); transition: color 0.3s;
-          border-right: 1px solid rgba(255,255,255,0.08);
+          border-right: 1px solid rgba(160,80,255,0.12);
         }
         .cpcp-tab:last-child { border-right: none; }
         .cpcp-tab:hover { color: rgba(255,255,255,0.8); }
@@ -386,26 +386,26 @@ const CreativeProducer = () => {
         .cpcp-desktop-grid--reels   { grid-template-columns: repeat(4, 1fr); }
         .cpcp-desktop-grid--youtube { grid-template-columns: repeat(3, 1fr); }
 
-        /* POSTER */
+        /* POSTER — purple tinted bg */
         .cpcp-poster {
           width: 100%; aspect-ratio: 2/3; overflow: hidden;
-          border: 1px solid rgba(255,255,255,0.07);
-          background: #0a0a0a; position: relative; transition: border-color 0.35s;
+          border: 1px solid rgba(160,80,255,0.1);
+          background: #130a1e; position: relative; transition: border-color 0.35s;
         }
         .cpcp-poster:hover { border-color: rgba(253,224,71,0.25); }
         .cpcp-poster img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.55s ease; }
         .cpcp-poster:hover img { transform: scale(1.07); }
-        .cpcp-poster-overlay { position: absolute; inset: 0; background: rgba(50,197,244,0.06); opacity: 0; transition: opacity 0.35s; }
+        .cpcp-poster-overlay { position: absolute; inset: 0; background: rgba(160,80,255,0.06); opacity: 0; transition: opacity 0.35s; }
         .cpcp-poster:hover .cpcp-poster-overlay { opacity: 1; }
         .cpcp-poster-tl, .cpcp-poster-br { position: absolute; width: 10px; height: 10px; pointer-events: none; z-index: 4; }
         .cpcp-poster-tl { top:7px; left:7px; border-top:1px solid rgba(253,224,71,0.45); border-left:1px solid rgba(253,224,71,0.45); }
         .cpcp-poster-br { bottom:7px; right:7px; border-bottom:1px solid rgba(253,224,71,0.45); border-right:1px solid rgba(253,224,71,0.45); }
 
-        /* REEL */
+        /* REEL — purple tinted bg */
         .cpcp-reel-card {
           width: 100%; aspect-ratio: 9/16; overflow: hidden;
-          border: 1px solid rgba(255,255,255,0.07);
-          background: #0a0a0a; position: relative; transition: border-color 0.35s, transform 0.4s;
+          border: 1px solid rgba(160,80,255,0.1);
+          background: #130a1e; position: relative; transition: border-color 0.35s, transform 0.4s;
         }
         .cpcp-reel-card:hover { border-color: rgba(50,197,244,0.25); transform: translateY(-6px); }
         .cpcp-reel-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -422,14 +422,15 @@ const CreativeProducer = () => {
         }
         .cpcp-reel-num { color: #fde047; font-weight: 700; }
 
-        /* YT CARD */
+        /* YT CARD — purple tinted bg */
         .cpcp-yt-card {
-          width: 100%; background: rgba(255,255,255,0.02);
-          border: 1px solid rgba(255,255,255,0.07); overflow: hidden;
+          width: 100%;
+          background: #130a1e;
+          border: 1px solid rgba(160,80,255,0.1); overflow: hidden;
           transition: border-color 0.35s, box-shadow 0.35s;
         }
         .cpcp-yt-card:hover { border-color: rgba(253,224,71,0.2); box-shadow: 0 12px 40px rgba(0,0,0,0.6); }
-        .cpcp-yt-media { position: relative; width: 100%; aspect-ratio: 16/9; background: #0a0a0a; overflow: hidden; }
+        .cpcp-yt-media { position: relative; width: 100%; aspect-ratio: 16/9; background: #0e0814; overflow: hidden; }
         .cpcp-yt-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
         .cpcp-yt-gradient { position:absolute; inset:0; background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.6) 100%); pointer-events:none; }
 
@@ -501,7 +502,6 @@ const CreativeProducer = () => {
           .cpcp-header-icon { width: 30px; height: 30px; }
           .cpcp-feature  { margin-bottom: 70px; }
 
-          /* Mobile: insta btn stretches full width of img side */
           .cpcp-insta-btn {
             left: 0; transform: none;
             width: 100%; justify-content: center;
@@ -633,7 +633,6 @@ const CreativeProducer = () => {
                 whileHover={{ scale: 1.04, rotate: -1 }}
                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               />
-              {/* Instagram CTA — anchored below image */}
               <a
                 href="https://www.instagram.com/madrasmotionpictures/"
                 target="_blank" rel="noreferrer"

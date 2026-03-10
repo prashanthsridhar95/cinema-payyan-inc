@@ -93,12 +93,38 @@ const Accelerator: React.FC = () => {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;700;900&display=swap');
 
-        .gold-text { color: #fde047 !important; }
-        .cyan-text { color: #32c5f4 !important; }
-        .gold-bg   { background: #fde047 !important; }
-        .cyan-bg   { background: #32c5f4 !important; }
+        /* ── SITE FIXED PALETTE ── */
+        :root {
+          --cyan: #32c5f4;
+          --yellow: #fde047;
+          --black: #000000;
+          --white: #ffffff;
+          --acc-bg: #050d1a;
+        }
 
-        .acc-universe-v4 { background: #000; overflow: hidden; position: relative; }
+        .gold-text { color: var(--yellow) !important; }
+        .cyan-text { color: var(--cyan) !important; }
+        .gold-bg   { background: var(--yellow) !important; }
+        .cyan-bg   { background: var(--cyan) !important; }
+
+        /* ── ROOT: Deep Midnight Blue ── */
+        .acc-universe-v4 {
+          background: var(--acc-bg);
+          overflow: hidden;
+          position: relative;
+        }
+
+        /* Ambient glow layers — cyan top-left, yellow bottom-right */
+        .acc-universe-v4::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background:
+            radial-gradient(ellipse at 0% 0%,    rgba(50, 197, 244, 0.07) 0%, transparent 55%),
+            radial-gradient(ellipse at 100% 100%, rgba(253, 224, 71, 0.05) 0%, transparent 55%);
+          pointer-events: none;
+          z-index: 0;
+        }
 
         /* ── HERO ── */
         .acc-hero-parallax {
@@ -109,7 +135,12 @@ const Accelerator: React.FC = () => {
         }
         .acc-hero-overlay {
           position: absolute; inset: 0;
-          background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.6) 55%, rgba(0,0,0,0.96) 100%);
+          background: linear-gradient(
+            to bottom,
+            rgba(5, 13, 26, 0.25) 0%,
+            rgba(5, 13, 26, 0.58) 50%,
+            rgba(5, 13, 26, 0.97) 100%
+          );
           pointer-events: none;
         }
         .acc-hero-content {
@@ -124,7 +155,7 @@ const Accelerator: React.FC = () => {
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.48rem, 1.5vw, 0.62rem);
           font-weight: 400; letter-spacing: 6px;
-          color: rgba(253,224,71,0.85); text-transform: uppercase;
+          color: rgba(253, 224, 71, 0.85); text-transform: uppercase;
           margin-bottom: 12px;
         }
 
@@ -132,18 +163,19 @@ const Accelerator: React.FC = () => {
         .acc-main-title {
           font-family: 'Bebas Neue', sans-serif;
           font-size: clamp(3.5rem, 11vw, 8rem);
-          font-weight: 400; color: #fff;
+          font-weight: 400; color: var(--white);
           line-height: 0.9; letter-spacing: 4px; margin: 0;
         }
-        .acc-main-title-accent { color: #fde047; display: block; }
+        .acc-main-title-accent { color: var(--yellow); display: block; }
 
         /* ── CREDO TRAIN ── */
         .acc-credo-train {
           position: relative; z-index: 2; overflow: hidden;
           margin-top: 40px;
-          border-top: 1px solid rgba(255,255,255,0.07);
-          border-bottom: 1px solid rgba(255,255,255,0.07);
-          padding: 10px 0; background: rgba(0,0,0,0.45);
+          border-top: 1px solid rgba(50, 197, 244, 0.12);
+          border-bottom: 1px solid rgba(50, 197, 244, 0.12);
+          padding: 10px 0;
+          background: rgba(5, 13, 26, 0.6);
         }
         .acc-train-track {
           display: flex; width: max-content;
@@ -154,18 +186,19 @@ const Accelerator: React.FC = () => {
           to   { transform: translateX(-50%); }
         }
         .acc-track-item { display: flex; white-space: nowrap; }
-        /* Inter — credo text */
         .acc-track-item span {
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.48rem, 1.5vw, 0.62rem);
           font-weight: 400; letter-spacing: 5px;
-          color: rgba(253,224,71,0.75); text-transform: uppercase; padding: 0 4px;
+          color: rgba(253, 224, 71, 0.75); text-transform: uppercase; padding: 0 4px;
         }
 
         /* ── WRAPPER ── */
         .acc-wrapper {
           max-width: 1200px; margin: 0 auto;
-          padding: 0 clamp(20px,6%,60px) 100px; box-sizing: border-box;
+          padding: 0 clamp(20px,6%,60px) 100px;
+          box-sizing: border-box;
+          position: relative; z-index: 1;
         }
 
         /* ── MISSION HUB ── */
@@ -183,14 +216,15 @@ const Accelerator: React.FC = () => {
         }
         .acc-img-glow {
           position: absolute; inset: -20px;
-          background: radial-gradient(circle at center, rgba(50,197,244,0.12) 0%, transparent 65%);
+          background: radial-gradient(circle at center, rgba(50, 197, 244, 0.10) 0%, transparent 65%);
           pointer-events: none;
         }
         .acc-portrait-img {
           display: block; width: 100%; height: 100%; max-width: 100%;
           object-fit: cover; position: relative; z-index: 1;
-          box-shadow: 0 24px 60px rgba(0,0,0,0.9);
+          box-shadow: 0 24px 60px rgba(0,0,0,0.95), 0 0 40px rgba(50,197,244,0.08);
         }
+
         /* Inter — status tag */
         .acc-status-tag {
           position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
@@ -198,7 +232,7 @@ const Accelerator: React.FC = () => {
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.44rem, 1.2vw, 0.56rem);
           font-weight: 700; letter-spacing: 4px;
-          color: #000; background: #32c5f4;
+          color: var(--black); background: var(--cyan);
           padding: 7px 16px; white-space: nowrap; z-index: 4; text-transform: uppercase;
         }
 
@@ -218,10 +252,10 @@ const Accelerator: React.FC = () => {
         .acc-heading {
           font-family: 'Bebas Neue', sans-serif;
           font-size: clamp(2.2rem, 5vw, 4rem);
-          font-weight: 400; color: #fff;
+          font-weight: 400; color: var(--white);
           line-height: 0.95; letter-spacing: 3px; margin: 0;
         }
-        .acc-heading-accent { color: #32c5f4; }
+        .acc-heading-accent { color: var(--cyan); }
 
         .acc-heading-rule {
           width: 100%; height: 1px;
@@ -232,77 +266,94 @@ const Accelerator: React.FC = () => {
         .acc-body {
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.82rem, 1.2vw, 0.95rem);
-          font-weight: 300; color: rgba(255,255,255,0.65); line-height: 1.9; margin: 0;
+          font-weight: 300; color: rgba(255,255,255,0.60); line-height: 1.9; margin: 0;
         }
-        .acc-body strong { color: #fff; font-weight: 700; border-bottom: 1px solid rgba(253,224,71,0.4); }
+        .acc-body strong {
+          color: var(--white); font-weight: 700;
+          border-bottom: 1px solid rgba(253,224,71,0.4);
+        }
 
         .acc-feature-stack { display: flex; flex-direction: column; gap: 14px; }
         .acc-feature-card {
           display: flex; align-items: flex-start; gap: 16px;
           padding: 18px 20px;
           border: 1px solid rgba(255,255,255,0.07);
-          background: rgba(255,255,255,0.02);
-          transition: border-color 0.3s;
+          background: rgba(255,255,255,0.025);
+          transition: border-color 0.3s, background 0.3s;
         }
-        .acc-feature-card:hover { border-color: rgba(253,224,71,0.2); }
-        .highlight-card { border-color: rgba(50,197,244,0.2); background: rgba(50,197,244,0.04); }
+        .acc-feature-card:hover {
+          border-color: rgba(253,224,71,0.2);
+          background: rgba(253,224,71,0.03);
+        }
+        .highlight-card {
+          border-color: rgba(50,197,244,0.2);
+          background: rgba(50,197,244,0.04);
+        }
+        .highlight-card:hover {
+          border-color: rgba(50,197,244,0.4);
+          background: rgba(50,197,244,0.07);
+        }
         .acc-feature-icon {
           width: 42px; height: 42px; flex-shrink: 0;
           display: flex; align-items: center; justify-content: center;
         }
         .acc-feature-text { display: flex; flex-direction: column; gap: 5px; }
-        /* Inter — feature card title */
         .acc-feature-text h4 {
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.52rem, 1.2vw, 0.64rem);
           font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
           color: rgba(255,255,255,0.9); margin: 0;
         }
-        /* Inter — feature card body */
         .acc-feature-text p {
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.78rem, 1.1vw, 0.88rem);
-          font-weight: 300; color: rgba(255,255,255,0.65); margin: 0; line-height: 1.65;
+          font-weight: 300; color: rgba(255,255,255,0.60); margin: 0; line-height: 1.65;
         }
 
         /* Inter — CTA */
         .acc-cta {
           position: relative; overflow: hidden;
           display: inline-flex; align-items: center; gap: 10px;
-          padding: 14px 28px; border: 1px solid #fde047;
-          color: #fde047; text-decoration: none;
+          padding: 14px 28px; border: 1px solid var(--yellow);
+          color: var(--yellow); text-decoration: none;
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.44rem, 1.2vw, 0.56rem);
           font-weight: 700; letter-spacing: 4px; text-transform: uppercase;
           transition: color 0.4s; width: fit-content;
         }
         .acc-cta::before {
-          content: ''; position: absolute; inset: 0; background: #fde047;
+          content: ''; position: absolute; inset: 0; background: var(--yellow);
           transform-origin: left; transform: scaleX(0); z-index: 0;
           transition: transform 0.4s cubic-bezier(0.77,0,0.18,1);
         }
         .acc-cta:hover::before { transform: scaleX(1); }
-        .acc-cta:hover { color: #000; }
+        .acc-cta:hover { color: var(--black); }
         .acc-cta span, .acc-cta svg { position: relative; z-index: 1; }
 
         /* ── LEGACY REEL ── */
         .acc-legacy-reel { display: flex; flex-direction: column; gap: 28px; }
-        .acc-reel-title { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
+        .acc-reel-title {
+          display: flex; flex-direction: column;
+          align-items: center; gap: 10px; text-align: center;
+        }
         .acc-reel-pre { display: flex; align-items: center; gap: 16px; }
-        .acc-reel-pre-line { width: 40px; height: 1px; background: linear-gradient(90deg, transparent, rgba(253,224,71,0.5)); }
-        .acc-reel-pre-line:last-child { background: linear-gradient(90deg, rgba(253,224,71,0.5), transparent); }
-        /* Inter — reel pre-label */
+        .acc-reel-pre-line {
+          width: 40px; height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(253,224,71,0.5));
+        }
+        .acc-reel-pre-line:last-child {
+          background: linear-gradient(90deg, rgba(253,224,71,0.5), transparent);
+        }
         .acc-reel-pre-text {
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.44rem, 1.2vw, 0.58rem);
           font-weight: 400; letter-spacing: 6px;
           color: rgba(253,224,71,0.85); text-transform: uppercase;
         }
-        /* Bebas Neue — reel heading */
         .acc-reel-title h4 {
           font-family: 'Bebas Neue', sans-serif;
           font-size: clamp(2rem, 4.5vw, 3.2rem);
-          font-weight: 400; letter-spacing: 4px; color: #fff; margin: 0;
+          font-weight: 400; letter-spacing: 4px; color: var(--white); margin: 0;
         }
 
         /* ── SLIDER ── */
@@ -317,16 +368,40 @@ const Accelerator: React.FC = () => {
         .acc-slide-card { flex-shrink: 0; width: 300px; }
         .acc-card-inner {
           position: relative; width: 100%; aspect-ratio: 3/4;
-          overflow: hidden; border: 1px solid rgba(255,255,255,0.07);
-          background: #0a0a0a; transition: border-color 0.35s, transform 0.4s;
+          overflow: hidden;
+          border: 1px solid rgba(50, 197, 244, 0.08);
+          background: #020810;
+          transition: border-color 0.35s, transform 0.4s;
         }
-        .acc-card-inner:hover { border-color: rgba(253,224,71,0.25); transform: translateY(-6px); }
-        .acc-card-inner img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; transition: transform 0.5s ease; }
+        .acc-card-inner:hover {
+          border-color: rgba(253,224,71,0.28);
+          transform: translateY(-6px);
+          box-shadow: 0 20px 50px rgba(0,0,0,0.7), 0 0 20px rgba(50,197,244,0.06);
+        }
+        .acc-card-inner img {
+          width: 100%; height: 100%; object-fit: cover; display: block;
+          pointer-events: none; transition: transform 0.5s ease;
+        }
         .acc-card-inner:hover img { transform: scale(1.06); }
-        .acc-card-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 55%, rgba(0,0,0,0.5) 100%); pointer-events: none; }
-        .acc-card-corner-tl, .acc-card-corner-br { position: absolute; width: 12px; height: 12px; pointer-events: none; z-index: 4; }
-        .acc-card-corner-tl { top:8px; left:8px; border-top:1px solid rgba(253,224,71,0.5); border-left:1px solid rgba(253,224,71,0.5); }
-        .acc-card-corner-br { bottom:8px; right:8px; border-bottom:1px solid rgba(50,197,244,0.4); border-right:1px solid rgba(50,197,244,0.4); }
+        .acc-card-overlay {
+          position: absolute; inset: 0;
+          background: linear-gradient(to bottom, transparent 55%, rgba(5,13,26,0.55) 100%);
+          pointer-events: none;
+        }
+        .acc-card-corner-tl, .acc-card-corner-br {
+          position: absolute; width: 12px; height: 12px;
+          pointer-events: none; z-index: 4;
+        }
+        .acc-card-corner-tl {
+          top: 8px; left: 8px;
+          border-top: 1px solid rgba(253,224,71,0.5);
+          border-left: 1px solid rgba(253,224,71,0.5);
+        }
+        .acc-card-corner-br {
+          bottom: 8px; right: 8px;
+          border-bottom: 1px solid rgba(50,197,244,0.4);
+          border-right: 1px solid rgba(50,197,244,0.4);
+        }
 
         /* Inter — legacy badge */
         .acc-legacy-badge {
@@ -335,53 +410,72 @@ const Accelerator: React.FC = () => {
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.42rem, 1vw, 0.52rem);
           font-weight: 400; letter-spacing: 3px;
-          color: rgba(255,255,255,0.9); background: rgba(0,0,0,0.85);
-          border: 1px solid rgba(255,255,255,0.12);
+          color: rgba(255,255,255,0.9);
+          background: rgba(5, 13, 26, 0.88);
+          border: 1px solid rgba(50, 197, 244, 0.15);
           padding: 5px 10px; text-transform: uppercase; z-index: 5;
         }
 
         /* ── PROGRESS BAR ── */
-        .acc-progress-bar-wrap { display: flex; align-items: center; gap: 14px; padding: 0 4px; }
-        /* Inter — progress label */
+        .acc-progress-bar-wrap {
+          display: flex; align-items: center; gap: 14px; padding: 0 4px;
+        }
         .acc-progress-label {
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.44rem, 1vw, 0.54rem);
           font-weight: 400; letter-spacing: 3px;
-          color: rgba(255,255,255,0.35); text-transform: uppercase; white-space: nowrap; flex-shrink: 0;
+          color: rgba(255,255,255,0.35); text-transform: uppercase;
+          white-space: nowrap; flex-shrink: 0;
         }
-        .acc-progress-label span { color: #fde047; font-weight: 700; }
-        .acc-progress-track { flex: 1; height: 2px; background: rgba(255,255,255,0.08); position: relative; overflow: visible; }
+        .acc-progress-label span { color: var(--yellow); font-weight: 700; }
+        .acc-progress-track {
+          flex: 1; height: 2px;
+          background: rgba(255,255,255,0.07);
+          position: relative; overflow: visible;
+        }
         .acc-progress-fill {
           position: absolute; top: 0; left: 0; height: 100%;
-          background: linear-gradient(90deg, #32c5f4, #fde047);
+          background: linear-gradient(90deg, var(--cyan), var(--yellow));
           border-radius: 1px;
           transition: width 0.35s cubic-bezier(0.77,0,0.18,1);
           box-shadow: 0 0 8px rgba(253,224,71,0.4);
         }
         .acc-progress-fill::after {
-          content: ''; position: absolute; right: -4px; top: 50%; transform: translateY(-50%);
-          width: 8px; height: 8px; border-radius: 50%; background: #fde047;
-          box-shadow: 0 0 10px #fde047, 0 0 20px rgba(253,224,71,0.5);
+          content: ''; position: absolute; right: -4px; top: 50%;
+          transform: translateY(-50%);
+          width: 8px; height: 8px; border-radius: 50%;
+          background: var(--yellow);
+          box-shadow: 0 0 10px var(--yellow), 0 0 20px rgba(253,224,71,0.5);
         }
-        .acc-progress-ticks { position: absolute; top: 6px; left: 0; width: 100%; display: flex; justify-content: space-between; }
-        .acc-progress-tick { width: 1px; height: 4px; background: rgba(255,255,255,0.12); flex-shrink: 0; }
+        .acc-progress-ticks {
+          position: absolute; top: 6px; left: 0; width: 100%;
+          display: flex; justify-content: space-between;
+        }
+        .acc-progress-tick {
+          width: 1px; height: 4px;
+          background: rgba(255,255,255,0.10); flex-shrink: 0;
+        }
 
         /* Inter — drag hint */
         .acc-drag-hint {
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.44rem, 1.2vw, 0.56rem);
           font-weight: 400; letter-spacing: 5px;
-          color: rgba(255,255,255,0.45); text-transform: uppercase; text-align: center; margin: 0;
+          color: rgba(255,255,255,0.35); text-transform: uppercase;
+          text-align: center; margin: 0;
         }
 
         /* ── RESPONSIVE ── */
         @media (max-width: 960px) {
-          .acc-mission-hub { grid-template-columns: 1fr; gap: 40px; margin-bottom: 70px; text-align: center; }
-          .acc-visual-side { justify-content: center; padding-bottom: 30px; }
-          .acc-pill-label  { margin: 0 auto; }
-          .acc-heading-rule { max-width: 360px; margin: 0 auto; }
-          .acc-cta         { margin: 0 auto; }
-          .acc-portrait-img { max-width: 280px; }
+          .acc-mission-hub {
+            grid-template-columns: 1fr; gap: 40px;
+            margin-bottom: 70px; text-align: center;
+          }
+          .acc-visual-side   { justify-content: center; padding-bottom: 30px; }
+          .acc-pill-label    { margin: 0 auto; }
+          .acc-heading-rule  { max-width: 360px; margin: 0 auto; }
+          .acc-cta           { margin: 0 auto; }
+          .acc-portrait-img  { max-width: 280px; }
           .acc-feature-stack { text-align: left; }
         }
         @media (max-width: 700px) {
@@ -484,7 +578,12 @@ const Accelerator: React.FC = () => {
                 </div>
               </div>
 
-              <a href="https://www.instagram.com/cinemapayyan.inc/" target="_blank" rel="noopener noreferrer" className="acc-cta">
+              <a
+                href="https://www.instagram.com/cinemapayyan.inc/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="acc-cta"
+              >
                 <span>EXPLORE OUR TECH</span>
                 <ArrowUpRight size={16} />
               </a>
@@ -504,10 +603,15 @@ const Accelerator: React.FC = () => {
 
             <div className="acc-slider-wrap">
               <div
-                className="acc-slider-track" ref={sliderRef}
-                onMouseDown={onMouseDown} onMouseMove={onMouseMove}
-                onMouseUp={onMouseUp} onMouseLeave={onMouseUp}
-                onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}
+                className="acc-slider-track"
+                ref={sliderRef}
+                onMouseDown={onMouseDown}
+                onMouseMove={onMouseMove}
+                onMouseUp={onMouseUp}
+                onMouseLeave={onMouseUp}
+                onTouchStart={onTouchStart}
+                onTouchMove={onTouchMove}
+                onTouchEnd={onTouchEnd}
               >
                 {tripled.map((img, i) => (
                   <div key={i} className="acc-slide-card">
@@ -532,9 +636,14 @@ const Accelerator: React.FC = () => {
                 &nbsp;/&nbsp;{String(connections.length).padStart(2, "0")}
               </span>
               <div className="acc-progress-track">
-                <div className="acc-progress-fill" style={{ width: `${((activeIndex + 1) / connections.length) * 100}%` }} />
+                <div
+                  className="acc-progress-fill"
+                  style={{ width: `${((activeIndex + 1) / connections.length) * 100}%` }}
+                />
                 <div className="acc-progress-ticks">
-                  {connections.map((_, i) => <div key={i} className="acc-progress-tick" />)}
+                  {connections.map((_, i) => (
+                    <div key={i} className="acc-progress-tick" />
+                  ))}
                 </div>
               </div>
             </div>

@@ -121,10 +121,12 @@ const Host = () => {
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;700;900&display=swap');
 
         /* ══════════════════════════════════════════
-           SECTION
+           SECTION — DEEP FOREST GREEN
+           Stage lights · Green room · Live energy
         ══════════════════════════════════════════ */
         .hst-section {
-          background: #000;
+          background: #060f09;
+          background: radial-gradient(ellipse at top center, #0d2014 0%, #060f09 55%, #040b06 100%);
           padding: 90px 0 110px;
           overflow: hidden;
           position: relative;
@@ -133,13 +135,13 @@ const Host = () => {
           content: '';
           position: absolute; top: 0; left: 8%; right: 8%;
           height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06) 50%, transparent);
+          background: linear-gradient(90deg, transparent, rgba(50,197,244,0.1) 50%, transparent);
         }
         .hst-section::after {
           content: '舞';
           position: absolute; right: 2%; bottom: -60px;
           font-size: 28rem; font-family: serif; line-height: 1;
-          color: rgba(255,255,255,0.012);
+          color: rgba(50,197,244,0.04);
           pointer-events: none; user-select: none; z-index: 0;
         }
 
@@ -224,7 +226,7 @@ const Host = () => {
         .hst-hero {
           position: relative; overflow: hidden;
           width: 100%; margin-bottom: 48px;
-          border: 1px solid rgba(255,255,255,0.07);
+          border: 1px solid rgba(50,197,244,0.1);
           cursor: pointer;
           transition: border-color 0.4s;
         }
@@ -237,7 +239,7 @@ const Host = () => {
         .hst-hero:hover .hst-hero-img { transform: scale(1.04); }
         .hst-hero-vig {
           position: absolute; inset: 0;
-          background: linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.75) 100%);
+          background: linear-gradient(to bottom, transparent 30%, rgba(6,15,9,0.82) 100%);
           pointer-events: none; z-index: 2;
         }
         .hst-hero-c {
@@ -252,8 +254,8 @@ const Host = () => {
           position: absolute; bottom: 0; left: 0; right: 0; z-index: 5;
           display: flex; align-items: center; justify-content: space-between;
           padding: 12px 18px;
-          background: rgba(0,0,0,0.82);
-          border-top: 1px solid rgba(255,255,255,0.06);
+          background: rgba(4,11,6,0.92);
+          border-top: 1px solid rgba(50,197,244,0.1);
           gap: 14px;
         }
         .hst-hero-bar-left { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
@@ -298,11 +300,12 @@ const Host = () => {
           display: flex; flex-direction: column; gap: 32px;
         }
 
+        /* ── CARD — dark green bg ── */
         .hst-card {
           display: grid;
           grid-template-columns: 1fr 1.3fr;
-          border: 1px solid rgba(255,255,255,0.07);
-          background: rgba(8,8,8,0.9);
+          border: 1px solid rgba(50,197,244,0.08);
+          background: #0a1a0d;
           overflow: hidden;
           transition: border-color 0.35s, box-shadow 0.4s;
           position: relative;
@@ -316,7 +319,7 @@ const Host = () => {
         .hst-media {
           position: relative;
           width: 100%; aspect-ratio: 16/9;
-          overflow: hidden; background: #0a0a0a;
+          overflow: hidden; background: #060f09;
         }
         .hst-video {
           position: absolute; inset: 0;
@@ -349,7 +352,7 @@ const Host = () => {
           font-family: 'Bebas Neue', sans-serif;
           font-size: clamp(2.5rem, 5vw, 3.8rem);
           font-weight: 400; letter-spacing: 4px;
-          color: rgba(253,224,71,0.12); line-height: 1;
+          color: rgba(50,197,244,0.1); line-height: 1;
           user-select: none; pointer-events: none;
         }
 
@@ -374,7 +377,7 @@ const Host = () => {
         .hst-body {
           padding: clamp(20px,3vw,32px);
           display: flex; flex-direction: column; gap: 16px;
-          border-left: 1px solid rgba(255,255,255,0.05);
+          border-left: 1px solid rgba(50,197,244,0.07);
         }
 
         .hst-titles { display: flex; flex-direction: column; gap: 6px; }
@@ -411,18 +414,18 @@ const Host = () => {
           flex: 1;
         }
 
-        /* credits strip */
+        /* credits strip — green tinted */
         .hst-credits {
           display: flex; align-items: stretch;
-          border: 1px solid rgba(255,255,255,0.07);
-          background: rgba(255,255,255,0.02);
+          border: 1px solid rgba(50,197,244,0.1);
+          background: rgba(50,197,244,0.03);
           padding: 14px 18px; gap: 0;
         }
         .hst-credit-item {
           display: flex; flex-direction: column; gap: 4px; flex: 1;
         }
         .hst-credit-div {
-          width: 1px; background: rgba(255,255,255,0.08); margin: 0 16px;
+          width: 1px; background: rgba(50,197,244,0.1); margin: 0 16px;
         }
         /* Inter — credit label */
         .hst-credit-label {
@@ -469,7 +472,7 @@ const Host = () => {
         @media (max-width: 900px) {
           .hst-card { grid-template-columns: 1fr; }
           .hst-media { aspect-ratio: 16/9; }
-          .hst-body  { border-left: none; border-top: 1px solid rgba(255,255,255,0.05); }
+          .hst-body  { border-left: none; border-top: 1px solid rgba(50,197,244,0.07); }
         }
         @media (max-width: 700px) {
           .hst-header {

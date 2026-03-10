@@ -9,30 +9,66 @@ const ShadowPromotion: React.FC = () => {
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap');
 
         /* ═══════════════════════════════════════════
-           SECTION
+           BG: Dark Graphite-Violet — #0a0a0e
+           Flow: electric navy #060a0f → graphite-violet #0a0a0e
+           Feels like: electric screen room dimming into
+           a moody theatre stage with shadow play.
+           Slight violet warmth catches the eye.
         ═══════════════════════════════════════════ */
         .cp-sh-section {
-          background: #000;
+          background: #0a0a0e;
           padding: 110px clamp(20px, 6%, 60px);
           overflow: hidden;
           position: relative;
         }
-        .cp-sh-section::before {
-          content: '';
+
+        /* Top fade — navy bleeds into graphite-violet */
+        .cp-sh-top-fade {
           position: absolute;
-          top: 0; left: 8%; right: 8%;
-          height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06) 50%, transparent);
+          top: 0; left: 0; right: 0;
+          height: 130px;
+          background: linear-gradient(to bottom, rgba(6,10,15,0.5), transparent);
           pointer-events: none;
+          z-index: 1;
         }
+
+        /* Violet ambient glow — top right, theatrical spotlight */
+        .cp-sh-glow-tr {
+          position: absolute;
+          top: -80px; right: -80px;
+          width: 500px; height: 500px;
+          background: radial-gradient(circle, rgba(140,80,255,0.06) 0%, transparent 60%);
+          pointer-events: none; z-index: 0;
+        }
+
+        /* Cyan floor glow — bottom left, stage footlights */
+        .cp-sh-glow-bl {
+          position: absolute;
+          bottom: -60px; left: -60px;
+          width: 380px; height: 380px;
+          background: radial-gradient(circle, rgba(50,197,244,0.05) 0%, transparent 65%);
+          pointer-events: none; z-index: 0;
+        }
+
+        /* Kanji watermark — violet tint for shadow theme */
         .cp-sh-section::after {
           content: '影';
           position: absolute;
           right: 3%; bottom: -30px;
           font-size: 22rem;
-          color: rgba(255,255,255,0.012);
+          color: rgba(140,80,255,0.022);
           font-family: serif; line-height: 1;
           pointer-events: none; user-select: none; z-index: 0;
+        }
+
+        /* Top separator — violet-tinted */
+        .cp-sh-section::before {
+          content: '';
+          position: absolute;
+          top: 0; left: 8%; right: 8%;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(140,80,255,0.12) 50%, transparent);
+          pointer-events: none;
         }
 
         /* ═══════════════════════════════════════════
@@ -62,8 +98,7 @@ const ShadowPromotion: React.FC = () => {
         }
         .cp-sh-pre-text {
           font-family: 'Inter', sans-serif;
-          font-size: 0.65rem;
-          font-weight: 600;
+          font-size: 0.65rem; font-weight: 600;
           letter-spacing: 5px;
           color: rgba(253,224,71,0.85); text-transform: uppercase;
         }
@@ -71,25 +106,32 @@ const ShadowPromotion: React.FC = () => {
         .cp-sh-title {
           font-family: 'Bebas Neue', sans-serif;
           font-size: clamp(3rem, 6.5vw, 5.5rem);
-          font-weight: 400;
-          color: #fff; line-height: 0.95;
-          letter-spacing: 3px; margin: 0 0 10px;
+          font-weight: 400; color: #fff;
+          line-height: 0.95; letter-spacing: 3px; margin: 0 0 10px;
+          /* violet theatrical glow on title */
+          text-shadow: 0 0 80px rgba(140,80,255,0.12);
         }
         .cp-sh-title-cyan { color: #32c5f4; }
 
         .cp-sh-rule {
           width: 100%; height: 1px;
-          background: linear-gradient(90deg, rgba(253,224,71,0.25), rgba(50,197,244,0.2), transparent);
+          background: linear-gradient(90deg, rgba(253,224,71,0.25), rgba(140,80,255,0.20), rgba(50,197,244,0.15), transparent);
           margin-bottom: 28px;
         }
 
+        /* story card — graphite-violet tinted */
         .cp-sh-story {
-          background: rgba(255,255,255,0.015);
-          border: 1px solid rgba(255,255,255,0.06);
-          border-left: 1px solid rgba(50,197,244,0.2);
+          background: rgba(140,80,255,0.025);
+          border: 1px solid rgba(140,80,255,0.10);
+          border-left: 1px solid rgba(50,197,244,0.22);
           padding: 28px;
           position: relative;
           overflow: hidden;
+          transition: border-color 0.4s, box-shadow 0.4s;
+        }
+        .cp-sh-story:hover {
+          border-color: rgba(140,80,255,0.18);
+          box-shadow: 0 12px 40px rgba(0,0,0,0.6), 0 0 20px rgba(140,80,255,0.05);
         }
         .cp-sh-story::before {
           content: '';
@@ -111,10 +153,8 @@ const ShadowPromotion: React.FC = () => {
         .cp-sh-quote {
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.95rem, 1.4vw, 1.1rem);
-          font-style: italic;
-          font-weight: 500;
-          color: #fde047;
-          line-height: 1.6; margin: 0 0 20px;
+          font-style: italic; font-weight: 500;
+          color: #fde047; line-height: 1.6; margin: 0 0 20px;
         }
 
         .cp-sh-body {
@@ -130,15 +170,12 @@ const ShadowPromotion: React.FC = () => {
         .cp-sh-cta {
           position: relative; overflow: hidden;
           display: inline-flex; align-items: center; gap: 10px;
-          margin-top: 24px;
-          padding: 13px 28px;
+          margin-top: 24px; padding: 13px 28px;
           border: 1px solid #fde047;
           color: #fde047; text-decoration: none;
           font-family: 'Inter', sans-serif;
-          font-size: 0.65rem;
-          font-weight: 600;
-          letter-spacing: 4px;
-          text-transform: uppercase;
+          font-size: 0.65rem; font-weight: 600;
+          letter-spacing: 4px; text-transform: uppercase;
           transition: color 0.4s;
         }
         .cp-sh-cta::before {
@@ -159,16 +196,16 @@ const ShadowPromotion: React.FC = () => {
         .cp-sh-video-card {
           display: block;
           width: 100%; aspect-ratio: 16/9;
-          overflow: hidden;
-          position: relative;
-          border: 1px solid rgba(255,255,255,0.06);
-          background: #0a0a0a;
+          overflow: hidden; position: relative;
+          border: 1px solid rgba(140,80,255,0.10);
+          background: #07070b;
           transition: border-color 0.4s, box-shadow 0.4s;
           text-decoration: none;
         }
         .cp-sh-video-card:hover {
           border-color: rgba(50,197,244,0.22);
-          box-shadow: 0 14px 50px rgba(0,0,0,0.7);
+          box-shadow: 0 14px 50px rgba(0,0,0,0.75),
+                      0 0 30px rgba(140,80,255,0.07);
         }
         .cp-sh-video-card::before {
           content: '';
@@ -196,7 +233,7 @@ const ShadowPromotion: React.FC = () => {
 
         .cp-sh-vid-grad {
           position: absolute; inset: 0;
-          background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.5) 100%);
+          background: linear-gradient(to bottom, transparent 40%, rgba(10,10,14,0.55) 100%);
           z-index: 2; pointer-events: none;
         }
 
@@ -205,13 +242,12 @@ const ShadowPromotion: React.FC = () => {
           font-family: 'Bebas Neue', sans-serif;
           font-size: 0.8rem; letter-spacing: 3px;
           color: #000; background: #32c5f4;
-          padding: 3px 8px; z-index: 6;
-          text-transform: uppercase;
+          padding: 3px 8px; z-index: 6; text-transform: uppercase;
         }
 
         .cp-sh-vid-overlay {
           position: absolute; inset: 0;
-          background: rgba(0,0,0,0.7);
+          background: rgba(10,10,14,0.75);
           display: flex; align-items: center; justify-content: center;
           opacity: 0; z-index: 10;
           backdrop-filter: blur(4px);
@@ -221,8 +257,7 @@ const ShadowPromotion: React.FC = () => {
 
         .cp-sh-vid-label {
           font-family: 'Inter', sans-serif;
-          font-size: 0.6rem;
-          font-weight: 600;
+          font-size: 0.6rem; font-weight: 600;
           letter-spacing: 4px;
           color: #000; background: #fde047;
           padding: 8px 20px; text-transform: uppercase;
@@ -235,8 +270,7 @@ const ShadowPromotion: React.FC = () => {
           position: absolute; bottom: 0; left: 0; right: 0;
           height: 2px;
           background: linear-gradient(90deg, #32c5f4, #fde047);
-          transform: scaleX(0); transform-origin: left;
-          z-index: 6;
+          transform: scaleX(0); transform-origin: left; z-index: 6;
           transition: transform 0.4s cubic-bezier(0.77,0,0.18,1);
         }
         .cp-sh-video-card:hover .cp-sh-scan { transform: scaleX(1); }
@@ -245,14 +279,10 @@ const ShadowPromotion: React.FC = () => {
            RESPONSIVE
         ═══════════════════════════════════════════ */
         @media (max-width: 992px) {
-          .cp-sh-inner {
-            flex-direction: column;
-            text-align: center;
-            gap: 42px;
-          }
-          .cp-sh-pre  { justify-content: center; }
-          .cp-sh-rule { margin: 0 auto 28px; width: 60%; }
-          .cp-sh-cta  { margin: 24px auto 0; }
+          .cp-sh-inner { flex-direction: column; text-align: center; gap: 42px; }
+          .cp-sh-pre   { justify-content: center; }
+          .cp-sh-rule  { margin: 0 auto 28px; width: 60%; }
+          .cp-sh-cta   { margin: 24px auto 0; }
           .cp-sh-right { width: 100%; }
         }
         @media (max-width: 480px) {
@@ -262,11 +292,14 @@ const ShadowPromotion: React.FC = () => {
       `}</style>
 
       <section className="cp-sh-section">
+        <div className="cp-sh-top-fade" />
+        <div className="cp-sh-glow-tr" />
+        <div className="cp-sh-glow-bl" />
+
         <div className="cp-sh-inner">
 
           {/* ── LEFT: CONTENT ───────────────────── */}
           <div className="cp-sh-left">
-
             <div className="cp-sh-pre">
               <div className="cp-sh-pre-line" />
               <span className="cp-sh-pre-text">CINEMAPAYYAN ORIGINALS</span>
