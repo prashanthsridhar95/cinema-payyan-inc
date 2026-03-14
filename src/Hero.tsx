@@ -29,7 +29,7 @@ const BRANCHES = [
   { title: 'MUNAI',       isScroll: false, key: '',              path: '/munai'       },
 ];
 
-const TICKER_WORDS = ['CINEMA','PRODUCTION','STORYTELLING','DIRECTION','PROMOTIONS','COMEDY','DRAMA','SHORTS','ORIGINALS'];
+const TICKER_WORDS = ['CINEMA','PRODUCTION','STORYTELLING','DIRECTION','PROMOTIONS','HOST','FILM CRITIC','SHORTS','ORIGINALS'];
 
 export default function Hero({ onScrollRequest }: HeroProps) {
   const [gatePhase, setGatePhase] = useState<'visible'|'exit'|'gone'>('visible');
@@ -44,8 +44,8 @@ export default function Hero({ onScrollRequest }: HeroProps) {
   const sx = useSpring(mx, { stiffness: 80, damping: 20 });
   const sy = useSpring(my, { stiffness: 80, damping: 20 });
 
-  const years     = useCounter(10, 1500, countOn);
-  const followers = useCounter(44, 1800, countOn);
+  const years     = useCounter(10,  1500, countOn);
+  const followers = useCounter(271, 1800, countOn);
 
   useEffect(() => {
     const t1 = setTimeout(() => setGatePhase('exit'),    2400);
@@ -185,7 +185,6 @@ export default function Hero({ onScrollRequest }: HeroProps) {
         }
         @keyframes h3Rec { 0%,100%{opacity:1} 50%{opacity:0} }
         .h3-rec-txt {
-          /* Inter — UI label */
           font-family: 'Inter', sans-serif;
           font-size: 0.52rem; letter-spacing: 2px; font-weight: 700;
           color: rgba(255,60,60,0.8);
@@ -211,7 +210,6 @@ export default function Hero({ onScrollRequest }: HeroProps) {
         }
 
         .h3-gate-pre {
-          /* Inter light — small label */
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.6rem, 2.5vw, 0.78rem);
           font-weight: 300;
@@ -222,7 +220,6 @@ export default function Hero({ onScrollRequest }: HeroProps) {
 
         .h3-gate-word {
           display: block;
-          /* Bebas Neue — giant display */
           font-family: 'Bebas Neue', sans-serif;
           font-size: clamp(3.5rem, 16vw, 11rem);
           font-weight: 400;
@@ -241,7 +238,6 @@ export default function Hero({ onScrollRequest }: HeroProps) {
         @keyframes h3BarGrow { to { width: min(220px, 60vw); } }
 
         .h3-gate-sub {
-          /* Inter — small sub label */
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.55rem, 2vw, 0.7rem);
           font-weight: 300;
@@ -267,7 +263,6 @@ export default function Hero({ onScrollRequest }: HeroProps) {
         }
         @keyframes h3Tick { to { transform: translateX(-50%); } }
         .h3-ticker-item {
-          /* Bebas Neue — ticker strip */
           font-family: 'Bebas Neue', sans-serif;
           font-size: clamp(0.85rem, 1.8vw, 1rem);
           letter-spacing: 6px; color: rgba(253,224,71,0.7);
@@ -296,7 +291,6 @@ export default function Hero({ onScrollRequest }: HeroProps) {
           background: rgba(253,224,71,0.5);
         }
         .h3-pre-txt {
-          /* Inter — small label */
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.52rem, 1.8vw, 0.66rem);
           font-weight: 400;
@@ -312,7 +306,6 @@ export default function Hero({ onScrollRequest }: HeroProps) {
           flex-wrap: wrap; text-align: center;
         }
         .h3-name {
-          /* Bebas Neue — hero title */
           font-family: 'Bebas Neue', sans-serif;
           font-size: clamp(38px, 10.5vw, 120px);
           font-weight: 400;
@@ -323,7 +316,6 @@ export default function Hero({ onScrollRequest }: HeroProps) {
             0 0 120px rgba(253,224,71,0.1);
         }
         .h3-inc {
-          /* Bebas Neue — INC tag */
           font-family: 'Bebas Neue', sans-serif;
           font-size: clamp(14px, 2.8vw, 30px);
           color: #32c5f4; letter-spacing: 8px;
@@ -340,7 +332,6 @@ export default function Hero({ onScrollRequest }: HeroProps) {
 
         /* ── tagline ── */
         .h3-tagline {
-          /* Inter — body tagline */
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.82rem, 2vw, 1.05rem);
           font-weight: 300;
@@ -432,7 +423,6 @@ export default function Hero({ onScrollRequest }: HeroProps) {
         }
 
         .h3-link {
-          /* Bebas Neue — nav labels */
           font-family: 'Bebas Neue', sans-serif;
           font-size: clamp(0.9rem, 2vw, 1.1rem);
           letter-spacing: clamp(4px, 0.8vw, 7px);
@@ -461,7 +451,6 @@ export default function Hero({ onScrollRequest }: HeroProps) {
         }
         .h3-stat + .h3-stat { border-left: 1px solid rgba(255,255,255,0.07); }
         .h3-stat-num {
-          /* Bebas Neue — stat numbers */
           font-family: 'Bebas Neue', sans-serif;
           font-size: clamp(1.8rem, 4.5vw, 2.8rem);
           font-weight: 400; color: #32c5f4; line-height: 1;
@@ -469,7 +458,6 @@ export default function Hero({ onScrollRequest }: HeroProps) {
         }
         .h3-stat-sup { font-size: 0.55em; vertical-align: super; color: #fde047; }
         .h3-stat-lbl {
-          /* Inter — stat labels */
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.44rem,1vw,0.52rem);
           font-weight: 400;
@@ -489,15 +477,15 @@ export default function Hero({ onScrollRequest }: HeroProps) {
 
         .h3-byline { flex: 1; }
         .h3-byline-lbl {
-          /* Inter — small eyebrow */
+          /* ── BRIGHTENED: was rgba(255,255,255,0.35), now full white ── */
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.44rem,1.4vw,0.56rem);
-          font-weight: 400;
-          letter-spacing: 5px; color: rgba(255,255,255,0.35);
+          font-weight: 700;
+          letter-spacing: 5px; color: rgba(255,255,255,0.95);
           text-transform: uppercase; display: block; margin-bottom: 4px;
+          text-shadow: 0 0 12px rgba(253,224,71,0.4);
         }
         .h3-byline-name {
-          /* Bebas Neue — name display */
           font-family: 'Bebas Neue', sans-serif;
           font-size: clamp(1.2rem, 3vw, 2.1rem);
           font-weight: 400;
@@ -511,7 +499,6 @@ export default function Hero({ onScrollRequest }: HeroProps) {
           flex-shrink: 0;
         }
         .h3-scroll-lbl {
-          /* Inter — scroll label */
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.44rem,1.3vw,0.54rem);
           font-weight: 300;
@@ -536,7 +523,6 @@ export default function Hero({ onScrollRequest }: HeroProps) {
 
         .h3-seq {
           flex: 1; text-align: right;
-          /* Inter — seq tag */
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.44rem,1.4vw,0.56rem);
           font-weight: 300;
@@ -551,7 +537,6 @@ export default function Hero({ onScrollRequest }: HeroProps) {
            RESPONSIVE
         ════════════════════════════════════════════ */
         @media (max-width: 640px) {
-          /* nav: keep desktop horizontal tree — no stacking */
           .h3-node   { min-width: 80px; }
           .h3-box    { padding: 8px 12px; }
           .h3-link   { font-size: 0.82rem; letter-spacing: 2px; }
@@ -628,7 +613,7 @@ export default function Hero({ onScrollRequest }: HeroProps) {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.7 }}
             >
-              PRODUCTIONS · INC · EST. 2014
+              PRODUCTIONS · INC · EST. 2023
             </motion.p>
           </motion.div>
         )}
@@ -673,7 +658,7 @@ export default function Hero({ onScrollRequest }: HeroProps) {
             transition={{ duration:0.7 }}
           >
             <div className="h3-pre-line" />
-            <span className="h3-pre-txt">EST. 2014 · CHENNAI</span>
+            <span className="h3-pre-txt">EST. 2023 · CHENNAI</span>
             <div className="h3-pre-line" />
           </motion.div>
 
@@ -748,8 +733,9 @@ export default function Hero({ onScrollRequest }: HeroProps) {
               <span className="h3-stat-lbl">YEARS OF<br/>EVOLUTION</span>
             </div>
             <div className="h3-stat">
-              <span className="h3-stat-num">{followers}<span className="h3-stat-sup">K</span></span>
-              <span className="h3-stat-lbl">INSTAGRAM<br/>FOLLOWERS</span>
+              {/* ── CHANGED: Instagram → X / Twitter, 44K → 271.1K ── */}
+              <span className="h3-stat-num">{followers}<span className="h3-stat-sup">.1K</span></span>
+              <span className="h3-stat-lbl">X / TWITTER<br/>FOLLOWERS</span>
             </div>
             <div className="h3-stat">
               <span className="h3-stat-num">∞</span>
@@ -766,6 +752,7 @@ export default function Hero({ onScrollRequest }: HeroProps) {
           transition={{ delay:0.8, duration:0.8 }}
         >
           <div className="h3-byline">
+            {/* ── BRIGHTENED: full white + yellow glow on label ── */}
             <span className="h3-byline-lbl">CINEMA ENTREPRENEUR</span>
             <h2 className="h3-byline-name">ABISHEK RAAJA</h2>
           </div>

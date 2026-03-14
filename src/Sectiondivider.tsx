@@ -80,10 +80,10 @@ const MarqueeDivider = ({ label }: { label: string }) => {
   return (
     <div className="cpd-mq">
       <div className="cpd-mq-row cpd-mq-row--fwd">
-        <motion.span animate={{ x: ['0%', '-50%'] }} transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}>{repeat}{repeat}</motion.span>
+        <motion.span animate={{ x: ['0%', '-50%'] }} transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}>{repeat}{repeat}</motion.span>
       </div>
       <div className="cpd-mq-row cpd-mq-row--rev">
-        <motion.span animate={{ x: ['-50%', '0%'] }} transition={{ duration: 26, repeat: Infinity, ease: 'linear' }}>{repeat}{repeat}</motion.span>
+        <motion.span animate={{ x: ['-50%', '0%'] }} transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}>{repeat}{repeat}</motion.span>
       </div>
     </div>
   );

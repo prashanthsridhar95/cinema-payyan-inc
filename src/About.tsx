@@ -12,6 +12,47 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
     Images.madras,
   ];
 
+  const socials = [
+    {
+      label: "Instagram",
+      handle: "@cinemapayyan",
+      url: "https://www.instagram.com/cinemapayyan.inc/",
+      color: "#E1306C",
+      glow: "rgba(225,48,108,0.35)",
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke="currentColor" strokeWidth="2" fill="none"/>
+          <circle cx="12" cy="12" r="5" stroke="currentColor" strokeWidth="2" fill="none"/>
+          <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/>
+        </svg>
+      ),
+    },
+    {
+      label: "X / Twitter",
+      handle: "@cinemapayyan",
+      url: "https://x.com/cinemapayyan",
+      color: "#fff",
+      glow: "rgba(255,255,255,0.25)",
+      icon: (
+        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L2.25 2.25h6.963l4.259 5.631L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/>
+        </svg>
+      ),
+    },
+    {
+      label: "YouTube",
+      handle: "OpenPannaa",
+      url: "https://www.youtube.com/@OpenPannaa",
+      color: "#FF0000",
+      glow: "rgba(255,0,0,0.35)",
+      icon: (
+        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
+          <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+        </svg>
+      ),
+    },
+  ];
+
   return (
     <>
       <style>{`
@@ -31,7 +72,6 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
           padding: 110px 8%;
         }
 
-        /* top hairline */
         .cp-ab-section::before {
           content: '';
           position: absolute;
@@ -41,7 +81,6 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
           pointer-events: none; z-index: 0;
         }
 
-        /* kanji watermark */
         .cp-ab-section::after {
           content: '人';
           position: absolute;
@@ -52,7 +91,6 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
           pointer-events: none; user-select: none; z-index: 0;
         }
 
-        /* film-grain noise */
         .cp-ab-grain {
           position: absolute; inset: 0;
           background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
@@ -60,13 +98,13 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
         }
 
         /* ═══════════════════════════════════════════
-           BACKGROUND LOGO TRAIN — slightly visible
+           LOGO TRAIN
         ═══════════════════════════════════════════ */
         .cp-ab-train-wrap {
           position: absolute;
           top: 15%; left: 0;
           width: 100%; height: 200px;
-          opacity: 0.18;           /* was 0.07 — now clearly visible */
+          opacity: 0.18;
           z-index: 1;
           pointer-events: none;
           display: flex; align-items: center;
@@ -104,7 +142,7 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
           width: 100%;
         }
 
-        /* ─── VISUAL SIDE ───────────────────────── */
+        /* ─── VISUAL SIDE ─── */
         .cp-ab-visual { position: relative; }
 
         .cp-ab-visual::before {
@@ -137,12 +175,10 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
         }
         .cp-ab-visual:hover .cp-ab-img { transform: scale(1.015); }
 
-        /* status badge */
         .cp-ab-badge {
           position: absolute;
           top: 20px; left: -18px;
           display: flex; align-items: center; gap: 9px;
-          /* Inter — badge label */
           font-family: 'Inter', sans-serif;
           font-size: 0.52rem;
           font-weight: 400;
@@ -162,7 +198,6 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
           border-color: #fde047; color: #fde047;
         }
 
-        /* live dot */
         .cp-ab-dot {
           width: 7px; height: 7px;
           background: #ff3333;
@@ -176,10 +211,7 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
           50%      { opacity: 0.35; transform: scale(1.3); }
         }
 
-        /* ─── TEXT SIDE ─────────────────────────── */
-        .cp-ab-text {}
-
-        /* pre-label */
+        /* ─── TEXT SIDE ─── */
         .cp-ab-pre {
           display: flex; align-items: center; gap: 12px;
           margin-bottom: 18px;
@@ -188,7 +220,6 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
           width: 32px; height: 1px;
           background: #fde047; opacity: 0.7;
         }
-        /* Inter — pre-label (same as h3-pre-txt) */
         .cp-ab-pre-text {
           font-family: 'Inter', sans-serif;
           font-size: 0.6rem;
@@ -197,7 +228,6 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
           color: rgba(253,224,71,0.85); text-transform: uppercase;
         }
 
-        /* Bebas Neue — main heading */
         .cp-ab-title {
           font-family: 'Bebas Neue', sans-serif;
           font-size: clamp(3.8rem, 9vw, 8rem);
@@ -208,14 +238,12 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
         }
         .cp-ab-title-yellow { color: #fde047; }
 
-        /* gradient rule */
         .cp-ab-rule {
           width: 100%; height: 1px;
           background: linear-gradient(90deg, rgba(253,224,71,0.25), rgba(50,197,244,0.2), transparent);
           margin-bottom: 26px;
         }
 
-        /* Inter — lead paragraph */
         .cp-ab-lead {
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.9rem, 1.4vw, 1.05rem);
@@ -228,7 +256,6 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
           text-shadow: 0 0 18px rgba(50,197,244,0.3);
         }
 
-        /* Inter — philosophy paragraph */
         .cp-ab-philosophy {
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.82rem, 1.2vw, 0.95rem);
@@ -243,7 +270,7 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
           border-bottom: 1px solid rgba(253,224,71,0.4);
         }
 
-        /* ─── STATS STRIP ───────────────────────── */
+        /* ─── STATS STRIP ─── */
         .cp-ab-stats {
           display: flex;
           align-items: stretch;
@@ -265,7 +292,6 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
           margin: 0 22px; align-self: stretch;
         }
 
-        /* Bebas Neue — stat numbers */
         .cp-ab-stat-num {
           font-family: 'Bebas Neue', sans-serif;
           font-size: clamp(2rem, 3.5vw, 2.8rem);
@@ -273,7 +299,6 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
           line-height: 1; letter-spacing: 2px;
         }
 
-        /* Inter — stat labels */
         .cp-ab-stat-label {
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.44rem, 1vw, 0.54rem);
@@ -282,6 +307,107 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
           color: rgba(255,255,255,0.6);
           text-transform: uppercase; line-height: 1.5;
         }
+
+        /* ═══════════════════════════════════════════
+           SOCIAL LINKS
+        ═══════════════════════════════════════════ */
+        .cp-ab-socials {
+          display: flex;
+          gap: 12px;
+          margin-top: 20px;
+          flex-wrap: wrap;
+        }
+
+        .cp-ab-social-btn {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 10px 16px;
+          border: 1px solid rgba(255,255,255,0.1);
+          background: rgba(255,255,255,0.03);
+          text-decoration: none;
+          transition: border-color 0.3s, background 0.3s, transform 0.3s, box-shadow 0.3s;
+          flex: 1;
+          min-width: 130px;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .cp-ab-social-btn::before {
+          content: '';
+          position: absolute; inset: 0;
+          background: var(--s-glow, transparent);
+          opacity: 0;
+          transition: opacity 0.35s;
+          z-index: 0;
+        }
+        .cp-ab-social-btn:hover::before { opacity: 0.07; }
+
+        .cp-ab-social-btn:hover {
+          border-color: var(--s-color, #fff);
+          transform: translateY(-3px);
+          box-shadow: 0 8px 28px var(--s-glow, rgba(255,255,255,0.1));
+        }
+
+        .cp-ab-social-icon {
+          width: 18px;
+          height: 18px;
+          flex-shrink: 0;
+          color: var(--s-color, #fff);
+          position: relative; z-index: 1;
+          transition: color 0.3s, filter 0.3s;
+        }
+        .cp-ab-social-btn:hover .cp-ab-social-icon {
+          filter: drop-shadow(0 0 6px var(--s-glow, rgba(255,255,255,0.5)));
+        }
+
+        .cp-ab-social-info {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          position: relative; z-index: 1;
+          min-width: 0;
+        }
+
+        .cp-ab-social-platform {
+          font-family: 'Bebas Neue', sans-serif;
+          font-size: 0.78rem;
+          letter-spacing: 3px;
+          color: rgba(255,255,255,0.5);
+          text-transform: uppercase;
+          transition: color 0.3s;
+          white-space: nowrap;
+        }
+        .cp-ab-social-btn:hover .cp-ab-social-platform {
+          color: var(--s-color, #fff);
+        }
+
+        .cp-ab-social-handle {
+          font-family: 'Inter', sans-serif;
+          font-size: 0.62rem;
+          font-weight: 400;
+          letter-spacing: 1px;
+          color: rgba(255,255,255,0.35);
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          transition: color 0.3s;
+        }
+        .cp-ab-social-btn:hover .cp-ab-social-handle {
+          color: rgba(255,255,255,0.7);
+        }
+
+        /* corner accent on each social btn */
+        .cp-ab-social-btn::after {
+          content: '';
+          position: absolute; top: 0; left: 0;
+          width: 8px; height: 8px;
+          border-top: 1px solid var(--s-color, rgba(255,255,255,0.2));
+          border-left: 1px solid var(--s-color, rgba(255,255,255,0.2));
+          opacity: 0.4;
+          transition: opacity 0.3s;
+        }
+        .cp-ab-social-btn:hover::after { opacity: 1; }
 
         /* ═══════════════════════════════════════════
            RESPONSIVE
@@ -298,23 +424,34 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
           .cp-ab-visual::before,
           .cp-ab-visual::after { display: none; }
           .cp-ab-stats    { justify-content: center; max-width: 340px; margin: 38px auto 0; }
+          .cp-ab-socials  { justify-content: center; max-width: 420px; margin: 20px auto 0; }
         }
+
         @media (max-width: 768px) {
           .cp-ab-section  { padding: 70px 5% 80px; }
           .cp-ab-train-logo { height: 65px; margin-right: 40px; }
+          .cp-ab-social-btn { min-width: 110px; padding: 9px 12px; gap: 8px; }
+          .cp-ab-social-icon { width: 16px; height: 16px; }
         }
+
         @media (max-width: 480px) {
           .cp-ab-section  { padding: 60px 4% 70px; }
           .cp-ab-title    { font-size: clamp(3rem, 16vw, 4.5rem); }
           .cp-ab-stat-num { font-size: 2rem; }
           .cp-ab-stat-label { font-size: 0.5rem; }
+          .cp-ab-socials  { gap: 8px; }
+          .cp-ab-social-btn { min-width: calc(50% - 4px); flex: none; }
+        }
+
+        @media (max-width: 360px) {
+          .cp-ab-social-btn { min-width: 100%; flex: none; }
         }
       `}</style>
 
       <section ref={ref} className="cp-ab-section">
         <div className="cp-ab-grain" />
 
-        {/* ── LOGO TRAIN ──────────────────────────── */}
+        {/* ── LOGO TRAIN ── */}
         <div className="cp-ab-train-wrap">
           <div className="cp-ab-train-track">
             {[...movieTrain, ...movieTrain, ...movieTrain].map((img, i) => (
@@ -323,8 +460,9 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
           </div>
         </div>
 
-        {/* ── MAIN LAYOUT ─────────────────────────── */}
+        {/* ── MAIN LAYOUT ── */}
         <div className="cp-ab-layout">
+
           {/* Visual */}
           <motion.div
             className="cp-ab-visual"
@@ -410,6 +548,40 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
                 </span>
               </div>
             </div>
+
+            {/* ── SOCIAL LINKS ── */}
+            <motion.div
+              className="cp-ab-socials"
+              initial={{ opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.45 }}
+              viewport={{ once: true }}
+            >
+              {socials.map((s, i) => (
+                <motion.a
+                  key={i}
+                  href={s.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="cp-ab-social-btn"
+                  style={{
+                    ["--s-color" as string]: s.color,
+                    ["--s-glow" as string]: s.glow,
+                  }}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.5 + i * 0.08 }}
+                  viewport={{ once: true }}
+                >
+                  <span className="cp-ab-social-icon">{s.icon}</span>
+                  <span className="cp-ab-social-info">
+                    <span className="cp-ab-social-platform">{s.label}</span>
+                    <span className="cp-ab-social-handle">{s.handle}</span>
+                  </span>
+                </motion.a>
+              ))}
+            </motion.div>
+
           </motion.div>
         </div>
       </section>

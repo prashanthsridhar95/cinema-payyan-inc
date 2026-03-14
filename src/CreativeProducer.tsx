@@ -1,144 +1,18 @@
-import { useState, useRef, useMemo, useEffect } from "react";
-import { motion, AnimatePresence, useInView } from "framer-motion";
-import { Instagram, LayoutGrid, Youtube, Play, Clapperboard, ExternalLink } from "lucide-react";
-import { Images, VideoAssets } from "./assets/assets";
-
-/* ─── YouTube Card ──────────────────────────── */
-function YTCard({ item, index }: { item: any; index: number }) {
-  const [hovered, setHovered] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    const v = videoRef.current;
-    if (!v) return;
-    if (hovered) { v.muted = true; v.play().catch(() => {}); }
-    else { v.pause(); v.currentTime = 0; }
-  }, [hovered]);
-
-  return (
-    <motion.div
-      className="cpcp-yt-card"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1, duration: 0.5 }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      <div className="cpcp-yt-media">
-        <video ref={videoRef} src={item.preview} className="cpcp-yt-video" muted loop playsInline />
-        <div className="cpcp-yt-gradient" />
-        <div className="cpcp-yt-tag">{item.tag}</div>
-        <motion.a
-          href={item.link} target="_blank" rel="noreferrer"
-          className="cpcp-yt-play"
-          animate={{ opacity: hovered ? 1 : 0.7, scale: hovered ? 1.08 : 1 }}
-          transition={{ duration: 0.25 }}
-        >
-          <Play fill="black" size={18} />
-        </motion.a>
-        <motion.div
-          className="cpcp-yt-scan"
-          animate={{ scaleX: hovered ? 1 : 0 }}
-          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-        />
-      </div>
-      <div className="cpcp-yt-info">
-        <h5 className="cpcp-yt-title">{item.title}</h5>
-        <p className="cpcp-yt-desc">{item.desc}</p>
-      </div>
-    </motion.div>
-  );
-}
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import { Instagram, Clapperboard, ExternalLink, Star } from "lucide-react";
+import { Images } from "./assets/assets";
 
 /* ─── MAIN ──────────────────────────────────── */
 const CreativeProducer = () => {
-  const [activeTab,   setActiveTab]   = useState("images");
-  const [scrollIndex, setScrollIndex] = useState(0);
-  const scrollRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const inView    = useInView(headerRef, { once: true, amount: 0.5 });
-
-  const imagesList = useMemo(() => [
-    Images.CreativePr1, Images.CreativePr2, Images.CreativePr3,
-    Images.CreativePr4, Images.CreativePr5,
-  ], []);
-
-  const reelsList = useMemo(() => [
-    VideoAssets.vjPreviews[15], VideoAssets.vjPreviews[16],
-    VideoAssets.vjPreviews[17], VideoAssets.vjPreviews[18],
-  ], []);
-
-  const youtubeList = useMemo(() => [
-    {
-      id: 1, title: "Madras Matinee Reveal",
-      desc: "Engineered the official digital reveal campaign, generating 500k+ organic impressions.",
-      link: "https://youtu.be/iOoRSnCsftQ",
-      preview: VideoAssets.vjPreviews[19], tag: "BRAND REVEAL",
-    },
-    {
-      id: 2, title: "Marketing Strategy",
-      desc: "High-impact precision targeting campaign focusing on regional cinema demographics.",
-      link: "https://youtu.be/O_3zIwyqL6s",
-      preview: VideoAssets.vjPreviews[20], tag: "DIGITAL STRATEGY",
-    },
-    {
-      id: 3, title: "Matinee Trailer Drop",
-      desc: "Coordinated cross-platform trailer distribution and hype-cycle management.",
-      link: "https://youtu.be/F_LRE9Bfaw0",
-      preview: VideoAssets.vjPreviews[21], tag: "PROMO DROP",
-    },
-  ], []);
-
-  const currentList =
-    activeTab === "images"  ? imagesList  :
-    activeTab === "reels"   ? reelsList   : youtubeList;
-
-  const handleScroll = () => {
-    const container = scrollRef.current;
-    if (!container) return;
-    const cards = Array.from(container.querySelectorAll<HTMLElement>('[data-card]'));
-    if (!cards.length) return;
-    const cMid = container.scrollLeft + container.offsetWidth / 2;
-    let bestIdx = 0, bestDist = Infinity;
-    cards.forEach((card) => {
-      const dist = Math.abs(card.offsetLeft + card.offsetWidth / 2 - cMid);
-      if (dist < bestDist) { bestDist = dist; bestIdx = Number(card.dataset.card); }
-    });
-    setScrollIndex(bestIdx);
-  };
-
-  useEffect(() => {
-    const c = scrollRef.current;
-    if (!c) return;
-    c.scrollLeft = 0;
-    setScrollIndex(0);
-  }, [activeTab]);
-
-  const scrollToCard = (i: number) => {
-    setScrollIndex(i);
-    const container = scrollRef.current;
-    if (!container) return;
-    const card = container.querySelector<HTMLElement>(`[data-card="${i}"]`);
-    if (!card) return;
-    const target = card.offsetLeft + card.offsetWidth / 2 - container.offsetWidth / 2;
-    container.scrollTo({ left: target, behavior: 'smooth' });
-  };
-
-  const tabs = [
-    { key: "images",  label: "IMAGES",  Icon: LayoutGrid },
-    { key: "reels",   label: "REELS",   Icon: Instagram  },
-    { key: "youtube", label: "YOUTUBE", Icon: Youtube    },
-  ];
 
   return (
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;700;900&display=swap');
 
-        /* ══════════════════════════════════════════
-           SECTION — DEEP RICH PURPLE / VIOLET
-           Digital campaign war room · Cinema marketing
-        ══════════════════════════════════════════ */
         .cpcp-section {
           background: #0e0814;
           background: radial-gradient(ellipse at top center, #1a0d28 0%, #0e0814 55%, #090610 100%);
@@ -184,8 +58,6 @@ const CreativeProducer = () => {
           display: flex; align-items: center; justify-content: center;
           color: #fde047; flex-shrink: 0;
         }
-
-        /* Inter — overline */
         .cpcp-overline {
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.48rem, 1.5vw, 0.6rem);
@@ -193,8 +65,6 @@ const CreativeProducer = () => {
           color: rgba(255,255,255,0.55); text-transform: uppercase;
           display: block; margin-bottom: 5px;
         }
-
-        /* Bebas Neue — section heading */
         .cpcp-heading {
           font-family: 'Bebas Neue', sans-serif;
           font-size: clamp(1.8rem, 4.5vw, 3.2rem);
@@ -203,41 +73,39 @@ const CreativeProducer = () => {
         }
         .cpcp-heading-yellow { color: #fde047; }
 
-        /* ── FEATURE CARD ── */
-        .cpcp-feature {
-          display: grid;
-          grid-template-columns: 1fr 1.2fr;
-          gap: 60px;
+        /* ═══════════════════════════════════════
+           TOP LOGO BLOCK — centered
+        ═══════════════════════════════════════ */
+        .cpcp-logo-block {
+          display: flex;
+          flex-direction: column;
           align-items: center;
-          margin-bottom: 100px;
+          margin-bottom: 64px;
         }
 
-        .cpcp-img-side {
+        .cpcp-logo-corners {
           position: relative;
-          display: flex; align-items: center; justify-content: center;
-          padding-bottom: 56px;
+          display: inline-block;
         }
-        .cpcp-corner { position: absolute; width: 20px; height: 20px; pointer-events: none; z-index: 5; }
-        .cpcp-corner--tl { top:-8px; left:-8px; border-top:1px solid rgba(253,224,71,0.5); border-left:1px solid rgba(253,224,71,0.5); }
-        .cpcp-corner--tr { top:-8px; right:-8px; border-top:1px solid rgba(253,224,71,0.5); border-right:1px solid rgba(253,224,71,0.5); }
-        .cpcp-corner--bl { bottom:56px; left:-8px; border-bottom:1px solid rgba(50,197,244,0.4); border-left:1px solid rgba(50,197,244,0.4); }
-        .cpcp-corner--br { bottom:56px; right:-8px; border-bottom:1px solid rgba(50,197,244,0.4); border-right:1px solid rgba(50,197,244,0.4); }
+        .cpcp-logo-corner { position: absolute; width: 20px; height: 20px; pointer-events: none; }
+        .cpcp-logo-corner--tl { top:-10px; left:-10px; border-top:1px solid rgba(253,224,71,0.5); border-left:1px solid rgba(253,224,71,0.5); }
+        .cpcp-logo-corner--tr { top:-10px; right:-10px; border-top:1px solid rgba(253,224,71,0.5); border-right:1px solid rgba(253,224,71,0.5); }
+        .cpcp-logo-corner--bl { bottom:-10px; left:-10px; border-bottom:1px solid rgba(50,197,244,0.4); border-left:1px solid rgba(50,197,244,0.4); }
+        .cpcp-logo-corner--br { bottom:-10px; right:-10px; border-bottom:1px solid rgba(50,197,244,0.4); border-right:1px solid rgba(50,197,244,0.4); }
 
-        .cpcp-img {
-          max-width: 100%; height: auto; display: block;
-          filter: drop-shadow(0 20px 50px rgba(0,0,0,0.85));
+        .cpcp-logo-img {
+          width: clamp(160px, 26vw, 280px);
+          height: auto; display: block;
+          filter: drop-shadow(0 0 40px rgba(253,224,71,0.15)) drop-shadow(0 20px 50px rgba(0,0,0,0.85));
+          transition: filter 0.5s ease, transform 0.5s ease;
         }
-        /* purple glow instead of cyan */
-        .cpcp-img-glow {
-          position: absolute; inset: 0;
-          background: radial-gradient(circle at center, rgba(160,80,255,0.08) 0%, transparent 65%);
-          pointer-events: none; z-index: 0;
+        .cpcp-logo-corners:hover .cpcp-logo-img {
+          filter: drop-shadow(0 0 55px rgba(253,224,71,0.28)) drop-shadow(0 20px 50px rgba(0,0,0,0.85));
+          transform: scale(1.03);
         }
 
-        .cpcp-insta-btn {
-          position: absolute;
-          bottom: 0; left: 50%;
-          transform: translateX(-50%);
+        .cpcp-logo-insta {
+          margin-top: 22px;
           display: inline-flex; align-items: center; gap: 9px;
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.44rem, 1.2vw, 0.56rem);
@@ -248,94 +116,230 @@ const CreativeProducer = () => {
           background: rgba(14,8,20,0.85);
           backdrop-filter: blur(14px);
           border: 1px solid rgba(253,224,71,0.35);
-          padding: 10px 22px;
-          z-index: 8;
-          transition: border-color 0.3s, color 0.3s, background 0.3s;
-          overflow: hidden;
+          padding: 10px 24px;
+          position: relative; overflow: hidden;
+          transition: color 0.3s;
         }
-        .cpcp-insta-btn::before {
+        .cpcp-logo-insta::before {
           content: '';
           position: absolute; inset: 0;
           background: #fde047;
           transform: scaleX(0); transform-origin: left; z-index: 0;
           transition: transform 0.38s cubic-bezier(0.77,0,0.18,1);
         }
-        .cpcp-insta-btn:hover::before { transform: scaleX(1); }
-        .cpcp-insta-btn:hover { color: #000; border-color: #fde047; }
-        .cpcp-insta-btn svg,
-        .cpcp-insta-btn span { position: relative; z-index: 1; }
+        .cpcp-logo-insta:hover::before { transform: scaleX(1); }
+        .cpcp-logo-insta:hover { color: #000; }
+        .cpcp-logo-insta svg,
+        .cpcp-logo-insta span { position: relative; z-index: 1; }
 
-        .cpcp-pre { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
-        .cpcp-pre-line { width: 28px; height: 1px; background: #fde047; opacity: 0.5; }
+        .cpcp-logo-meta { margin-top: 28px; text-align: center; }
 
-        /* Inter — pre-label */
-        .cpcp-pre-text {
-          font-family: 'Inter', sans-serif;
-          font-size: clamp(0.48rem, 1.2vw, 0.6rem);
-          font-weight: 400; letter-spacing: 6px;
-          color: rgba(253,224,71,0.8); text-transform: uppercase;
+        .cpcp-pre {
+          display: flex; align-items: center; justify-content: center;
+          gap: 12px; margin-bottom: 10px;
         }
 
-        /* Bebas Neue — feature title */
         .cpcp-title {
           font-family: 'Bebas Neue', sans-serif;
-          font-size: clamp(2.4rem, 5.5vw, 4.5rem);
+          font-size: clamp(2.2rem, 5vw, 4rem);
           font-weight: 400; letter-spacing: 4px;
-          color: #fff; line-height: 0.95; margin: 0 0 10px;
+          color: #fff; line-height: 0.95; margin: 0 0 14px;
         }
         .cpcp-title-yellow { color: #fde047; }
 
-        /* Inter — tagline */
-        .cpcp-tagline {
+        .cpcp-tagline-pills {
+          display: flex; flex-wrap: wrap; gap: 8px;
+          justify-content: center; margin: 0 0 16px;
+        }
+        .cpcp-pill {
           font-family: 'Inter', sans-serif;
-          font-size: clamp(0.48rem, 1.2vw, 0.6rem);
-          font-weight: 400; letter-spacing: 4px;
-          color: rgba(50,197,244,0.9); text-transform: uppercase; margin: 0 0 18px;
+          font-size: clamp(0.44rem, 1.1vw, 0.56rem);
+          font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+          padding: 5px 14px; border: 1px solid; white-space: nowrap;
         }
-        .cpcp-rule {
-          width: 100%; height: 1px;
-          background: linear-gradient(90deg, rgba(253,224,71,0.3), rgba(50,197,244,0.2), transparent);
-          margin-bottom: 20px;
-        }
+        .cpcp-pill--1 { color: #32c5f4; border-color: rgba(50,197,244,0.35); background: rgba(50,197,244,0.06); }
+        .cpcp-pill--2 { color: #fde047; border-color: rgba(253,224,71,0.35); background: rgba(253,224,71,0.06); }
+        .cpcp-pill--3 { color: rgba(255,255,255,0.7); border-color: rgba(255,255,255,0.15); background: rgba(255,255,255,0.04); }
 
-        /* Inter — description */
+        .cpcp-rule {
+          width: clamp(160px, 40%, 380px); margin: 0 auto 16px;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(253,224,71,0.3), rgba(50,197,244,0.2), transparent);
+        }
         .cpcp-desc {
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.82rem, 1.2vw, 0.95rem);
           font-weight: 300;
-          color: rgba(255,255,255,0.65); line-height: 1.85; margin: 0 0 28px;
+          color: rgba(255,255,255,0.65); line-height: 1.85;
+          max-width: 560px; margin: 0 auto;
         }
         .cpcp-highlight { color: #fff; font-weight: 700; border-bottom: 1px solid rgba(253,224,71,0.4); }
 
-        /* stats — purple tinted */
-        .cpcp-stats {
-          display: flex; align-items: stretch;
-          border: 1px solid rgba(160,80,255,0.15);
-          background: rgba(160,80,255,0.04);
-          padding: 18px 24px; margin-bottom: 32px; gap: 0;
-          position: relative; z-index: 1;
+        /* ═══════════════════════════════════════
+           TWO CARDS SIDE BY SIDE
+        ═══════════════════════════════════════ */
+        .cpcp-cards-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 24px;
+          margin-top: 50px;
         }
-        .cpcp-stat { display: flex; flex-direction: column; gap: 5px; flex: 1; }
-        .cpcp-stat-divider { width: 1px; flex-shrink: 0; background: rgba(160,80,255,0.15); margin: 0 20px; }
 
-        /* Bebas Neue — stat numbers */
-        .cpcp-stat-num {
-          font-family: 'Bebas Neue', sans-serif;
-          font-size: clamp(2rem, 3vw, 2.8rem);
-          font-weight: 400; color: #32c5f4; line-height: 1;
-          letter-spacing: 2px;
+        .cpcp-lcu-card {
+          position: relative;
+          border: 1px solid rgba(253,224,71,0.25);
+          background: rgba(253,224,71,0.03);
+          padding: 0; overflow: hidden;
+          transition: border-color 0.35s, box-shadow 0.35s;
+          text-decoration: none;
+          display: flex; flex-direction: column;
         }
-        .cpcp-stat-plus { font-size: 0.6em; vertical-align: super; }
+        .cpcp-lcu-card:hover {
+          border-color: rgba(253,224,71,0.55);
+          box-shadow: 0 8px 32px rgba(253,224,71,0.08);
+        }
+        .cpcp-lcu-card::before {
+          content: '';
+          position: absolute; top: 0; left: 0;
+          width: 3px; height: 100%;
+          background: linear-gradient(to bottom, #fde047, #32c5f4);
+          z-index: 6;
+        }
+        .cpcp-lcu-card--cyan { border-color: rgba(50,197,244,0.25); background: rgba(50,197,244,0.02); }
+        .cpcp-lcu-card--cyan:hover { border-color: rgba(50,197,244,0.5); box-shadow: 0 8px 32px rgba(50,197,244,0.07); }
+        .cpcp-lcu-card--cyan::before { background: linear-gradient(to bottom, #32c5f4, #fde047); }
 
-        /* Inter — stat labels */
-        .cpcp-stat-label {
+        /* ── image area ── */
+        .cpcp-lcu-img-wrap {
+          position: relative; width: 100%;
+          background: #0a0614; overflow: hidden;
+          display: flex; align-items: center; justify-content: center;
+        }
+
+        /* Madras — contain, full poster visible, centered */
+        .cpcp-lcu-img-wrap--contain {
+          padding: 20px 12%;
+          min-height: 220px;
+        }
+        .cpcp-lcu-img-wrap--contain .cpcp-lcu-img {
+          width: auto; max-width: 100%; max-height: 340px; height: auto;
+          object-fit: contain; position: static;
+        }
+
+        /* LCU — cover landscape */
+        .cpcp-lcu-img-wrap--cover {
+          aspect-ratio: 16/9;
+        }
+        .cpcp-lcu-img-wrap--cover .cpcp-lcu-img {
+          position: absolute; inset: 0;
+          width: 100%; height: 100%; object-fit: cover;
+        }
+
+        .cpcp-lcu-img {
+          display: block;
+          transition: transform 0.65s ease, filter 0.45s ease;
+          filter: brightness(0.88) saturate(0.9);
+        }
+        .cpcp-lcu-card:hover .cpcp-lcu-img {
+          transform: scale(1.04);
+          filter: brightness(1) saturate(1.05);
+        }
+        .cpcp-lcu-img-overlay {
+          position: absolute; inset: 0;
+          background: linear-gradient(to bottom, transparent 40%, rgba(14,8,20,0.65) 100%);
+          pointer-events: none; z-index: 2;
+        }
+        .cpcp-lcu-img-tl, .cpcp-lcu-img-br {
+          position: absolute; width: 14px; height: 14px;
+          pointer-events: none; z-index: 4;
+        }
+        .cpcp-lcu-img-tl { top:10px; left:14px; border-top:1px solid rgba(253,224,71,0.6); border-left:1px solid rgba(253,224,71,0.6); }
+        .cpcp-lcu-img-br { bottom:10px; right:10px; border-bottom:1px solid rgba(50,197,244,0.5); border-right:1px solid rgba(50,197,244,0.5); }
+        .cpcp-lcu-play {
+          position: absolute; bottom: 12px; right: 12px;
+          width: 32px; height: 32px; border-radius: 50%;
+          background: rgba(253,224,71,0.92);
+          display: flex; align-items: center; justify-content: center;
+          z-index: 4; opacity: 0; transform: scale(0.8);
+          transition: opacity 0.3s, transform 0.3s;
+        }
+        .cpcp-lcu-card:hover .cpcp-lcu-play { opacity: 1; transform: scale(1); }
+
+        /* card body */
+        .cpcp-lcu-body {
+          padding: 16px 20px 18px 20px;
+          position: relative; flex: 1;
+        }
+        .cpcp-lcu-body::after {
+          content: '';
+          position: absolute; inset: 0;
+          background: linear-gradient(135deg, rgba(253,224,71,0.04), transparent 60%);
+          opacity: 0; transition: opacity 0.35s; pointer-events: none;
+        }
+        .cpcp-lcu-card:hover .cpcp-lcu-body::after { opacity: 1; }
+
+        .cpcp-lcu-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .cpcp-lcu-badge {
+          display: flex; align-items: center; gap: 6px;
           font-family: 'Inter', sans-serif;
-          font-size: clamp(0.42rem, 1vw, 0.52rem);
-          font-weight: 400; letter-spacing: 3px;
-          color: rgba(255,255,255,0.5); text-transform: uppercase;
+          font-size: 0.42rem; font-weight: 700; letter-spacing: 2px;
+          text-transform: uppercase; color: #000;
+          background: #fde047; padding: 3px 8px; white-space: nowrap;
         }
+        .cpcp-lcu-badge--cyan { background: #32c5f4; }
+        .cpcp-lcu-view-label {
+          font-family: 'Bebas Neue', sans-serif;
+          font-size: 0.9rem; letter-spacing: 3px;
+          color: rgba(255,255,255,0.5); text-transform: uppercase;
+          margin-left: auto; display: flex; align-items: center; gap: 6px;
+        }
+        .cpcp-lcu-title {
+          font-family: 'Bebas Neue', sans-serif;
+          font-size: clamp(1.05rem, 1.9vw, 1.4rem);
+          letter-spacing: 3px; color: #fff; line-height: 1.1; margin: 0 0 8px;
+        }
+        .cpcp-lcu-title span { color: #fde047; }
+        .cpcp-lcu-title-cyan { color: #32c5f4 !important; }
+        .cpcp-lcu-desc {
+          font-family: 'Inter', sans-serif;
+          font-size: clamp(0.67rem, 1vw, 0.76rem);
+          font-weight: 300; letter-spacing: 0.3px;
+          color: rgba(255,255,255,0.6); line-height: 1.75; margin: 0;
+        }
+        .cpcp-lcu-desc em { color: #32c5f4; font-style: normal; font-weight: 700; }
+        .cpcp-lcu-footer {
+          display: flex; align-items: center; gap: 8px;
+          margin-top: 12px; padding-top: 10px;
+          border-top: 1px solid rgba(253,224,71,0.1);
+          flex-wrap: wrap;
+        }
+        .cpcp-lcu-collab {
+          font-family: 'Inter', sans-serif;
+          font-size: 0.44rem; font-weight: 400; letter-spacing: 1.5px;
+          color: rgba(255,255,255,0.4); text-transform: uppercase;
+          flex: 1; min-width: 0;
+        }
+        .cpcp-lcu-collab strong { color: rgba(253,224,71,0.7); font-weight: 700; }
+        .cpcp-lcu-cta {
+          display: flex; align-items: center; gap: 5px;
+          font-family: 'Inter', sans-serif;
+          font-size: 0.44rem; font-weight: 700; letter-spacing: 2px;
+          color: #fde047; text-transform: uppercase; flex-shrink: 0;
+          transition: gap 0.3s;
+        }
+        .cpcp-lcu-card:hover .cpcp-lcu-cta { gap: 8px; }
+        .cpcp-lcu-cta--cyan { color: #32c5f4; }
+        .cpcp-lcu-mention {
+          color: #32c5f4; font-weight: 700; text-decoration: none;
+          border-bottom: 1px solid rgba(50,197,244,0.3);
+          transition: color 0.2s, border-color 0.2s;
+        }
+        .cpcp-lcu-mention:hover { color: #fff; border-color: #fff; }
+        .cpcp-lcu-collab-link { color: inherit; text-decoration: none; transition: color 0.2s; }
+        .cpcp-lcu-collab-link:hover strong { color: #fff; }
 
-        /* Inter — CTA */
+        /* bottom CTA */
+        .cpcp-cta-wrap { display: flex; justify-content: center; margin-top: 44px; }
         .cpcp-cta {
           position: relative; overflow: hidden;
           display: inline-flex; align-items: center; gap: 10px;
@@ -355,143 +359,15 @@ const CreativeProducer = () => {
         .cpcp-cta:hover { color: #000; }
         .cpcp-cta-label, .cpcp-cta svg { position: relative; z-index: 1; }
 
-        /* ── TABS ── */
-        .cpcp-tabs-wrap { margin-top: 10px; }
-        .cpcp-tab-bar {
-          display: flex; gap: 0;
-          border: 1px solid rgba(160,80,255,0.15);
-          width: fit-content; margin-bottom: 28px; overflow: hidden;
-        }
-        .cpcp-tab {
-          position: relative; display: flex; align-items: center; gap: 8px;
-          padding: 12px 28px; background: transparent; border: none; cursor: pointer;
-          font-family: 'Inter', sans-serif;
-          font-size: clamp(0.44rem, 1.2vw, 0.58rem);
-          font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
-          color: rgba(255,255,255,0.45); transition: color 0.3s;
-          border-right: 1px solid rgba(160,80,255,0.12);
-        }
-        .cpcp-tab:last-child { border-right: none; }
-        .cpcp-tab:hover { color: rgba(255,255,255,0.8); }
-        .cpcp-tab--active { color: #000; }
-        .cpcp-tab--active .cpcp-tab-icon { color: #000; }
-        .cpcp-tab-pill { position: absolute; inset: 0; background: #fde047; z-index: 0; }
-        .cpcp-tab-icon, .cpcp-tab-label { position: relative; z-index: 1; }
-        .cpcp-tab-icon { opacity: 0.7; }
-        .cpcp-tab--active .cpcp-tab-icon { opacity: 1; }
-
-        /* ── DESKTOP GRID ── */
-        .cpcp-desktop-grid { display: grid; gap: 20px; align-items: start; }
-        .cpcp-desktop-grid--images  { grid-template-columns: repeat(5, 1fr); }
-        .cpcp-desktop-grid--reels   { grid-template-columns: repeat(4, 1fr); }
-        .cpcp-desktop-grid--youtube { grid-template-columns: repeat(3, 1fr); }
-
-        /* POSTER — purple tinted bg */
-        .cpcp-poster {
-          width: 100%; aspect-ratio: 2/3; overflow: hidden;
-          border: 1px solid rgba(160,80,255,0.1);
-          background: #130a1e; position: relative; transition: border-color 0.35s;
-        }
-        .cpcp-poster:hover { border-color: rgba(253,224,71,0.25); }
-        .cpcp-poster img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.55s ease; }
-        .cpcp-poster:hover img { transform: scale(1.07); }
-        .cpcp-poster-overlay { position: absolute; inset: 0; background: rgba(160,80,255,0.06); opacity: 0; transition: opacity 0.35s; }
-        .cpcp-poster:hover .cpcp-poster-overlay { opacity: 1; }
-        .cpcp-poster-tl, .cpcp-poster-br { position: absolute; width: 10px; height: 10px; pointer-events: none; z-index: 4; }
-        .cpcp-poster-tl { top:7px; left:7px; border-top:1px solid rgba(253,224,71,0.45); border-left:1px solid rgba(253,224,71,0.45); }
-        .cpcp-poster-br { bottom:7px; right:7px; border-bottom:1px solid rgba(253,224,71,0.45); border-right:1px solid rgba(253,224,71,0.45); }
-
-        /* REEL — purple tinted bg */
-        .cpcp-reel-card {
-          width: 100%; aspect-ratio: 9/16; overflow: hidden;
-          border: 1px solid rgba(160,80,255,0.1);
-          background: #130a1e; position: relative; transition: border-color 0.35s, transform 0.4s;
-        }
-        .cpcp-reel-card:hover { border-color: rgba(50,197,244,0.25); transform: translateY(-6px); }
-        .cpcp-reel-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
-        .cpcp-reel-gradient { position: absolute; inset:0; background: linear-gradient(to bottom, transparent 55%, rgba(0,0,0,0.65) 100%); pointer-events:none; }
-
-        /* Inter — reel tag */
-        .cpcp-reel-tag {
-          position: absolute; bottom:10px; left:10px; right:10px;
-          display: flex; justify-content: space-between; align-items: center;
-          font-family: 'Inter', sans-serif;
-          font-size: clamp(0.42rem, 1vw, 0.52rem);
-          font-weight: 400; letter-spacing: 3px; text-transform: uppercase;
-          color: rgba(255,255,255,0.85); z-index:3;
-        }
-        .cpcp-reel-num { color: #fde047; font-weight: 700; }
-
-        /* YT CARD — purple tinted bg */
-        .cpcp-yt-card {
-          width: 100%;
-          background: #130a1e;
-          border: 1px solid rgba(160,80,255,0.1); overflow: hidden;
-          transition: border-color 0.35s, box-shadow 0.35s;
-        }
-        .cpcp-yt-card:hover { border-color: rgba(253,224,71,0.2); box-shadow: 0 12px 40px rgba(0,0,0,0.6); }
-        .cpcp-yt-media { position: relative; width: 100%; aspect-ratio: 16/9; background: #0e0814; overflow: hidden; }
-        .cpcp-yt-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
-        .cpcp-yt-gradient { position:absolute; inset:0; background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.6) 100%); pointer-events:none; }
-
-        /* Inter — yt tag */
-        .cpcp-yt-tag {
-          position:absolute; top:10px; left:10px;
-          font-family: 'Inter', sans-serif;
-          font-size: clamp(0.42rem, 1vw, 0.52rem);
-          font-weight: 700; letter-spacing: 3px;
-          color:#000; background:#fde047; padding:4px 10px; z-index:5; text-transform:uppercase;
-        }
-        .cpcp-yt-play {
-          position:absolute; bottom:10px; right:10px; width:36px; height:36px;
-          background:#fde047; border-radius:50%; display:flex; align-items:center;
-          justify-content:center; text-decoration:none; z-index:5;
-        }
-        .cpcp-yt-scan { position:absolute; bottom:0; left:0; right:0; height:2px; background:linear-gradient(90deg,#32c5f4,#fde047); transform-origin:left; z-index:6; }
-        .cpcp-yt-info { padding: 18px 20px; }
-
-        /* Bebas Neue — yt card title */
-        .cpcp-yt-title {
-          font-family: 'Bebas Neue', sans-serif;
-          font-size: clamp(1.1rem, 2vw, 1.4rem);
-          font-weight: 400; letter-spacing: 2px;
-          color: #fff; margin: 0 0 8px; line-height: 1.2;
-        }
-
-        /* Inter — yt card desc */
-        .cpcp-yt-desc {
-          font-family: 'Inter', sans-serif;
-          font-size: clamp(0.7rem, 1.2vw, 0.78rem);
-          font-weight: 300; letter-spacing: 0.5px;
-          color: rgba(255,255,255,0.6); line-height: 1.75; margin: 0;
-        }
-
-        /* ── MOBILE SCROLL + DOTS hidden by default ── */
-        .cpcp-scroll-outer { display: none; }
-        .cpcp-dots          { display: none; }
-
         /* ════════════════════════════════════════
-           RESPONSIVE — tablet
+           RESPONSIVE
         ════════════════════════════════════════ */
-        @media (max-width: 1100px) {
-          .cpcp-desktop-grid--images  { grid-template-columns: repeat(3, 1fr); }
-          .cpcp-desktop-grid--reels   { grid-template-columns: repeat(3, 1fr); }
-          .cpcp-desktop-grid--youtube { grid-template-columns: repeat(2, 1fr); }
+        @media (max-width: 860px) {
+          .cpcp-cards-grid {
+            grid-template-columns: 1fr;
+            max-width: 520px; margin-left: auto; margin-right: auto;
+          }
         }
-        @media (max-width: 960px) {
-          .cpcp-feature { grid-template-columns: 1fr; gap: 40px; text-align: center; margin-bottom: 80px; }
-          .cpcp-img-side { justify-content: center; max-width: 380px; margin: 0 auto; }
-          .cpcp-pre      { justify-content: center; }
-          .cpcp-stats    { max-width: 420px; margin-left: auto; margin-right: auto; margin-bottom: 32px; }
-          .cpcp-cta      { display: inline-flex; margin: 0 auto; }
-          .cpcp-desktop-grid--images  { grid-template-columns: repeat(3, 1fr); }
-          .cpcp-desktop-grid--reels   { grid-template-columns: repeat(2, 1fr); }
-          .cpcp-desktop-grid--youtube { grid-template-columns: repeat(2, 1fr); }
-        }
-
-        /* ════════════════════════════════════════
-           MOBILE ≤700px
-        ════════════════════════════════════════ */
         @media (max-width: 700px) {
           .cpcp-header {
             flex-direction: column; align-items: flex-start;
@@ -500,91 +376,19 @@ const CreativeProducer = () => {
           .cpcp-header-rule { display: none; }
           .cpcp-header-content { flex-direction: column; align-items: flex-start; gap: 10px; }
           .cpcp-header-icon { width: 30px; height: 30px; }
-          .cpcp-feature  { margin-bottom: 70px; }
-
-          .cpcp-insta-btn {
-            left: 0; transform: none;
-            width: 100%; justify-content: center;
-            font-size: 0.52rem; padding: 10px 16px;
-          }
-
-          .cpcp-stats {
-            flex-direction: row; flex-wrap: nowrap;
-            justify-content: space-between;
-            padding: 12px 14px; margin-bottom: 24px;
-          }
-          .cpcp-stat-divider { display: block; margin: 0 10px; }
-          .cpcp-stat-num     { font-size: clamp(1.4rem, 6vw, 2rem); }
-          .cpcp-stat-label   { font-size: 0.5rem; letter-spacing: 1.5px; }
-
-          .cpcp-desktop-grid { display: none !important; }
-
-          .cpcp-scroll-outer {
-            display: block;
-            margin-left:  calc(-1 * clamp(20px, 6%, 60px));
-            margin-right: calc(-1 * clamp(20px, 6%, 60px));
-            overflow-x: auto;
-            overflow-y: visible;
-            scroll-snap-type: x mandatory;
-            scrollbar-width: none;
-            -webkit-overflow-scrolling: touch;
-            padding-bottom: 12px;
-          }
-          .cpcp-scroll-outer::-webkit-scrollbar { display: none; }
-
-          .cpcp-mobile-flex {
-            display: flex;
-            gap: 14px;
-            align-items: flex-start;
-            padding: 0 10vw;
-            width: max-content;
-          }
-
-          .cpcp-poster,
-          .cpcp-reel-card,
-          .cpcp-yt-card {
-            flex-shrink: 0;
-            scroll-snap-align: center;
-          }
-          .cpcp-poster    { width: 70vw; flex-basis: 70vw; }
-          .cpcp-reel-card { width: 55vw; flex-basis: 55vw; }
-          .cpcp-yt-card   { width: 80vw; flex-basis: 80vw; }
-
-          .cpcp-dots {
-            display: flex; justify-content: center; align-items: center;
-            gap: 10px; margin-top: 18px; padding: 6px 0;
-          }
-          .cpcp-dot {
-            width: 20px; height: 4px;
-            background: rgba(255,255,255,0.18); border-radius: 2px; cursor: pointer;
-            transition: width 0.35s cubic-bezier(0.77,0,0.18,1), background 0.35s, box-shadow 0.35s;
-            flex-shrink: 0;
-          }
-          .cpcp-dot:hover { background: rgba(253,224,71,0.5); }
-          .cpcp-dot--active { width: 40px; background: #fde047; box-shadow: 0 0 10px rgba(253,224,71,0.55); }
+          .cpcp-lcu-view-label { display: none; }
         }
-
         @media (max-width: 600px) {
           .cpcp-section { padding: 60px 0 70px; }
           .cpcp-inner   { padding: 0 16px; }
-          .cpcp-tab-bar { width: 100%; }
-          .cpcp-tab { flex: 1; padding: 10px 4px; font-size: 0.52rem; letter-spacing: 1.5px; justify-content: center; gap: 5px; }
-          .cpcp-scroll-outer { margin-left: -16px; margin-right: -16px; }
-          .cpcp-mobile-flex  { padding: 0 10vw; gap: 12px; }
-        }
-
-        @media (max-width: 400px) {
-          .cpcp-tab       { font-size: 0.46rem; letter-spacing: 1px; gap: 4px; }
-          .cpcp-poster    { width: 78vw; flex-basis: 78vw; }
-          .cpcp-reel-card { width: 62vw; flex-basis: 62vw; }
-          .cpcp-yt-card   { width: 84vw; flex-basis: 84vw; }
-          .cpcp-mobile-flex { padding: 0 8vw; }
+          .cpcp-lcu-img-wrap--contain { padding: 14px 8%; min-height: 180px; }
+          .cpcp-lcu-img-wrap--contain .cpcp-lcu-img { max-height: 260px; }
         }
       `}</style>
 
       <section className="cpcp-section">
 
-        {/* ── HEADER ── */}
+        {/* ── SECTION HEADER ── */}
         <div className="cpcp-header" ref={headerRef}>
           <motion.div className="cpcp-header-rule"
             initial={{ scaleX: 0 }}
@@ -614,201 +418,181 @@ const CreativeProducer = () => {
 
         <div className="cpcp-inner">
 
-          {/* ── FEATURE CARD ── */}
+          {/* ══ LOGO — top center ══ */}
           <motion.div
-            className="cpcp-feature"
-            initial={{ opacity: 0, y: 50 }}
+            className="cpcp-logo-block"
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
-            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div className="cpcp-img-side">
-              <div className="cpcp-img-glow" />
-              {(['tl','tr','bl','br'] as const).map(pos => (
-                <div key={pos} className={`cpcp-corner cpcp-corner--${pos}`} />
-              ))}
-              <motion.img
-                src={Images.madras} alt="Madras Motion Pictures"
-                className="cpcp-img"
-                whileHover={{ scale: 1.04, rotate: -1 }}
-                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              />
-              <a
-                href="https://www.instagram.com/madrasmotionpictures/"
-                target="_blank" rel="noreferrer"
-                className="cpcp-insta-btn"
-              >
-                <Instagram size={13} />
-                <span>FOLLOW ON INSTAGRAM</span>
-              </a>
+            <div className="cpcp-logo-corners">
+              <div className="cpcp-logo-corner cpcp-logo-corner--tl" />
+              <div className="cpcp-logo-corner cpcp-logo-corner--tr" />
+              <div className="cpcp-logo-corner cpcp-logo-corner--bl" />
+              <div className="cpcp-logo-corner cpcp-logo-corner--br" />
+              <img src={Images.logo} alt="CinemaPayyan" className="cpcp-logo-img" />
             </div>
 
-            <div className="cpcp-content">
+            <a
+              href="https://www.instagram.com/cinemapayyan.inc/"
+              target="_blank" rel="noreferrer"
+              className="cpcp-logo-insta"
+            >
+              <Instagram size={13} />
+              <span>FOLLOW ON INSTAGRAM</span>
+            </a>
+
+            <div className="cpcp-logo-meta">
               <div className="cpcp-pre">
                 <div className="cpcp-pre-line" />
-                <span className="cpcp-pre-text">DIGITAL ARCHITECT</span>
+                <div className="cpcp-pre-line" />
               </div>
               <h3 className="cpcp-title">
-                TURNING FRAMES<br />
-                <span className="cpcp-title-yellow">INTO FAME</span>
+                TURNING FRAMES&nbsp;<span className="cpcp-title-yellow">INTO FAME</span>
               </h3>
-              <p className="cpcp-tagline">Campaign Strategy · Content Curation · Growth</p>
+              <div className="cpcp-tagline-pills">
+                <span className="cpcp-pill cpcp-pill--1">Industry Tracker</span>
+                <span className="cpcp-pill cpcp-pill--2">Content Curation</span>
+                <span className="cpcp-pill cpcp-pill--3">Content Selling</span>
+              </div>
               <div className="cpcp-rule" />
               <p className="cpcp-desc">
                 I specialise in engineering the digital heartbeat of modern cinema — executing
                 high-stakes reveal campaigns that transform raw cinematic footage into{" "}
                 <span className="cpcp-highlight">unavoidable content</span>.
               </p>
-              <div className="cpcp-stats">
-                <div className="cpcp-stat">
-                  <span className="cpcp-stat-num">500K<span className="cpcp-stat-plus">+</span></span>
-                  <span className="cpcp-stat-label">IMPRESSIONS</span>
+            </div>
+          </motion.div>
+
+          {/* ══ TWO CARDS — left & right ══ */}
+          <div className="cpcp-cards-grid">
+
+            {/* LEFT — Madras Matinee */}
+            <motion.a
+              href="https://www.instagram.com/madrasmotionpictures/"
+              target="_blank" rel="noreferrer"
+              className="cpcp-lcu-card cpcp-lcu-card--cyan"
+              initial={{ opacity: 0, x: -24 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.65, delay: 0.1 }}
+            >
+              {/* full poster — contain, centered, no crop */}
+              <div className="cpcp-lcu-img-wrap cpcp-lcu-img-wrap--contain">
+                <img src={Images.madrasMatniee} alt="Madras Matinee" className="cpcp-lcu-img" />
+                <div className="cpcp-lcu-img-overlay" />
+                <div className="cpcp-lcu-img-tl" />
+                <div className="cpcp-lcu-img-br" />
+                <div className="cpcp-lcu-play"><ExternalLink size={13} color="#000" /></div>
+              </div>
+              <div className="cpcp-lcu-body">
+                <div className="cpcp-lcu-header">
+                  <div className="cpcp-lcu-badge cpcp-lcu-badge--cyan">
+                    <Star size={9} fill="black" />
+                    FIRST AS CREATIVE PRODUCER
+                  </div>
+                  <span className="cpcp-lcu-view-label">
+                    <Instagram size={11} />
+                    VIEW
+                  </span>
                 </div>
-                <div className="cpcp-stat-divider" />
-                <div className="cpcp-stat">
-                  <span className="cpcp-stat-num">3</span>
-                  <span className="cpcp-stat-label">CAMPAIGNS</span>
-                </div>
-                <div className="cpcp-stat-divider" />
-                <div className="cpcp-stat">
-                  <span className="cpcp-stat-num">∞</span>
-                  <span className="cpcp-stat-label">IMPACT</span>
+                <h4 className="cpcp-lcu-title">
+                  Madras <span className="cpcp-lcu-title-cyan">Matinee</span>
+                </h4>
+                <p className="cpcp-lcu-desc">
+                  <a href="https://www.instagram.com/DreamWarriorPictures/" target="_blank" rel="noreferrer" className="cpcp-lcu-mention">@dreamwarriorpictures</a>{" "}
+                  presents <em>#MadrasMatinee</em> — a{" "}
+                  <a href="https://www.instagram.com/madrasmotionpictures/" target="_blank" rel="noreferrer" className="cpcp-lcu-mention">@madrasmotionpictures</a>{" "}
+                  production 💥 A very special film from <em>@keyanmk</em> and team.
+                  My <em>first</em> as a creative producer ❤️
+                </p>
+                <div className="cpcp-lcu-footer">
+                  <span className="cpcp-lcu-collab">
+                    <a href="https://www.instagram.com/DreamWarriorPictures/" target="_blank" rel="noreferrer" className="cpcp-lcu-collab-link"><strong>@dreamwarriorpictures</strong></a>
+                    {" × "}
+                    <a href="https://www.instagram.com/madrasmotionpictures/" target="_blank" rel="noreferrer" className="cpcp-lcu-collab-link"><strong>@madrasmotionpictures</strong></a>
+                  </span>
+                  <span className="cpcp-lcu-cta cpcp-lcu-cta--cyan">
+                    INSTAGRAM <ExternalLink size={10} />
+                  </span>
                 </div>
               </div>
-              <motion.a
-                href="https://www.instagram.com/madrasmotionpictures/"
-                target="_blank" rel="noreferrer"
-                className="cpcp-cta"
-                whileHover="hover"
-              >
-                <motion.span
-                  className="cpcp-cta-bg"
-                  variants={{ hover: { scaleX: 1 } }}
-                  initial={{ scaleX: 0 }}
-                  transition={{ duration: 0.4 }}
-                />
-                <span className="cpcp-cta-label">VISIT INSTAGRAM</span>
-                <ExternalLink size={13} />
-              </motion.a>
-            </div>
-          </motion.div>
+            </motion.a>
 
-          {/* ── TABS ── */}
-          <motion.div
-            className="cpcp-tabs-wrap"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.1 }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <div className="cpcp-tab-bar">
-              {tabs.map(({ key, label, Icon }) => (
-                <button
-                  key={key}
-                  className={`cpcp-tab ${activeTab === key ? "cpcp-tab--active" : ""}`}
-                  onClick={() => setActiveTab(key)}
-                >
-                  {activeTab === key && (
-                    <motion.div className="cpcp-tab-pill" layoutId="cpcp-tab-pill" />
-                  )}
-                  <Icon size={13} className="cpcp-tab-icon" />
-                  <span className="cpcp-tab-label">{label}</span>
-                </button>
-              ))}
-            </div>
+            {/* RIGHT — LCU Most Hailed */}
+            <motion.a
+              href="https://www.instagram.com/p/DBjBOAWSI0X/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ=="
+              target="_blank" rel="noreferrer"
+              className="cpcp-lcu-card"
+              initial={{ opacity: 0, x: 24 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.65, delay: 0.2 }}
+            >
+              <div className="cpcp-lcu-img-wrap cpcp-lcu-img-wrap--cover">
+                <img src={Images.LCU} alt="Origins of LCU" className="cpcp-lcu-img" />
+                <div className="cpcp-lcu-img-overlay" />
+                <div className="cpcp-lcu-img-tl" />
+                <div className="cpcp-lcu-img-br" />
+                <div className="cpcp-lcu-play"><ExternalLink size={13} color="#000" /></div>
+              </div>
+              <div className="cpcp-lcu-body">
+                <div className="cpcp-lcu-header">
+                  <div className="cpcp-lcu-badge">
+                    <Star size={9} fill="black" />
+                    MOST HAILED
+                  </div>
+                  <span className="cpcp-lcu-view-label">
+                    <Instagram size={11} />
+                    VIEW POST
+                  </span>
+                </div>
+                <h4 className="cpcp-lcu-title">
+                  10 Minute Prelude to the <span>Origins of LCU</span>
+                </h4>
+                <p className="cpcp-lcu-desc">
+                  A teaching exercise that led to a{" "}
+                  <em>'10 minute Prelude to the Origins of LCU'</em>.{" "}
+                  <em>#ChapterZeroFL</em> unlock 💥 — where filmmaking education
+                  collided with cinematic universe building in one explosive session.
+                </p>
+                <div className="cpcp-lcu-footer">
+                  <span className="cpcp-lcu-collab">
+                    <a href="https://www.instagram.com/gsquadoffl/" target="_blank" rel="noreferrer" className="cpcp-lcu-collab-link"><strong>@gsquadoffl</strong></a>
+                    {" × "}
+                    <strong>@cinemapayyan.inc</strong>
+                    {" × "}
+                    <a href="https://www.instagram.com/levelup_filmmaking/" target="_blank" rel="noreferrer" className="cpcp-lcu-collab-link"><strong>@levelup_filmmaking</strong></a>
+                  </span>
+                  <span className="cpcp-lcu-cta">
+                    INSTAGRAM <ExternalLink size={10} />
+                  </span>
+                </div>
+              </div>
+            </motion.a>
 
-            {/* ── DESKTOP GRID ── */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeTab + "-desktop"}
-                className={`cpcp-desktop-grid cpcp-desktop-grid--${activeTab}`}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              >
-                {activeTab === "images" && imagesList.map((img, i) => (
-                  <motion.div key={i} data-card={i} className="cpcp-poster"
-                    initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: i * 0.07, duration: 0.45 }}
-                  >
-                    <img src={img} alt="Work" />
-                    <div className="cpcp-poster-overlay" />
-                    <div className="cpcp-poster-tl" /><div className="cpcp-poster-br" />
-                  </motion.div>
-                ))}
-                {activeTab === "reels" && reelsList.map((reel, i) => (
-                  <motion.div key={i} data-card={i} className="cpcp-reel-card"
-                    initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: i * 0.08, duration: 0.45 }}
-                  >
-                    <video src={reel} muted loop autoPlay playsInline className="cpcp-reel-video" />
-                    <div className="cpcp-reel-gradient" />
-                    <div className="cpcp-reel-tag">
-                      <span>REEL</span>
-                      <span className="cpcp-reel-num">{String(i + 1).padStart(2, '0')}</span>
-                    </div>
-                  </motion.div>
-                ))}
-                {activeTab === "youtube" && youtubeList.map((yt, i) => (
-                  <div key={yt.id} data-card={i}><YTCard item={yt} index={i} /></div>
-                ))}
-              </motion.div>
-            </AnimatePresence>
+          </div>
 
-            {/* ── MOBILE SCROLL ── */}
-            <div className="cpcp-scroll-outer" ref={scrollRef} onScroll={handleScroll}>
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeTab + "-mobile"}
-                  className="cpcp-mobile-flex"
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  {activeTab === "images" && imagesList.map((img, i) => (
-                    <motion.div key={i} data-card={i} className="cpcp-poster"
-                      initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: i * 0.07, duration: 0.45 }}
-                    >
-                      <img src={img} alt="Work" />
-                      <div className="cpcp-poster-overlay" />
-                      <div className="cpcp-poster-tl" /><div className="cpcp-poster-br" />
-                    </motion.div>
-                  ))}
-                  {activeTab === "reels" && reelsList.map((reel, i) => (
-                    <motion.div key={i} data-card={i} className="cpcp-reel-card"
-                      initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: i * 0.08, duration: 0.45 }}
-                    >
-                      <video src={reel} muted loop autoPlay playsInline className="cpcp-reel-video" />
-                      <div className="cpcp-reel-gradient" />
-                      <div className="cpcp-reel-tag">
-                        <span>REEL</span>
-                        <span className="cpcp-reel-num">{String(i + 1).padStart(2, '0')}</span>
-                      </div>
-                    </motion.div>
-                  ))}
-                  {activeTab === "youtube" && youtubeList.map((yt, i) => (
-                    <div key={yt.id} data-card={i}><YTCard item={yt} index={i} /></div>
-                  ))}
-                </motion.div>
-              </AnimatePresence>
-            </div>
+          {/* bottom CTA */}
+          <div className="cpcp-cta-wrap">
+            <motion.a
+              href="https://www.instagram.com/cinemapayyan.inc/"
+              target="_blank" rel="noreferrer"
+              className="cpcp-cta"
+              whileHover="hover"
+            >
+              <motion.span
+                className="cpcp-cta-bg"
+                variants={{ hover: { scaleX: 1 } }}
+                initial={{ scaleX: 0 }}
+                transition={{ duration: 0.4 }}
+              />
+              <span className="cpcp-cta-label">VISIT INSTAGRAM</span>
+              <ExternalLink size={13} />
+            </motion.a>
+          </div>
 
-            {/* ── DOTS ── */}
-            <div className="cpcp-dots">
-              {currentList.map((_, i) => (
-                <div
-                  key={i}
-                  className={`cpcp-dot ${scrollIndex === i ? "cpcp-dot--active" : ""}`}
-                  onClick={() => scrollToCard(i)}
-                />
-              ))}
-            </div>
-
-          </motion.div>
         </div>
       </section>
     </>

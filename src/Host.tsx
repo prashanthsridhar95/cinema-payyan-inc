@@ -7,19 +7,19 @@ const projects = [
   {
     id: 1,
     index: "01",
-    title: "International Standards",
-    subtitle: "Chiyaan Vikram",
+    title: "Chiyaan Vikram",
+    subtitle: "Veera Dheera Sooran",
     tag: "TRIBUTE",
     link: "https://youtu.be/OpIYkWJ_rws?si=T0gC2JCt6jA4vter",
     video: VideoAssets.vjPreviews[13],
     host: "@abishek_raaja",
-    feature: "Tribute to Excellence",
+    feature: "Vel Tech Lavaza 2K25",
     body: "@the_real_chiyaan operates on an unprecedented level of craft, often drawing comparisons to global icons like Christian Bale. His dedication to character transformation is significantly underrated, and he deserves the highest pedestal for his consistent efforts in elevating Tamil cinema to international standards.",
   },
   {
     id: 2,
     index: "02",
-    title: "Concert Curation",
+    title: "Santhosh Narayanan",
     subtitle: "Neeye Oli",
     tag: "CONCERT",
     link: "https://www.instagram.com/reel/C01jVyrCb9F/?utm_source=ig_web_copy_link",
@@ -95,7 +95,7 @@ function HostCard({ project, index }: { project: typeof projects[0]; index: numb
           </div>
           <div className="hst-credit-div" />
           <div className="hst-credit-item">
-            <span className="hst-credit-label">FEATURE</span>
+            <span className="hst-credit-label">VENUE</span>
             <span className="hst-credit-value">{project.feature}</span>
           </div>
         </div>

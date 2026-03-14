@@ -86,7 +86,7 @@ import ScreenshotGVM from './ScreenshotGVM.png';
 import ScreenshotSTR from './ScreenshotSTR.png';
 import ScreenshotTK from './ScreenshotTK.png';
 import ScreenshotDQ from './ScreenshotDQ.png';
-
+import LCU from './LCU.jpg';
 
 
 
@@ -148,7 +148,7 @@ export const Images: AssetStore = {
   Danush,Str,Tyagaraja,Keerthi,AnirutRavi,Prabas,Lokash,Bannerrr2,Angammal,Kumki2,
   Gevi,RetroImg,KadalReset,SnakeAndLader,Adipurshan,Ragut,Adiya,ComicCOverimg,ComicPag0,
   ComicPag1,ComicPag2,ComicPag3,ComicPag4,ComicPag5,ComicPag6,ComicPag7,ScreenshotVP,ScreenshotAR,
-  ScreenshotKH,ScreenshotAS,ScreenshotAD,ScreenshotVJS,ScreenshotGVM,ScreenshotSTR,ScreenshotTK,ScreenshotDQ,
+  ScreenshotKH,ScreenshotAS,ScreenshotAD,ScreenshotVJS,ScreenshotGVM,ScreenshotSTR,ScreenshotTK,ScreenshotDQ,LCU
 };
 
 export const VideoAssets = {
