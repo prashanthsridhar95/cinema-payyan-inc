@@ -19,12 +19,7 @@ const RjArchives = () => {
           overflow: hidden;
           position: relative;
         }
-        .rja-section::before {
-          content: '';
-          position: absolute; top: 0; left: 8%; right: 8%;
-          height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(50,197,244,0.08) 50%, transparent);
-        }
+
 
         .rja-inner {
           max-width: 1200px;

@@ -138,6 +138,13 @@ const CreativeProducer = () => {
           display: flex; align-items: center; justify-content: center;
           gap: 12px; margin-bottom: 10px;
         }
+        .cpcp-pre-line { width: 28px; height: 1px; background: #fde047; opacity: 0.5; }
+        .cpcp-pre-text {
+          font-family: 'Inter', sans-serif;
+          font-size: clamp(0.48rem, 1.2vw, 0.6rem);
+          font-weight: 400; letter-spacing: 6px;
+          color: rgba(253,224,71,0.8); text-transform: uppercase;
+        }
 
         .cpcp-title {
           font-family: 'Bebas Neue', sans-serif;
@@ -446,6 +453,7 @@ const CreativeProducer = () => {
             <div className="cpcp-logo-meta">
               <div className="cpcp-pre">
                 <div className="cpcp-pre-line" />
+                <span className="cpcp-pre-text">DIGITAL ARCHITECT</span>
                 <div className="cpcp-pre-line" />
               </div>
               <h3 className="cpcp-title">
@@ -469,9 +477,7 @@ const CreativeProducer = () => {
           <div className="cpcp-cards-grid">
 
             {/* LEFT — Madras Matinee */}
-            <motion.a
-              href="https://www.instagram.com/madrasmotionpictures/"
-              target="_blank" rel="noreferrer"
+            <motion.div
               className="cpcp-lcu-card cpcp-lcu-card--cyan"
               initial={{ opacity: 0, x: -24 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -484,7 +490,7 @@ const CreativeProducer = () => {
                 <div className="cpcp-lcu-img-overlay" />
                 <div className="cpcp-lcu-img-tl" />
                 <div className="cpcp-lcu-img-br" />
-                <div className="cpcp-lcu-play"><ExternalLink size={13} color="#000" /></div>
+                <a href="https://www.instagram.com/madrasmotionpictures/" target="_blank" rel="noreferrer" className="cpcp-lcu-play"><ExternalLink size={13} color="#000" /></a>
               </div>
               <div className="cpcp-lcu-body">
                 <div className="cpcp-lcu-header">
@@ -514,16 +520,16 @@ const CreativeProducer = () => {
                     <a href="https://www.instagram.com/madrasmotionpictures/" target="_blank" rel="noreferrer" className="cpcp-lcu-collab-link"><strong>@madrasmotionpictures</strong></a>
                   </span>
                   <span className="cpcp-lcu-cta cpcp-lcu-cta--cyan">
-                    INSTAGRAM <ExternalLink size={10} />
+                    <a href="https://www.instagram.com/madrasmotionpictures/" target="_blank" rel="noreferrer" style={{color:'inherit',textDecoration:'none',display:'flex',alignItems:'center',gap:5}}>
+                      INSTAGRAM <ExternalLink size={10} />
+                    </a>
                   </span>
                 </div>
               </div>
-            </motion.a>
+            </motion.div>
 
             {/* RIGHT — LCU Most Hailed */}
-            <motion.a
-              href="https://www.instagram.com/p/DBjBOAWSI0X/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ=="
-              target="_blank" rel="noreferrer"
+            <motion.div
               className="cpcp-lcu-card"
               initial={{ opacity: 0, x: 24 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -535,7 +541,7 @@ const CreativeProducer = () => {
                 <div className="cpcp-lcu-img-overlay" />
                 <div className="cpcp-lcu-img-tl" />
                 <div className="cpcp-lcu-img-br" />
-                <div className="cpcp-lcu-play"><ExternalLink size={13} color="#000" /></div>
+                <a href="https://www.instagram.com/p/DBjBOAWSI0X/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ==" target="_blank" rel="noreferrer" className="cpcp-lcu-play"><ExternalLink size={13} color="#000" /></a>
               </div>
               <div className="cpcp-lcu-body">
                 <div className="cpcp-lcu-header">
@@ -566,11 +572,13 @@ const CreativeProducer = () => {
                     <a href="https://www.instagram.com/levelup_filmmaking/" target="_blank" rel="noreferrer" className="cpcp-lcu-collab-link"><strong>@levelup_filmmaking</strong></a>
                   </span>
                   <span className="cpcp-lcu-cta">
-                    INSTAGRAM <ExternalLink size={10} />
+                    <a href="https://www.instagram.com/p/DBjBOAWSI0X/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ==" target="_blank" rel="noreferrer" style={{color:'inherit',textDecoration:'none',display:'flex',alignItems:'center',gap:5}}>
+                      INSTAGRAM <ExternalLink size={10} />
+                    </a>
                   </span>
                 </div>
               </div>
-            </motion.a>
+            </motion.div>
 
           </div>
 

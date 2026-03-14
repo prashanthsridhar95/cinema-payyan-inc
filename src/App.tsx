@@ -16,13 +16,13 @@ import Footer from "./Footer";
 import Munai from "./Munai";
 import AboutWork from "./VjSession";
 import Filmcritic from "./openpannaa";
+import RjArchives from "./RjArchives";   // ← NEW standalone RJ component
 import Host from "./Host";
 import Director from "./Director";
 import CreativeProducer from "./CreativeProducer";
 import Accelerator from "./Accelerator";
 import SectionDivider from "./Sectiondivider";
 import CinemaNavigator from "./RotaryNavigator";
-import RjArchives from "./RjArchives";
 
 function App() {
   const [offset, setOffset] = useState<number>(0);
@@ -245,7 +245,7 @@ function App() {
               </section>
 
               {/* ── remaining sections ── */}
-              <SectionDivider variant="reel" label="HOST" />
+              <SectionDivider variant="scanline" label="HOST" />
               <section id="host">
                 <Host />
               </section>
