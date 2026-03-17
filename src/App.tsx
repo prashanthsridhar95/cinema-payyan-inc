@@ -8,21 +8,20 @@ import { useScrollTo } from "./useScrollTo";
 import About from "./About";
 import Work from "./Work";
 import ProductionLogo from "./ProductionLogo";
-import Comic from "./Comic";
 import ShortsPromotion from "./ShortsPromotion";
-import ShadowPromotion from "./ShadowPromotion";
 import Contact from "./Contact";
 import Footer from "./Footer";
 import Munai from "./Munai";
 import AboutWork from "./VjSession";
 import Filmcritic from "./openpannaa";
-import RjArchives from "./RjArchives";   // ← NEW standalone RJ component
+import RjArchives from "./RjArchives";
 import Host from "./Host";
 import Director from "./Director";
 import CreativeProducer from "./CreativeProducer";
 import Accelerator from "./Accelerator";
 import SectionDivider from "./Sectiondivider";
 import CinemaNavigator from "./RotaryNavigator";
+import InkbloodAndShadows from "./Inkbloodandshadows"; // ← merged section
 
 function App() {
   const [offset, setOffset] = useState<number>(0);
@@ -275,19 +274,15 @@ function App() {
                 <ProductionLogo />
               </section>
 
-              <SectionDivider variant="reel" label="RETRO BTS COMIC" />
-              <section id="comic">
-                <Comic />
+              {/* ══ INKBLOOD & SHADOWS — Comic + Shadow Promotion merged ══ */}
+              <SectionDivider variant="reel" label="INKBLOOD & SHADOWS" />
+              <section id="inkblood">
+                <InkbloodAndShadows />
               </section>
 
               <SectionDivider variant="scanline" label="SHORTS PROMOTION" index={11} />
               <section id="shorts">
                 <ShortsPromotion />
-              </section>
-
-              <SectionDivider variant="marquee" label="SHADOW PROMOTION" />
-              <section id="shadow">
-                <ShadowPromotion />
               </section>
 
               <SectionDivider variant="timecode" label="BOOK A SESSION" index={13} />

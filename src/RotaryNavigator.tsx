@@ -10,40 +10,38 @@ interface CinemaNavigatorProps {
   };
 }
 
-// Every section in order — numbers match the site sections exactly
+// ── Every section in order — synced with App.tsx ──────────────────
 const SECTIONS = [
   { id: "home",        label: "HOME",              num: 1,  ref: "homeRef"       },
   { id: "about",       label: "ABOUT",             num: 2,  ref: "aboutRef"      },
   { id: "vjsession",   label: "VJ SESSION",        num: 3,  ref: null            },
   { id: "openpannaa",  label: "OPEN PANNAA",       num: 4,  ref: null            },
-  { id: "host",        label: "HOST",              num: 5,  ref: null            },
-  { id: "director",    label: "DIRECTOR",          num: 6,  ref: null            },
-  { id: "producer",    label: "CREATIVE PRODUCER", num: 7,  ref: "promotionsRef" },
-  { id: "accelerator", label: "ACCELERATOR",       num: 8,  ref: null            },
-  { id: "work",        label: "FINISHED PROJECTS", num: 9,  ref: "workRef"       },
-  { id: "partners",    label: "TIE-UP PARTNERS",   num: 10, ref: null            },
-  { id: "comic",       label: "RETRO COMIC",       num: 11, ref: null            },
-  { id: "shorts",      label: "SHORTS PROMO",      num: 12, ref: null            },
-  { id: "shadow",      label: "SHADOW PROMO",      num: 13, ref: null            },
+  { id: "rjarchives",  label: "RJ ARCHIVES",       num: 5,  ref: null            },
+  { id: "host",        label: "HOST",              num: 6,  ref: null            },
+  { id: "director",    label: "DIRECTOR",          num: 7,  ref: null            },
+  { id: "producer",    label: "CREATIVE PRODUCER", num: 8,  ref: "promotionsRef" },
+  { id: "accelerator", label: "ACCELERATOR",       num: 9,  ref: null            },
+  { id: "work",        label: "FINISHED PROJECTS", num: 10, ref: "workRef"       },
+  { id: "partners",    label: "TIE-UP PARTNERS",   num: 11, ref: null            },
+  { id: "inkblood",    label: "INKBLOOD & SHADOWS",num: 12, ref: null            },
+  { id: "shorts",      label: "SHORTS PROMO",      num: 13, ref: null            },
   { id: "contact",     label: "CONTACT",           num: 14, ref: "contactRef"    },
 ];
 
 // Color per dial position 0-4 (cycles through cyan → yellow palette)
-// Position 0 = top of arc, 4 = bottom
 const HOLE_COLORS = [
-  { border: "#32c5f4", text: "#32c5f4", glow: "rgba(50,197,244,0.7)"  }, // cyan
-  { border: "#7dd8f8", text: "#7dd8f8", glow: "rgba(125,216,248,0.6)" }, // light cyan
-  { border: "#fde047", text: "#fde047", glow: "rgba(253,224,71,0.75)" }, // yellow  (middle = focal)
-  { border: "#7dd8f8", text: "#7dd8f8", glow: "rgba(125,216,248,0.6)" }, // light cyan
-  { border: "#32c5f4", text: "#32c5f4", glow: "rgba(50,197,244,0.7)"  }, // cyan
+  { border: "#32c5f4", text: "#32c5f4", glow: "rgba(50,197,244,0.7)"  },
+  { border: "#7dd8f8", text: "#7dd8f8", glow: "rgba(125,216,248,0.6)" },
+  { border: "#fde047", text: "#fde047", glow: "rgba(253,224,71,0.75)" },
+  { border: "#7dd8f8", text: "#7dd8f8", glow: "rgba(125,216,248,0.6)" },
+  { border: "#32c5f4", text: "#32c5f4", glow: "rgba(50,197,244,0.7)"  },
 ];
 
 const VISIBLE = 5;
 
 // Desktop: flat RIGHT edge, arc opens LEFT
-// Box is R_D × R_D*2, circle centre at (R_D, R_D)
 const R_D    = 170;
-const HOLE_D = 32; // bigger holes on desktop
+const HOLE_D = 32;
 
 const dPos = (vi: number) => {
   const deg = -76 + (vi / (VISIBLE - 1)) * 152;
@@ -54,7 +52,7 @@ const dPos = (vi: number) => {
   };
 };
 
-// Mobile: quarter arc, circle centre at top-right corner (SIZE, 0)
+// Mobile: quarter arc, circle centre at top-right corner
 const SIZE   = 220;
 const mR     = 200;
 const HOLE_M = 30;
@@ -68,7 +66,6 @@ const mPos = (vi: number) => {
   };
 };
 
-// Classic rotary phone dial icon
 const DialIcon = ({ sz, cls }: { sz: number; cls: string }) => (
   <svg className={cls} width={sz} height={sz} viewBox="0 0 100 100"
     fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -96,7 +93,7 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
   const tickerRef = useRef<number>(0);
   const dragRef   = useRef<{ y: number; x: number; offset: number } | null>(null);
 
-  // ── track active section via scroll ────────────────────────────
+  // ── track active section via scroll ──────────────────────────
   useEffect(() => {
     const fn = () => {
       cancelAnimationFrame(tickerRef.current);
@@ -118,7 +115,7 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
-  // ── attention pulse ─────────────────────────────────────────────
+  // ── attention pulse ──────────────────────────────────────────
   useEffect(() => {
     if (hasSeen) return;
     const fire = () => { setAttention(true); setTimeout(() => setAttention(false), 2500); };
@@ -172,8 +169,6 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
   const vis = SECTIONS.slice(dialOffset, dialOffset + VISIBLE);
   const canUp   = dialOffset > 0;
   const canDown = dialOffset < SECTIONS.length - VISIBLE;
-
-  // Is active section currently visible in the window?
   const activeVisible = activeIdx >= dialOffset && activeIdx < dialOffset + VISIBLE;
 
   return (
@@ -181,7 +176,6 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
-        /* ── ANIMATIONS ── */
         @keyframes sc-in-down {
           from { opacity:0; transform:translate(-50%,-50%) translateY(-18px) scale(0.65); }
           to   { opacity:1; transform:translate(-50%,-50%) scale(1); }
@@ -213,7 +207,6 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
           50%    { transform:scale(1.15); box-shadow:0 0 0 5px rgba(253,224,71,0.2); }
         }
 
-        /* ── HOLE base ── */
         .sc-hole {
           position: absolute;
           transform: translate(-50%,-50%);
@@ -227,7 +220,6 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
           align-items: center;
           justify-content: center;
           gap: 2px;
-          /* dark inset so it looks like a real hole */
           background: radial-gradient(circle at 40% 35%, #0c1e26, #020608);
           box-shadow:
             inset 0 4px 10px rgba(0,0,0,0.95),
@@ -240,7 +232,6 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
           transform: translate(-50%,-50%) scale(0.88) !important;
         }
 
-        /* hole number — BIG and clearly colored */
         .sc-num {
           font-family: 'Share Tech Mono', monospace;
           font-weight: bold;
@@ -250,7 +241,6 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
           transition: color 0.22s, text-shadow 0.22s;
         }
 
-        /* hole label (under the number) */
         .sc-lbl {
           font-family: 'Share Tech Mono', monospace;
           font-size: 5.5px;
@@ -263,26 +253,22 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
           opacity: 0.7;
         }
 
-        /* active hole state — yellow glow */
         .sc-hole.sc-act {
           transform: translate(-50%,-50%) scale(1.22) !important;
           z-index: 8 !important;
         }
 
-        /* entry animations */
         .sc-anim-down  { animation: sc-in-down  0.35s cubic-bezier(0.34,1.4,0.64,1) both; }
         .sc-anim-up    { animation: sc-in-up    0.35s cubic-bezier(0.34,1.4,0.64,1) both; }
         .sc-anim-right { animation: sc-in-right 0.35s cubic-bezier(0.34,1.4,0.64,1) both; }
         .sc-anim-left  { animation: sc-in-left  0.35s cubic-bezier(0.34,1.4,0.64,1) both; }
 
-        /* stagger */
         .sc-hole:nth-child(1) { animation-delay:0s;     }
         .sc-hole:nth-child(2) { animation-delay:0.045s; }
         .sc-hole:nth-child(3) { animation-delay:0.09s;  }
         .sc-hole:nth-child(4) { animation-delay:0.135s; }
         .sc-hole:nth-child(5) { animation-delay:0.18s;  }
 
-        /* hub */
         .sc-hub {
           position: absolute;
           border-radius: 50%;
@@ -306,7 +292,6 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
           transition: color 0.22s;
         }
 
-        /* offset counter badge */
         .sc-badge {
           position: absolute;
           font-family: 'Share Tech Mono', monospace;
@@ -321,7 +306,6 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
           white-space: nowrap;
         }
 
-        /* arrow buttons */
         .sc-arr {
           position: absolute; z-index:9;
           width: 24px; height: 24px;
@@ -357,7 +341,6 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
             height:${R_D * 2}px;
           }
 
-          /* toggle tab */
           .sc-d-tab {
             position:absolute; right:0; top:50%;
             transform:translateY(-50%);
@@ -396,7 +379,6 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
             animation:sc-badge-pulse 2s ease-in-out infinite;
           }
 
-          /* panel */
           .sc-d-panel {
             position:absolute; right:44px; top:0;
             width:${R_D}px; height:${R_D*2}px;
@@ -417,14 +399,10 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
           }
           .sc-d-drag:active { cursor:grabbing; }
 
-          /* badge: shows current range */
           .sc-badge { right:50px; bottom:14px; }
-
-          /* arrows */
           .sc-d-up   { right:${R_D/2-12}px; top:10px; }
           .sc-d-down { right:${R_D/2-12}px; bottom:10px; }
 
-          /* desktop tooltip left of hole */
           .sc-tip {
             position:absolute;
             right:calc(100% + 8px); top:50%;
@@ -456,7 +434,6 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
             pointer-events:none;
           }
 
-          /* toggle tab — anchored top-right */
           .sc-m-tab {
             position:absolute; top:0; right:0;
             display:flex; align-items:center; gap:6px;
@@ -496,7 +473,6 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
           }
           .sc-m-tab.open .sc-m-txt { color:#fde047; }
 
-          /* panel */
           .sc-m-panel {
             position:absolute; top:0; right:0;
             width:${SIZE}px; height:${SIZE}px;
@@ -519,7 +495,6 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
           }
           .sc-m-drag:active { cursor:grabbing; }
 
-          /* mobile hole label below hole */
           .sc-tip {
             position:absolute;
             top:calc(100% + 4px); left:50%;
@@ -534,10 +509,7 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
             transition:color 0.2s, opacity 0.2s;
           }
 
-          /* range badge */
           .sc-badge { left:16px; bottom:16px; }
-
-          /* arrows */
           .sc-m-prev { left:16px;  bottom:46px; }
           .sc-m-next { left:46px; bottom:46px; }
         }
@@ -545,7 +517,6 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
 
       {/* ══════════════ DESKTOP ══════════════ */}
       <div className="sc-d">
-        {/* toggle tab */}
         <div
           className={`sc-d-tab ${isOpen?"open":""} ${attention&&!isOpen?"attn":""}`}
           onClick={toggle} role="button" aria-label="Navigation"
@@ -554,9 +525,7 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
           <div className="sc-d-dot"/>
         </div>
 
-        {/* half-circle dial */}
         <div className={`sc-d-panel ${isOpen?"open":""}`}>
-          {/* SVG bakelite body */}
           <svg style={{position:"absolute",inset:0,width:"100%",height:"100%",overflow:"visible"}}
             viewBox={`0 0 ${R_D} ${R_D*2}`}>
             <defs>
@@ -583,26 +552,22 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
             onPointerDown={onPD} onPointerMove={onPM}
             onPointerUp={onPU} onPointerCancel={onPU} onWheel={onWh}/>
 
-          {/* hub */}
           <div className="sc-hub"
             style={{width:40,height:40,right:8,top:R_D-20}}
             onClick={goHome} role="button" aria-label="Home">
             <span className="sc-hub-t">CP<br/>INC</span>
           </div>
 
-          {/* range badge e.g. "03–07 / 14" */}
           <div className="sc-badge" style={{position:"absolute"}}>
             {String(dialOffset+1).padStart(2,"0")}–{String(dialOffset+VISIBLE).padStart(2,"0")} / {SECTIONS.length}
           </div>
 
-          {/* up arrow */}
           <button className={`sc-arr sc-d-up ${!canUp?"off":""}`}
             style={{position:"absolute"}} onClick={()=>shift(-1)} aria-label="Previous">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
               <polyline points="18 15 12 9 6 15"/>
             </svg>
           </button>
-          {/* down arrow */}
           <button className={`sc-arr sc-d-down ${!canDown?"off":""}`}
             style={{position:"absolute"}} onClick={()=>shift(1)} aria-label="Next">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
@@ -610,7 +575,6 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
             </svg>
           </button>
 
-          {/* the 5 visible holes */}
           {vis.map((sec, vi) => {
             const gi      = dialOffset + vi;
             const isAct   = gi === activeIdx;
@@ -629,7 +593,6 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
                     : `inset 0 4px 10px #000, 0 0 6px ${col.glow}`,
                 }}
                 onClick={()=>goTo(sec)}>
-                {/* number — big and clearly colored */}
                 <span className="sc-num" style={{
                   fontSize: sec.num >= 10 ? "9px" : "11px",
                   color: isAct ? "#fde047" : col.text,
@@ -639,14 +602,12 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
                 }}>
                   {String(sec.num).padStart(2,"0")}
                 </span>
-                {/* label — tiny text below number */}
                 <span className="sc-lbl" style={{
                   color: isAct ? "rgba(253,224,71,0.8)" : `${col.text}99`,
                   fontSize:"5px",
                 }}>
                   {sec.label.split(" ")[0]}
                 </span>
-                {/* desktop tooltip on hover */}
                 <span className="sc-tip" style={{
                   color: isAct ? "#fde047" : col.text,
                   borderColor: isAct ? "rgba(253,224,71,0.35)" : "rgba(50,197,244,0.3)",
@@ -657,7 +618,6 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
             );
           })}
 
-          {/* "active not visible" hint arrow */}
           {!activeVisible && isOpen && (
             <div style={{
               position:"absolute", right:50, top:"50%",
@@ -678,7 +638,6 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
 
       {/* ══════════════ MOBILE ══════════════ */}
       <div className="sc-m">
-        {/* toggle tab */}
         <div
           className={`sc-m-tab ${isOpen?"open":""} ${attention&&!isOpen?"attn":""}`}
           onClick={toggle} role="button" aria-label="Navigation"
@@ -687,7 +646,6 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
           <span className="sc-m-txt">{SECTIONS[activeIdx]?.label}</span>
         </div>
 
-        {/* quarter-circle dial */}
         <div className={`sc-m-panel ${isOpen?"open":""}`}>
           <svg style={{position:"absolute",inset:0,width:"100%",height:"100%",overflow:"visible"}}
             viewBox={`0 0 ${SIZE} ${SIZE}`}>
@@ -720,19 +678,16 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
             onPointerDown={onPD} onPointerMove={onPM}
             onPointerUp={onPU} onPointerCancel={onPU} onWheel={onWh}/>
 
-          {/* hub */}
           <div className="sc-hub"
             style={{width:36,height:36,right:8,top:8}}
             onClick={goHome} role="button" aria-label="Home">
             <span className="sc-hub-t">CP<br/>INC</span>
           </div>
 
-          {/* range badge */}
           <div className="sc-badge" style={{position:"absolute"}}>
             {String(dialOffset+1).padStart(2,"0")}–{String(dialOffset+VISIBLE).padStart(2,"0")}/{SECTIONS.length}
           </div>
 
-          {/* arrows */}
           <button className={`sc-arr sc-m-prev ${!canUp?"off":""}`}
             style={{position:"absolute"}} onClick={()=>shift(-1)} aria-label="Previous">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
@@ -746,7 +701,6 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
             </svg>
           </button>
 
-          {/* the 5 visible holes */}
           {vis.map((sec, vi) => {
             const gi     = dialOffset + vi;
             const isAct  = gi === activeIdx;
@@ -774,7 +728,6 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
                 }}>
                   {String(sec.num).padStart(2,"0")}
                 </span>
-                {/* label below hole (outside the circle) */}
                 <span className="sc-tip" style={{
                   color: isAct ? "rgba(253,224,71,0.85)" : `${col.text}CC`,
                   opacity: 1,
