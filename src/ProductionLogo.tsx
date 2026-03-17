@@ -73,7 +73,7 @@ const ProductionLogo: React.FC = () => {
 
         /* Kanji watermark — kept, tinted steel-blue */
         .cp-prod-section::after {
-          content: '映';
+          content: 'AR';
           position: absolute;
           right: 4%; bottom: -40px;
           font-size: 22rem;

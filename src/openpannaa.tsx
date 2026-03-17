@@ -104,7 +104,7 @@ const Filmcritic = () => {
           background: linear-gradient(90deg, transparent, rgba(253,224,71,0.12) 50%, transparent);
         }
         .fcc-section::after {
-          content: '評';
+          content: 'CP';
           position: absolute; right: 2%; bottom: -60px;
           font-size: 28rem; font-family: serif; line-height: 1;
           color: rgba(180,20,40,0.07);

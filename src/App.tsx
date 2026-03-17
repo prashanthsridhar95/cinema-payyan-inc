@@ -89,7 +89,6 @@ function App() {
           color: rgba(255,255,255,0.4); text-transform: uppercase; white-space: nowrap;
         }
         .fci-role-dot { color: #fde047; margin: 0 clamp(8px, 1.2vw, 16px); opacity: 0.55; font-size: 1.1rem; }
-        .fci-sub-list { display: flex; align-items: center; flex-wrap: wrap; justify-content: center; margin-top: 16px; }
         .fci-sub-item {
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.48rem, 1.2vw, 0.6rem);
@@ -205,20 +204,12 @@ function App() {
               {/* ── FILM CRITIC IDENTITY HEADING ── */}
               <SectionDivider variant="filmstrip" label="FILM CRITIC · REVIEWER · ANALYST" />
               <div className="fci-heading-block">
-                <h2 className="fci-name-display">Abishek Raaja</h2>
+                <h2 className="fci-name-display">AR</h2>
                 <div className="fci-roles-row">
-                  {["Film Critic", "Reviewer", "Analyst", "Industry Tracker"].map((r, i, arr) => (
+                  {["Film Critic", "Film Director", "Industry Tracker"].map((r, i, arr) => (
                     <span key={i}>
                       <span className="fci-role">{r}</span>
                       {i < arr.length - 1 && <span className="fci-role-dot">·</span>}
-                    </span>
-                  ))}
-                </div>
-                <div className="fci-sub-list">
-                  {["Curated Conversations — VJ Sessions", "Open Pannaa", "Breaking Down Cinema", "RJ"].map((item, i, arr) => (
-                    <span key={i}>
-                      <span className="fci-sub-item">{item}</span>
-                      {i < arr.length - 1 && <span className="fci-sub-sep">•</span>}
                     </span>
                   ))}
                 </div>

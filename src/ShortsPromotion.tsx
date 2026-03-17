@@ -252,7 +252,7 @@ const ShortsPromotion: React.FC = () => {
           pointer-events:none; z-index:0; opacity:0.5;
         }
         .cp-sp-section::after {
-          content:'映'; position:absolute; right:3%; bottom:-20px;
+          content:'CP'; position:absolute; right:3%; bottom:-20px;
           font-size:22rem; color:rgba(50,197,244,0.018); font-family:serif; line-height:1;
           pointer-events:none; user-select:none; z-index:0;
         }
@@ -520,7 +520,7 @@ const ShortsPromotion: React.FC = () => {
           margin-bottom:50px; position:relative; overflow:hidden;
         }
         .cp-cd-brand-panel::before {
-          content:'映'; position:absolute; right:-20px; bottom:-40px;
+          content:'AR'; position:absolute; right:-20px; bottom:-40px;
           font-size:18rem; color:rgba(50,197,244,0.025); font-family:serif; line-height:1;
           pointer-events:none; user-select:none;
         }

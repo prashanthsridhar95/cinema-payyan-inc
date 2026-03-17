@@ -138,7 +138,7 @@ const Host = () => {
           background: linear-gradient(90deg, transparent, rgba(50,197,244,0.1) 50%, transparent);
         }
         .hst-section::after {
-          content: '舞';
+          content: 'AR';
           position: absolute; right: 2%; bottom: -60px;
           font-size: 28rem; font-family: serif; line-height: 1;
           color: rgba(50,197,244,0.04);

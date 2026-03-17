@@ -15,7 +15,7 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
   const socials = [
     {
       label: "Instagram",
-      handle: "@cinemapayyan",
+      handle: "@cinemapayyan.inc",
       url: "https://www.instagram.com/cinemapayyan.inc/",
       color: "#E1306C",
       glow: "rgba(225,48,108,0.35)",
@@ -41,7 +41,7 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
     },
     {
       label: "YouTube",
-      handle: "OpenPannaa",
+      handle: "@OpenPannaa",
       url: "https://www.youtube.com/@OpenPannaa",
       color: "#FF0000",
       glow: "rgba(255,0,0,0.35)",
@@ -58,9 +58,6 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;700;900&display=swap');
 
-        /* ═══════════════════════════════════════════
-           SECTION
-        ═══════════════════════════════════════════ */
         .cp-ab-section {
           width: 100%;
           min-height: 100vh;
@@ -97,9 +94,7 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
           pointer-events: none; z-index: 0; opacity: 0.15;
         }
 
-        /* ═══════════════════════════════════════════
-           LOGO TRAIN
-        ═══════════════════════════════════════════ */
+        /* ── LOGO TRAIN ── */
         .cp-ab-train-wrap {
           position: absolute;
           top: 15%; left: 0;
@@ -130,9 +125,7 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
           object-fit: contain;
         }
 
-        /* ═══════════════════════════════════════════
-           MAIN LAYOUT
-        ═══════════════════════════════════════════ */
+        /* ── MAIN LAYOUT ── */
         .cp-ab-layout {
           position: relative; z-index: 5;
           display: grid;
@@ -142,7 +135,7 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
           width: 100%;
         }
 
-        /* ─── VISUAL SIDE ─── */
+        /* ── VISUAL SIDE ── */
         .cp-ab-visual { position: relative; }
 
         .cp-ab-visual::before {
@@ -211,23 +204,7 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
           50%      { opacity: 0.35; transform: scale(1.3); }
         }
 
-        /* ─── TEXT SIDE ─── */
-        .cp-ab-pre {
-          display: flex; align-items: center; gap: 12px;
-          margin-bottom: 18px;
-        }
-        .cp-ab-pre-line {
-          width: 32px; height: 1px;
-          background: #fde047; opacity: 0.7;
-        }
-        .cp-ab-pre-text {
-          font-family: 'Inter', sans-serif;
-          font-size: 0.6rem;
-          font-weight: 400;
-          letter-spacing: 6px;
-          color: rgba(253,224,71,0.85); text-transform: uppercase;
-        }
-
+        /* ── TEXT SIDE ── */
         .cp-ab-title {
           font-family: 'Bebas Neue', sans-serif;
           font-size: clamp(3.8rem, 9vw, 8rem);
@@ -270,65 +247,17 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
           border-bottom: 1px solid rgba(253,224,71,0.4);
         }
 
-        /* ─── STATS STRIP ─── */
-        .cp-ab-stats {
-          display: flex;
-          align-items: stretch;
-          gap: 0;
-          border: 1px solid rgba(255,255,255,0.06);
-          background: rgba(255,255,255,0.02);
-          padding: 16px 22px;
-          margin-top: 38px;
-        }
-
-        .cp-ab-stat {
-          display: flex; flex-direction: column;
-          gap: 5px; flex: 1;
-        }
-
-        .cp-ab-stat-divider {
-          width: 1px;
-          background: rgba(255,255,255,0.07);
-          margin: 0 22px; align-self: stretch;
-        }
-
-        .cp-ab-stat-num {
-          font-family: 'Bebas Neue', sans-serif;
-          font-size: clamp(2rem, 3.5vw, 2.8rem);
-          font-weight: 400; color: #32c5f4;
-          line-height: 1; letter-spacing: 2px;
-        }
-
-        .cp-ab-stat-label {
-          font-family: 'Inter', sans-serif;
-          font-size: clamp(0.44rem, 1vw, 0.54rem);
-          font-weight: 400;
-          letter-spacing: 3px;
-          color: rgba(255,255,255,0.6);
-          text-transform: uppercase; line-height: 1.5;
-        }
-
-        /* ═══════════════════════════════════════════
-           SOCIAL LINKS
-        ═══════════════════════════════════════════ */
-        .cp-ab-socials {
-          display: flex;
-          gap: 12px;
-          margin-top: 20px;
-          flex-wrap: wrap;
-        }
-
         .cp-ab-social-btn {
           display: flex;
           align-items: center;
-          gap: 10px;
-          padding: 10px 16px;
+          gap: 12px;
+          padding: 14px 20px;
           border: 1px solid rgba(255,255,255,0.1);
           background: rgba(255,255,255,0.03);
           text-decoration: none;
           transition: border-color 0.3s, background 0.3s, transform 0.3s, box-shadow 0.3s;
           flex: 1;
-          min-width: 130px;
+          min-width: 140px;
           position: relative;
           overflow: hidden;
         }
@@ -350,8 +279,8 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
         }
 
         .cp-ab-social-icon {
-          width: 18px;
-          height: 18px;
+          width: 22px;
+          height: 22px;
           flex-shrink: 0;
           color: var(--s-color, #fff);
           position: relative; z-index: 1;
@@ -364,16 +293,16 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
         .cp-ab-social-info {
           display: flex;
           flex-direction: column;
-          gap: 2px;
+          gap: 3px;
           position: relative; z-index: 1;
           min-width: 0;
         }
 
         .cp-ab-social-platform {
           font-family: 'Bebas Neue', sans-serif;
-          font-size: 0.78rem;
+          font-size: 0.88rem;
           letter-spacing: 3px;
-          color: rgba(255,255,255,0.5);
+          color: rgba(255,255,255,0.55);
           text-transform: uppercase;
           transition: color 0.3s;
           white-space: nowrap;
@@ -384,7 +313,7 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
 
         .cp-ab-social-handle {
           font-family: 'Inter', sans-serif;
-          font-size: 0.62rem;
+          font-size: 0.68rem;
           font-weight: 400;
           letter-spacing: 1px;
           color: rgba(255,255,255,0.35);
@@ -394,10 +323,9 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
           transition: color 0.3s;
         }
         .cp-ab-social-btn:hover .cp-ab-social-handle {
-          color: rgba(255,255,255,0.7);
+          color: rgba(255,255,255,0.75);
         }
 
-        /* corner accent on each social btn */
         .cp-ab-social-btn::after {
           content: '';
           position: absolute; top: 0; left: 0;
@@ -409,37 +337,29 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
         }
         .cp-ab-social-btn:hover::after { opacity: 1; }
 
-        /* ═══════════════════════════════════════════
-           RESPONSIVE
-        ═══════════════════════════════════════════ */
+        /* ── RESPONSIVE ── */
         @media (max-width: 1024px) {
           .cp-ab-layout {
             grid-template-columns: 1fr;
             text-align: center; gap: 55px;
           }
           .cp-ab-img      { max-width: 360px; margin: 0 auto; display: block; }
-          .cp-ab-pre      { justify-content: center; }
           .cp-ab-philosophy { margin: 0 auto; }
           .cp-ab-badge,
           .cp-ab-visual::before,
           .cp-ab-visual::after { display: none; }
-          .cp-ab-stats    { justify-content: center; max-width: 340px; margin: 38px auto 0; }
-          .cp-ab-socials  { justify-content: center; max-width: 420px; margin: 20px auto 0; }
         }
 
         @media (max-width: 768px) {
           .cp-ab-section  { padding: 70px 5% 80px; }
           .cp-ab-train-logo { height: 65px; margin-right: 40px; }
-          .cp-ab-social-btn { min-width: 110px; padding: 9px 12px; gap: 8px; }
-          .cp-ab-social-icon { width: 16px; height: 16px; }
+          .cp-ab-social-btn { min-width: 42%; padding: 12px 14px; gap: 10px; }
+          .cp-ab-social-icon { width: 18px; height: 18px; }
         }
 
         @media (max-width: 480px) {
           .cp-ab-section  { padding: 60px 4% 70px; }
           .cp-ab-title    { font-size: clamp(3rem, 16vw, 4.5rem); }
-          .cp-ab-stat-num { font-size: 2rem; }
-          .cp-ab-stat-label { font-size: 0.5rem; }
-          .cp-ab-socials  { gap: 8px; }
           .cp-ab-social-btn { min-width: calc(50% - 4px); flex: none; }
         }
 
@@ -490,14 +410,6 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            {/* pre-label */}
-            <div className="cp-ab-pre">
-              <div className="cp-ab-pre-line" />
-              <span className="cp-ab-pre-text">
-                ESTABLISHED &bull; REDEFINING DAILY
-              </span>
-            </div>
-
             {/* heading */}
             <h2 className="cp-ab-title">
               Abishek
@@ -523,32 +435,6 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
               opportunity to redefine what cinema can be.
             </p>
 
-            {/* stats strip */}
-            <div className="cp-ab-stats">
-              <div className="cp-ab-stat">
-                <span className="cp-ab-stat-num">
-                  10
-                  <sup style={{ fontSize: "0.5em", verticalAlign: "super" }}>
-                    +
-                  </sup>
-                </span>
-                <span className="cp-ab-stat-label">
-                  YEARS OF
-                  <br />
-                  EVOLUTION
-                </span>
-              </div>
-              <div className="cp-ab-stat-divider" />
-              <div className="cp-ab-stat">
-                <span className="cp-ab-stat-num">44.6K</span>
-                <span className="cp-ab-stat-label">
-                  INSTAGRAM
-                  <br />
-                  FOLLOWERS
-                </span>
-              </div>
-            </div>
-
             {/* ── SOCIAL LINKS ── */}
             <motion.div
               className="cp-ab-socials"
@@ -557,29 +443,7 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
               transition={{ duration: 0.6, delay: 0.45 }}
               viewport={{ once: true }}
             >
-              {socials.map((s, i) => (
-                <motion.a
-                  key={i}
-                  href={s.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="cp-ab-social-btn"
-                  style={{
-                    ["--s-color" as string]: s.color,
-                    ["--s-glow" as string]: s.glow,
-                  }}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 0.5 + i * 0.08 }}
-                  viewport={{ once: true }}
-                >
-                  <span className="cp-ab-social-icon">{s.icon}</span>
-                  <span className="cp-ab-social-info">
-                    <span className="cp-ab-social-platform">{s.label}</span>
-                    <span className="cp-ab-social-handle">{s.handle}</span>
-                  </span>
-                </motion.a>
-              ))}
+              
             </motion.div>
 
           </motion.div>

@@ -61,7 +61,7 @@ const InkbloodAndShadows: React.FC = () => {
           pointer-events: none; z-index: 1;
         }
         .ibs-comic-section::after {
-          content: '物';
+          content: 'AR';
           position: absolute; right: 3%; bottom: -20px;
           font-size: 22rem; color: rgba(253,200,80,0.018);
           font-family: serif; line-height: 1;
@@ -236,7 +236,7 @@ const InkbloodAndShadows: React.FC = () => {
           box-shadow: 0 20px 60px rgba(0,0,0,0.55), 0 0 30px rgba(253,200,80,0.05);
         }
         .ibs-vision-card::before {
-          content: '制';
+          content: 'CP';
           position: absolute; right: -10px; bottom: -30px;
           font-size: 14rem; color: rgba(253,200,80,0.022);
           font-family: serif; line-height: 1;
@@ -452,7 +452,7 @@ const InkbloodAndShadows: React.FC = () => {
           pointer-events: none; z-index: 0;
         }
         .ibs-sh-section::after {
-          content: '影';
+          content: 'CP';
           position: absolute; right: 3%; bottom: 40px;
           font-size: clamp(8rem, 18vw, 22rem);
           color: rgba(140,80,255,0.022);

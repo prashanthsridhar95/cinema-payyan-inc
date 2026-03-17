@@ -214,8 +214,8 @@ const RjArchives = () => {
             >
               <div className="rja-header-icon"><Mic2 size={18} /></div>
               <div>
-                <span className="rja-overline">BROADCAST ARCHIVES</span>
-                <h2 className="rja-heading">RJ <span className="rja-heading-cyan">ARCHIVES</span></h2>
+                <span className="rja-overline">RJ </span>
+                <h2 className="rja-heading">BROADCAST <span className="rja-heading-cyan">ARCHIVES</span></h2>
               </div>
             </motion.div>
             <motion.div className="rja-header-rule rja-header-rule--r"

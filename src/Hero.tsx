@@ -123,14 +123,11 @@ export default function Hero({ onScrollRequest }: HeroProps) {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,700;0,800;1,700;1,800&family=Bebas+Neue&family=Inter:wght@300;400;700;900&display=swap');
 
-        /* ─── font utility classes ─────────────── */
         .bebas-font { font-family: 'Bebas Neue', sans-serif; }
         .inter-font  { font-family: 'Inter', sans-serif; }
 
-        /* ─── reset ─────────────────────────────── */
         *, *::before, *::after { box-sizing: border-box; }
 
-        /* ─── ROOT ──────────────────────────────── */
         .h3-root {
           position: relative;
           width: 100%;
@@ -138,9 +135,11 @@ export default function Hero({ onScrollRequest }: HeroProps) {
           min-height: 560px;
           background: #000;
           display: grid;
-          grid-template-rows: auto 1fr auto;
+          grid-template-rows: auto 1fr auto auto;
           align-items: stretch;
           overflow: hidden;
+          /* push all content below the fixed navbar */
+          padding-top: var(--navbar-height, 64px);
         }
 
         .h3-root::after {
@@ -167,13 +166,13 @@ export default function Hero({ onScrollRequest }: HeroProps) {
         .h3-corner {
           position: absolute; width: 22px; height: 22px; z-index: 8; pointer-events: none;
         }
-        .h3-tl { top: 48px; left: 16px; border-top: 1px solid rgba(253,224,71,0.4); border-left: 1px solid rgba(253,224,71,0.4); }
-        .h3-tr { top: 48px; right: 16px; border-top: 1px solid rgba(253,224,71,0.4); border-right: 1px solid rgba(253,224,71,0.4); }
+        .h3-tl { top: calc(var(--navbar-height, 64px) + 10px); left: 16px; border-top: 1px solid rgba(253,224,71,0.4); border-left: 1px solid rgba(253,224,71,0.4); }
+        .h3-tr { top: calc(var(--navbar-height, 64px) + 10px); right: 16px; border-top: 1px solid rgba(253,224,71,0.4); border-right: 1px solid rgba(253,224,71,0.4); }
         .h3-bl { bottom: 14px; left: 16px; border-bottom: 1px solid rgba(50,197,244,0.3); border-left: 1px solid rgba(50,197,244,0.3); }
         .h3-br { bottom: 14px; right: 16px; border-bottom: 1px solid rgba(50,197,244,0.3); border-right: 1px solid rgba(50,197,244,0.3); }
 
         .h3-rec {
-          position: absolute; top: 54px; right: 48px;
+          position: absolute; top: calc(var(--navbar-height, 64px) + 14px); right: 48px;
           display: flex; align-items: center; gap: 5px;
           z-index: 9; pointer-events: none;
         }
@@ -190,9 +189,7 @@ export default function Hero({ onScrollRequest }: HeroProps) {
           color: rgba(255,60,60,0.8);
         }
 
-        /* ════════════════════════════════════════════
-           GATE
-        ════════════════════════════════════════════ */
+        /* ════ GATE ════ */
         .h3-gate {
           position: fixed; inset: 0; z-index: 200;
           background: #000;
@@ -245,34 +242,7 @@ export default function Hero({ onScrollRequest }: HeroProps) {
           text-transform: uppercase; text-align: center;
         }
 
-        /* ════════════════════════════════════════════
-           TICKER
-        ════════════════════════════════════════════ */
-        .h3-ticker {
-          position: relative; z-index: 10;
-          width: 100%;
-          background: rgba(253,224,71,0.05);
-          border-bottom: 1px solid rgba(253,224,71,0.2);
-          overflow: hidden;
-          height: 34px;
-          display: flex; align-items: center;
-        }
-        .h3-ticker-track {
-          display: flex; white-space: nowrap;
-          animation: h3Tick 24s linear infinite;
-        }
-        @keyframes h3Tick { to { transform: translateX(-50%); } }
-        .h3-ticker-item {
-          font-family: 'Bebas Neue', sans-serif;
-          font-size: clamp(0.85rem, 1.8vw, 1rem);
-          letter-spacing: 6px; color: rgba(253,224,71,0.7);
-          text-transform: uppercase; padding: 0 28px; flex-shrink: 0;
-        }
-        .h3-ticker-sep { color: #32c5f4; margin: 0 4px; }
-
-        /* ════════════════════════════════════════════
-           MAIN AREA
-        ════════════════════════════════════════════ */
+        /* ════ MAIN ════ */
         .h3-main {
           position: relative; z-index: 10;
           display: flex; flex-direction: column;
@@ -282,7 +252,6 @@ export default function Hero({ onScrollRequest }: HeroProps) {
           overflow: hidden;
         }
 
-        /* ── pre label ── */
         .h3-pre {
           display: flex; align-items: center; gap: 12px;
         }
@@ -299,7 +268,6 @@ export default function Hero({ onScrollRequest }: HeroProps) {
           text-transform: uppercase; white-space: nowrap;
         }
 
-        /* ── brand ── */
         .h3-brand {
           display: flex; align-items: baseline;
           justify-content: center; gap: clamp(8px,2vw,16px);
@@ -323,14 +291,12 @@ export default function Hero({ onScrollRequest }: HeroProps) {
           align-self: flex-end; padding-bottom: 0.06em;
         }
 
-        /* ── gradient rule ── */
         .h3-rule {
           width: clamp(100px,35%,260px); height: 1px;
           background: linear-gradient(90deg, transparent, #fde047 40%, #32c5f4 70%, transparent);
           opacity: 0.55;
         }
 
-        /* ── tagline ── */
         .h3-tagline {
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.82rem, 2vw, 1.05rem);
@@ -347,13 +313,12 @@ export default function Hero({ onScrollRequest }: HeroProps) {
           padding-bottom: 1px;
         }
 
-        /* ── spine ── */
         .h3-spine {
           width: 1px;
           background: linear-gradient(to bottom, rgba(253,224,71,0.6), rgba(50,197,244,0.3));
         }
 
-        /* ── nav branches ── */
+        /* ════ NAV BRANCHES ════ */
         .h3-branches {
           display: flex; justify-content: center;
           align-items: flex-start;
@@ -437,7 +402,7 @@ export default function Hero({ onScrollRequest }: HeroProps) {
           text-shadow: 0 0 10px rgba(50,197,244,0.5);
         }
 
-        /* ── stats strip ── */
+        /* ════ STATS ════ */
         .h3-stats {
           display: flex;
           border: 1px solid rgba(255,255,255,0.07);
@@ -465,19 +430,37 @@ export default function Hero({ onScrollRequest }: HeroProps) {
           text-transform: uppercase; text-align: center; line-height: 1.5;
         }
 
-        /* ════════════════════════════════════════════
-           FOOTER ROW
-        ════════════════════════════════════════════ */
+        /* ── Twitter stat link ── */
+        .h3-stat-link {
+          display: flex; flex-direction: column;
+          align-items: center; gap: 4px;
+          text-decoration: none;
+          cursor: pointer;
+          transition: opacity 0.3s;
+          width: 100%;
+        }
+        .h3-stat-link:hover { opacity: 0.75; }
+        .h3-stat-link:hover .h3-stat-num {
+          text-shadow: 0 0 14px rgba(50,197,244,0.7);
+        }
+        .h3-stat-link .h3-stat-lbl {
+          color: rgba(50,197,244,0.55);
+          transition: color 0.3s;
+        }
+        .h3-stat-link:hover .h3-stat-lbl {
+          color: rgba(50,197,244,0.9);
+        }
+
+        /* ════ FOOTER ════ */
         .h3-footer {
           position: relative; z-index: 10;
           display: flex; align-items: center; justify-content: space-between;
-          padding: 0 clamp(16px,5vw,48px) clamp(14px,3vh,28px);
+          padding: 0 clamp(16px,5vw,48px) clamp(8px,1.5vh,14px);
           gap: 12px;
         }
 
         .h3-byline { flex: 1; }
         .h3-byline-lbl {
-          /* ── BRIGHTENED: was rgba(255,255,255,0.35), now full white ── */
           font-family: 'Inter', sans-serif;
           font-size: clamp(0.44rem,1.4vw,0.56rem);
           font-weight: 700;
@@ -533,9 +516,30 @@ export default function Hero({ onScrollRequest }: HeroProps) {
         .h3-seq span { display: block; }
         .h3-seq strong { color: rgba(253,224,71,0.5); font-weight: 700; }
 
-        /* ════════════════════════════════════════════
-           RESPONSIVE
-        ════════════════════════════════════════════ */
+        /* ════ TICKER — bottom strip ════ */
+        .h3-ticker {
+          position: relative; z-index: 10;
+          width: 100%;
+          background: rgba(0,0,0,0.6);
+          border-top: 1px solid rgba(253,224,71,0.15);
+          overflow: hidden;
+          height: 30px;
+          display: flex; align-items: center;
+        }
+        .h3-ticker-track {
+          display: flex; white-space: nowrap;
+          animation: h3Tick 28s linear infinite;
+        }
+        @keyframes h3Tick { to { transform: translateX(-50%); } }
+        .h3-ticker-item {
+          font-family: 'Bebas Neue', sans-serif;
+          font-size: clamp(0.72rem, 1.5vw, 0.85rem);
+          letter-spacing: 5px; color: rgba(253,224,71,0.45);
+          text-transform: uppercase; padding: 0 22px; flex-shrink: 0;
+        }
+        .h3-ticker-sep { color: rgba(50,197,244,0.4); margin: 0 4px; }
+
+        /* ════ RESPONSIVE ════ */
         @media (max-width: 640px) {
           .h3-node   { min-width: 80px; }
           .h3-box    { padding: 8px 12px; }
@@ -638,17 +642,6 @@ export default function Hero({ onScrollRequest }: HeroProps) {
           <span className="h3-rec-txt">REC</span>
         </div>
 
-        {/* ── TICKER ── */}
-        <div className="h3-ticker">
-          <div className="h3-ticker-track">
-            {[0,1].map(r => TICKER_WORDS.map((w,i) => (
-              <span key={`${r}-${i}`} className="h3-ticker-item">
-                {w}<span className="h3-ticker-sep">•</span>
-              </span>
-            )))}
-          </div>
-        </div>
-
         {/* ── MAIN ── */}
         <div className="h3-main">
 
@@ -658,7 +651,7 @@ export default function Hero({ onScrollRequest }: HeroProps) {
             transition={{ duration:0.7 }}
           >
             <div className="h3-pre-line" />
-            <span className="h3-pre-txt">EST. 2023 · CHENNAI</span>
+            <span className="h3-pre-txt">EST. 2023 · MADURAI</span>
             <div className="h3-pre-line" />
           </motion.div>
 
@@ -732,10 +725,17 @@ export default function Hero({ onScrollRequest }: HeroProps) {
               <span className="h3-stat-num">{years}<span className="h3-stat-sup">+</span></span>
               <span className="h3-stat-lbl">YEARS OF<br/>EVOLUTION</span>
             </div>
+            {/* ── Twitter/X stat — clickable link ── */}
             <div className="h3-stat">
-              {/* ── CHANGED: Instagram → X / Twitter, 44K → 271.1K ── */}
-              <span className="h3-stat-num">{followers}<span className="h3-stat-sup">.1K</span></span>
-              <span className="h3-stat-lbl">X / TWITTER<br/>FOLLOWERS</span>
+              <a
+                href="https://x.com/cinemapayyan"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="h3-stat-link"
+              >
+                <span className="h3-stat-num">{followers}<span className="h3-stat-sup">.1K</span></span>
+                <span className="h3-stat-lbl">X / TWITTER<br/>FOLLOWERS ↗</span>
+              </a>
             </div>
             <div className="h3-stat">
               <span className="h3-stat-num">∞</span>
@@ -752,7 +752,6 @@ export default function Hero({ onScrollRequest }: HeroProps) {
           transition={{ delay:0.8, duration:0.8 }}
         >
           <div className="h3-byline">
-            {/* ── BRIGHTENED: full white + yellow glow on label ── */}
             <span className="h3-byline-lbl">CINEMA ENTREPRENEUR</span>
             <h2 className="h3-byline-name">ABISHEK RAAJA</h2>
           </div>
@@ -771,6 +770,22 @@ export default function Hero({ onScrollRequest }: HeroProps) {
           <div className="h3-seq">
             <span><strong>SEQ 01</strong></span>
             <span>HERO · WELCOME</span>
+          </div>
+        </motion.div>
+
+        {/* ── TICKER — bottom strip ── */}
+        <motion.div
+          className="h3-ticker"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: ready ? 1 : 0 }}
+          transition={{ delay: 1, duration: 0.8 }}
+        >
+          <div className="h3-ticker-track">
+            {[0,1].map(r => TICKER_WORDS.map((w,i) => (
+              <span key={`${r}-${i}`} className="h3-ticker-item">
+                {w}<span className="h3-ticker-sep">•</span>
+              </span>
+            )))}
           </div>
         </motion.div>
 

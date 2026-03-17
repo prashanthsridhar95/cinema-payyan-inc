@@ -346,8 +346,8 @@ const AboutWork = () => {
           >
             <div className="vjl-header-icon"><Tv size={18} /></div>
             <div>
-              <span className="vjl-overline">CURATED CONVERSATIONS</span>
-              <h2 className="vjl-heading">VJ <span className="vjl-heading-yellow">SESSIONS</span></h2>
+              <span className="vjl-overline">VJ</span>
+              <h2 className="vjl-heading">CURATED <span className="vjl-heading-yellow">CONVERSATIONS</span></h2>
             </div>
             <div style={{ marginLeft: 12 }}>
               <span className="vjl-ep-count">10</span>
