@@ -39,7 +39,7 @@ const Director = () => {
           background: linear-gradient(90deg, transparent, rgba(50,197,244,0.12) 50%, transparent);
         }
         .dir-section::after {
-          content: '監';
+          content: 'AR';
           position: absolute; right: 2%; bottom: -60px;
           font-size: 28rem; font-family: serif; line-height: 1;
           color: rgba(50,197,244,0.04);
@@ -115,7 +115,7 @@ const Director = () => {
           overflow: hidden;
         }
         .dir-card::before {
-          content: '';
+          content: 'CP';
           position: absolute; top: 0; left: 0;
           width: 20px; height: 20px;
           border-top: 1px solid rgba(253,224,71,0.4);

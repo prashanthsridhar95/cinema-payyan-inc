@@ -1702,7 +1702,7 @@ header, nav, .prof-nav-item, .hero-container, .about-section,
 }
 
 .dir-content::before {
-  content: '導';
+  content: 'CP';
   position: absolute;
   right: -20px; bottom: -40px;
   font-size: 18rem;

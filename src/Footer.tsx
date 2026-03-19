@@ -65,7 +65,7 @@ const Footer: React.FC = () => {
 
         /* Closing kanji — '終' means "The End" — ember tinted */
         .cp-ft-footer::after {
-          content: '終';
+          content: 'AR';
           position: absolute;
           right: 4%; bottom: -30px;
           font-size: 22rem;
@@ -273,7 +273,7 @@ const Footer: React.FC = () => {
           <div className="cp-ft-brand">
             <div className="cp-ft-brand-pre">
               <div className="cp-ft-brand-pre-line" />
-              <span className="cp-ft-brand-pre-text">EST. 2014</span>
+              <span className="cp-ft-brand-pre-text">EST. 2023</span>
             </div>
 
             <h2 className="cp-ft-logo">CINEMA PAYYAN</h2>

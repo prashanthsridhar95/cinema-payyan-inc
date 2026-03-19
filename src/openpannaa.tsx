@@ -606,7 +606,7 @@ const Filmcritic = () => {
               <div className="fcc-footer-meta">
                 <span className="fcc-footer-overline">FILM CRITICISM · REVIEWS · ANALYSIS</span>
                 <h3 className="fcc-footer-name">OPEN PANNAA</h3>
-                <span className="fcc-footer-sub">BY ABISHEK RAAJA</span>
+                <span className="fcc-footer-sub">Watch All Reviews</span>
               </div>
               <div className="fcc-socials">
                 {socialLinks.map(({ icon: Icon, href, label }) => (

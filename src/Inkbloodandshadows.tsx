@@ -824,12 +824,11 @@ const InkbloodAndShadows: React.FC = () => {
                 "When light bends, legends are born — and Sathyam felt every shadow."
               </p>
               <p className="ibs-sh-body">
-                Shades, silhouettes, and pure cinematic electricity — we brought{' '}
-                <strong>Sivakarthikeyan</strong>'s <em>Maaveeran</em> to life in the most
-                visceral way possible at <strong>Sathyam Cinemas, Royapettah</strong>.
-                An immersive shadow-play installation that turned the lobby into a battlefield
-                of light and darkness — because a warrior's story deserves more than just a screen.
-              </p>
+  <strong style={{ display: 'block', fontSize: '1.2rem', marginBottom: '8px', color: '#fff' }}>
+    We don’t just promote stories; we live the impact.
+  </strong>
+  For <strong>Sivakarthikeyan’s</strong> <em>Maaveeran</em>, we transformed <strong>Sathyam Cinemas</strong> into a visceral battlefield of shadow and light. By blurring the lines between the screen and the streets, we ensured this warrior’s journey wasn't just seen—it was <strong>felt.</strong>
+</p>
               <p className="ibs-sh-body">
                 Directed by <strong>Madonne Ashwin</strong> · Celebrating <em>#VeerameJeyam</em> ·
                 Ideation &amp; execution by <strong>CinemaPayyan Inc</strong> — where every frame
