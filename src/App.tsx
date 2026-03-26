@@ -25,7 +25,7 @@ function App() {
   const [offset, setOffset] = useState<number>(0);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const { scrollToSection, refs } = useScrollTo();
-  const repoBasename = "/cinima-payan-inc";
+  const repoBasename = import.meta.env.PROD ? "/cinema-payyan-inc" : "/";
 
   useEffect(() => {
     let ticking = false;
