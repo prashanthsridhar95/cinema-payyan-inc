@@ -3,6 +3,13 @@ import { motion, useInView } from "framer-motion";
 import { Instagram, Clapperboard, ExternalLink, Star } from "lucide-react";
 import { Images } from "./assets/assets";
 
+const sectionReveal = {
+  initial: { opacity: 0, y: 40 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.2 },
+  transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const },
+};
+
 /* ─── MAIN ──────────────────────────────────── */
 const CreativeProducer = () => {
   const headerRef = useRef<HTMLDivElement>(null);
@@ -434,10 +441,7 @@ const CreativeProducer = () => {
           {/* ══ LOGO — top center ══ */}
           <motion.div
             className="cpcp-logo-block"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            {...sectionReveal}
           >
             <div className="cpcp-logo-corners">
               <div className="cpcp-logo-corner cpcp-logo-corner--tl" />
@@ -487,7 +491,11 @@ const CreativeProducer = () => {
           </motion.div>
 
           {/* ══ TWO CARDS — left & right ══ */}
-          <div className="cpcp-cards-grid">
+          <motion.div
+            className="cpcp-cards-grid"
+            {...sectionReveal}
+            transition={{ delay: 0.08, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          >
             {/* LEFT — Madras Matinee */}
             <motion.div
               className="cpcp-lcu-card cpcp-lcu-card--cyan"
@@ -678,10 +686,14 @@ const CreativeProducer = () => {
                 </div>
               </div>
             </motion.div>
-          </div>
+          </motion.div>
 
           {/* bottom CTA */}
-          <div className="cpcp-cta-wrap">
+          <motion.div
+            className="cpcp-cta-wrap"
+            {...sectionReveal}
+            transition={{ delay: 0.14, duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+          >
             <motion.a
               href="https://www.instagram.com/cinemapayyan.inc/"
               target="_blank"
@@ -698,7 +710,7 @@ const CreativeProducer = () => {
               <span className="cpcp-cta-label">VISIT INSTAGRAM</span>
               <ExternalLink size={13} />
             </motion.a>
-          </div>
+          </motion.div>
         </div>
       </section>
     </>

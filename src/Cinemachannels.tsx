@@ -20,9 +20,9 @@ const vjVideos = [
 ];
 
 const criticPreviews = [
-  { id: 1, title: "Retro",         tag: "REVIEW",   link: "https://youtu.be/mp8e0SBS4d4",  video: VideoAssets.vjPreviews[10] },
-  { id: 2, title: "Dragon",        tag: "CRITIQUE",  link: "https://youtu.be/3z4uen7WeD8",  video: VideoAssets.vjPreviews[11] },
-  { id: 3, title: "Vidaamuyarchi", tag: "ANALYSIS",  link: "https://youtu.be/vKdN87DhL9Y",  video: VideoAssets.vjPreviews[12] },
+  { id: 1, title: "Retro",         tag: "REVIEW",   link: "https://youtu.be/mp8e0SBS4d4",  video: VideoAssets.vjPreviews[10], poster: Images.RetroImg },
+  { id: 2, title: "Dragon",        tag: "CRITIQUE",  link: "https://youtu.be/3z4uen7WeD8",  video: VideoAssets.vjPreviews[11], poster: Images.openpanna },
+  { id: 3, title: "Vidaamuyarchi", tag: "ANALYSIS",  link: "https://youtu.be/vKdN87DhL9Y",  video: VideoAssets.vjPreviews[12], poster: Images.openpanna },
 ];
 
 const socialLinks = [
@@ -149,7 +149,16 @@ function CriticCard({ item, index }: { item: typeof criticPreviews[0]; index: nu
       onMouseLeave={() => setHovered(false)}
     >
       <div className="cc-op-media">
-        <video ref={videoRef} src={item.video} className="cc-op-vid" muted loop playsInline />
+        <video
+          ref={videoRef}
+          src={item.video}
+          poster={item.poster}
+          className="cc-op-vid"
+          muted
+          loop
+          playsInline
+          preload="none"
+        />
         <div className="cc-op-grad" />
         <span className="cc-op-tag">{item.tag}</span>
         <motion.div className="cc-op-play"

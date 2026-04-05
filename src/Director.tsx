@@ -3,6 +3,13 @@ import { motion, useInView } from "framer-motion";
 import { Clapperboard, Instagram } from "lucide-react";
 import { Images } from "./assets/assets";
 
+const sectionReveal = {
+  initial: { opacity: 0, y: 40 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.2 },
+  transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const },
+};
+
 const crew = [
   "@abhinavsnayak", "@thenieswar_dop", "@naan__pradeep",
   "@navaa_rajkumar", "@valentino_suren", "@kvdurai",
@@ -362,8 +369,7 @@ const Director = () => {
           <motion.div
             className="dir-card"
             ref={cardRef}
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: cardInView ? 1 : 0, y: cardInView ? 0 : 50 }}
+            {...sectionReveal}
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
           >
 

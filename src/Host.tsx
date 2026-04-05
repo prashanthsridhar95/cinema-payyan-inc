@@ -3,6 +3,13 @@ import { motion, useInView } from "framer-motion";
 import { Mic2, ExternalLink } from "lucide-react";
 import { Images, VideoAssets } from "./assets/assets";
 
+const sectionReveal = {
+  initial: { opacity: 0, y: 40 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.2 },
+  transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const },
+};
+
 const projects = [
   {
     id: 1,
@@ -12,6 +19,7 @@ const projects = [
     tag: "TRIBUTE",
     link: "https://youtu.be/OpIYkWJ_rws?si=T0gC2JCt6jA4vter",
     video: VideoAssets.vjPreviews[13],
+    poster: Images.FilmroleAbishake,
     host: "@abishek_raaja",
     feature: "Vel Tech Lavaza 2K25",
     body: "@the_real_chiyaan operates on an unprecedented level of craft, often drawing comparisons to global icons like Christian Bale. His dedication to character transformation is significantly underrated, and he deserves the highest pedestal for his consistent efforts in elevating Tamil cinema to international standards.",
@@ -24,6 +32,7 @@ const projects = [
     tag: "CONCERT",
     link: "https://www.instagram.com/reel/C01jVyrCb9F/?utm_source=ig_web_copy_link",
     video: VideoAssets.vjPreviews[14],
+    poster: Images.NeeyaoliHost,
     host: "@abishek_raaja",
     feature: "Nehru Outdoor Stadium",
     body: "A significant milestone in my hosting career was the opportunity to name and present this grand concert. It was a privilege to contribute to the creative vision of @musicsanthosh, brought to life through a seamless collaboration with @directedbykenroyson and their dedicated production team.",
@@ -54,7 +63,16 @@ function HostCard({ project, index }: { project: typeof projects[0]; index: numb
     >
       {/* ── VIDEO SIDE ── */}
       <div className="hst-media">
-        <video ref={videoRef} src={project.video} className="hst-video" muted loop playsInline />
+        <video
+          ref={videoRef}
+          src={project.video}
+          poster={project.poster}
+          className="hst-video"
+          muted
+          loop
+          playsInline
+          preload="none"
+        />
         <div className="hst-media-gradient" />
         <div className="hst-c hst-c--tl" /><div className="hst-c hst-c--tr" />
         <div className="hst-c hst-c--bl" /><div className="hst-c hst-c--br" />
@@ -287,7 +305,7 @@ const Host = () => {
           padding: 5px 12px; text-transform: uppercase; flex-shrink: 0;
         }
         .hst-hero-scan {
-          position: absolute; bottom: 42px; left: 0; right: 0; z-index: 6;
+          position: absolute; top: -1px; left: 0; right: 0; z-index: 6;
           height: 2px;
           background: linear-gradient(90deg, #fde047, #32c5f4);
           transform-origin: left;
@@ -547,9 +565,7 @@ const Host = () => {
 
           {/* ── HERO BANNER ── */}
           <motion.div className="hst-hero"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
+            {...sectionReveal}
             transition={{ duration: 0.9, ease: [0.16,1,0.3,1] }}
             onMouseEnter={() => setBannerHover(true)}
             onMouseLeave={() => setBannerHover(false)}
@@ -566,6 +582,10 @@ const Host = () => {
             <div className="hst-hero-c hst-hero-bl" />
             <div className="hst-hero-c hst-hero-br" />
             <div className="hst-hero-bar">
+              <motion.div className="hst-hero-scan"
+                animate={{ scaleX: bannerHover ? 1 : 0 }}
+                transition={{ duration: 0.5, ease: [0.16,1,0.3,1] }}
+              />
               <div className="hst-hero-bar-left">
                 <motion.div
                   className="hst-hero-dot"
@@ -577,18 +597,18 @@ const Host = () => {
               <span className="hst-hero-title">NEEYE OLI 2024</span>
               <span className="hst-hero-tag">LIVE HOST</span>
             </div>
-            <motion.div className="hst-hero-scan"
-              animate={{ scaleX: bannerHover ? 1 : 0 }}
-              transition={{ duration: 0.5, ease: [0.16,1,0.3,1] }}
-            />
           </motion.div>
 
           {/* ── PROJECT CARDS ── */}
-          <div className="hst-grid">
+          <motion.div
+            className="hst-grid"
+            {...sectionReveal}
+            transition={{ delay: 0.08, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          >
             {projects.map((p, i) => (
               <HostCard key={p.id} project={p} index={i} />
             ))}
-          </div>
+          </motion.div>
 
         </div>
       </section>
