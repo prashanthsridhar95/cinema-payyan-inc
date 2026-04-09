@@ -5,26 +5,29 @@ import Header from "./Header";
 import Hero from "./Hero";
 import Logo from "./Logo";
 import { useScrollTo } from "./useScrollTo";
-import About from "./About";
-import Work from "./Work";
-import ProductionLogo from "./ProductionLogo";
-import ShortsPromotion from "./ShortsPromotion";
-import Contact from "./Contact";
-import Footer from "./Footer";
-import Munai from "./Munai";
-import Host from "./Host";
-import Director from "./Director";
-import CreativeProducer from "./CreativeProducer";
-import Accelerator from "./Accelerator";
+import { lazy, Suspense } from "react";
+import LenisScroller from "./LenisScroller";
+const About = lazy(() => import("./About"));
+const Work = lazy(() => import("./Work"));
+const ProductionLogo = lazy(() => import("./ProductionLogo"));
+const ShortsPromotion = lazy(() => import("./ShortsPromotion"));
+const Contact = lazy(() => import("./Contact"));
+const Footer = lazy(() => import("./Footer"));
+const Munai = lazy(() => import("./Munai"));
+const Host = lazy(() => import("./Host"));
+const Director = lazy(() => import("./Director"));
+const CreativeProducer = lazy(() => import("./CreativeProducer"));
+const Accelerator = lazy(() => import("./Accelerator"));
+const InkbloodAndShadows = lazy(() => import("./Inkbloodandshadows"));
+const CinemaChannels = lazy(() => import("./Cinemachannels"));
 import SectionDivider from "./Sectiondivider";
 import CinemaNavigator from "./RotaryNavigator";
-import InkbloodAndShadows from "./Inkbloodandshadows";
-import CinemaChannels from "./Cinemachannels";
 
 function App() {
   const [offset, setOffset] = useState<number>(0);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const { scrollToSection, refs } = useScrollTo();
+  const { scrollToSection, homeRef, aboutRef, workRef, contactRef, promotionsRef } = useScrollTo();
+  const refs = { homeRef, aboutRef, workRef, contactRef, promotionsRef };
   const repoBasename = "/";
 
   useEffect(() => {
@@ -46,13 +49,16 @@ function App() {
     document.body.style.overflow = isMenuOpen ? "hidden" : "auto";
   }, [isMenuOpen]);
 
-  const handleScrollRequest = (target: any): void => {
+  type ScrollTarget = keyof ReturnType<typeof useScrollTo>['refs'] | React.RefObject<HTMLElement> | null;
+
+  const handleScrollRequest = (target: ScrollTarget): void => {
     setIsMenuOpen(false);
     scrollToSection(target);
   };
 
   return (
-    <Router basename={repoBasename}>
+    <LenisScroller>
+      <Router basename={repoBasename}>
       <style>{`
         .cinenaPaitanBanner {
           background-attachment: scroll !important;
@@ -160,13 +166,14 @@ function App() {
 
       <CinemaNavigator refs={refs} />
 
-      <Routes>
+      <Suspense fallback={<div style={{ minHeight: "100vh", background: "#05080e" }} />}>
+        <Routes>
         <Route
           path="/"
           element={
             <>
               {/* ══ HOME / HERO ══ */}
-              <div className="App" id="home" ref={refs.homeRef}>
+              <div className="App" id="home" ref={homeRef}>
                 <Header
                   onScrollRequest={handleScrollRequest}
                   refs={refs}
@@ -183,8 +190,9 @@ function App() {
                   className="cinenaPaitanBanner"
                   style={{
                     backgroundImage: `url(${Images.banner})`,
+                    // @ts-expect-error: custom CSS variable is valid in CSSProperties
                     "--scroll-offset": `${offset}px`,
-                  } as any}
+                  } as React.CSSProperties}
                 >
                   <div className="banner-overlay" />
                 </div>
@@ -212,7 +220,7 @@ function App() {
 
               {/* ══ ABOUT ══ */}
               <SectionDivider variant="timecode" label="CUT TO — ABOUT" index={1} />
-              <section id="about" ref={refs.aboutRef}>
+              <section id="about" ref={aboutRef}>
                 <About />
               </section>
 
@@ -236,7 +244,7 @@ function App() {
 
               {/* ══ CREATIVE PRODUCER ══ */}
               <SectionDivider variant="marquee" label="CINEMAPAYYAN • CREATIVE PRODUCER" />
-              <section id="producer" ref={refs.promotionsRef}>
+              <section id="producer" ref={promotionsRef}>
                 <CreativeProducer />
               </section>
 
@@ -260,7 +268,7 @@ function App() {
 
               {/* ══ FINISHED PROJECTS ══ */}
               <SectionDivider variant="filmstrip" label="FINISHED PROJECTS" />
-              <section id="work" ref={refs.workRef}>
+              <section id="work" ref={workRef}>
                 <Work />
               </section>
 
@@ -272,7 +280,7 @@ function App() {
 
               {/* ══ CONTACT ══ */}
               <SectionDivider variant="timecode" label="BOOK A SESSION" index={13} />
-              <section id="contact" ref={refs.contactRef}>
+              <section id="contact" ref={contactRef}>
                 <Contact />
               </section>
 
@@ -285,7 +293,9 @@ function App() {
 
         <Route path="/munai" element={<Munai />} />
       </Routes>
+      </Suspense>
     </Router>
+    </LenisScroller>
   );
 }
 

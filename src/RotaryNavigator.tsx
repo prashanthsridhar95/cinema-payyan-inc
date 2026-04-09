@@ -11,8 +11,16 @@ interface CinemaNavigatorProps {
   };
 }
 
+type Section = {
+  id: string;
+  label: string;
+  sub: string;
+  ref: keyof CinemaNavigatorProps['refs'] | null;
+  route: string | null;
+};
+
 /* ── Sections — matches App.tsx order exactly ── */
-const SECTIONS = [
+const SECTIONS: Section[] = [
   { id: "home",        label: "HOME",              sub: "WELCOME",           ref: "homeRef",      route: null        },
   { id: "about",       label: "ABOUT",             sub: "IDENTITY",          ref: "aboutRef",     route: null        },
   { id: "channels",    label: "CINEMA CHANNELS",   sub: "VJ · FILM · RJ",   ref: null,           route: null        },
@@ -23,7 +31,6 @@ const SECTIONS = [
   { id: "inkblood",    label: "INKBLOOD",          sub: "BTS COMIC",         ref: null,           route: null        },
   { id: "shorts",      label: "SHORTS",            sub: "PROMOTIONS",        ref: null,           route: null        },
   { id: "work",        label: "FINISHED PROJECTS", sub: "PORTFOLIO",         ref: "workRef",      route: null        },
-  { id: "partners",    label: "TIE-UP PARTNERS",   sub: "COLLABORATIONS",    ref: null,           route: null        },
   { id: "contact",     label: "CONTACT",           sub: "BOOK A SESSION",    ref: "contactRef",   route: null        },
   { id: "munai",       label: "MUNAI",             sub: "ORIGINALS",         ref: null,           route: "/munai"    },
 ];
@@ -40,14 +47,34 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
   const collapseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const rafRef = useRef<number>(0);
 
+  const resolveSectionElement = (sec: Section): HTMLElement | null => {
+    if (sec.ref) {
+      const refObject = refs[sec.ref];
+      if (refObject?.current) return refObject.current;
+    }
+    return document.getElementById(sec.id);
+  };
+
   /* ── show nav after 80px scroll (always visible on Munai) ── */
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (isMunai) { setVisible(true); return; }
     const onScroll = () => setVisible(window.scrollY > 80);
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
   }, [isMunai]);
+
+  /* ── keyboard support for drawer (Escape closes) ── */
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && mobileOpen) {
+        setMobileOpen(false);
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [mobileOpen]);
 
   /* ── track active section (skip on Munai) ── */
   useEffect(() => {
@@ -58,8 +85,7 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
         const mid = window.innerHeight * 0.4;
         let best = 0, bestD = Infinity;
         SECTIONS.forEach((sec, i) => {
-          const el = (sec.ref ? (refs as any)[sec.ref]?.current : null)
-                  || document.getElementById(sec.id);
+          const el = resolveSectionElement(sec);
           if (!el) return;
           const r = el.getBoundingClientRect();
           const d = Math.abs(r.top + r.height / 2 - mid);
@@ -90,16 +116,14 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
       // on Munai page — navigate home first, then scroll after landing
       navigate("/");
       setTimeout(() => {
-        const el = (sec.ref ? (refs as any)[sec.ref]?.current : null)
-                 || document.getElementById(sec.id);
+        const el = resolveSectionElement(sec);
         if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
       }, 400);
       setMobileOpen(false);
       setExpanded(false);
       return;
     }
-    const el = (sec.ref ? (refs as any)[sec.ref]?.current : null)
-             || document.getElementById(sec.id);
+    const el = resolveSectionElement(sec);
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
     setMobileOpen(false);
     setExpanded(false);
@@ -141,6 +165,21 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
           pointer-events: none;
           transform: translateY(-50%) translateX(20px);
         }
+
+        @media (prefers-reduced-motion: reduce) {
+          .cnav-wrap,
+          .cnav-active-badge,
+          .cnav-item,
+          .cnav-fab,
+          .cnav-drawer {
+            transition-duration: 0s !important;
+            animation-duration: 0s !important;
+          }
+          .cnav-item:hover,
+          .cnav-drawer-item:hover {
+            transform: none !important;
+          }
+        }
         .cnav-wrap.cnav-visible {
           opacity: 1;
           pointer-events: all;
@@ -155,6 +194,7 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
           align-items: flex-end;
           gap: 2px;
           margin-right: 12px;
+          padding-left: 12px;
           opacity: 0;
           transform: translateX(6px);
           transition: opacity 0.3s, transform 0.3s;
@@ -201,7 +241,7 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
 
         /* expand toggle */
         .cnav-toggle {
-          pointer-events: all;
+          pointer-events: none;
           position: absolute; left: -20px; top: 50%;
           transform: translateY(-50%);
           width: 20px; height: 40px;
@@ -211,7 +251,12 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
           display: flex; align-items: center; justify-content: center;
           cursor: pointer;
           color: rgba(255,255,255,0.4);
-          transition: color 0.25s, background 0.25s;
+          opacity: 0;
+          transition: color 0.25s, background 0.25s, opacity 0.3s;
+        }
+        .cnav-wrap.cnav-expanded .cnav-toggle {
+          opacity: 1;
+          pointer-events: all;
         }
         .cnav-toggle:hover { background: rgba(50,197,244,0.08); color: #32c5f4; }
 
@@ -225,10 +270,21 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
           width: 100%;
           cursor: pointer;
           padding: 5px 10px 5px 0;
-          transition: background 0.2s;
+          transition: background 0.2s, padding-left 0.35s cubic-bezier(0.77,0,0.18,1);
           position: relative;
         }
+        .cnav-wrap.cnav-expanded .cnav-item {
+          padding-left: 22px;
+        }
         .cnav-item:hover { background: rgba(50,197,244,0.04); }
+        .cnav-item:focus-visible,
+        .cnav-drawer-item:focus-visible,
+        .cnav-toggle:focus-visible,
+        .cnav-fab:focus-visible,
+        .cnav-drawer-close:focus-visible {
+          outline: 2px solid #fde047;
+          outline-offset: 2px;
+        }
 
         /* label — slides in when expanded */
         .cnav-label {
@@ -304,18 +360,17 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
            MOBILE FAB + DRAWER
         ════════════════════════════════ */
         .cnav-fab {
-          display: none;
           position: fixed;
-          top: 0; right: 0;
+          top: 0; left: 0;
           z-index: 9600;
-          width: auto; height: auto;
           background: rgba(5,8,14,0.92);
-          border: none;
-          border-bottom: 1px solid rgba(253,224,71,0.25);
-          border-left: 1px solid rgba(253,224,71,0.25);
-          border-radius: 0 0 0 10px;
-          align-items: center; justify-content: center;
-          gap: 7px;
+          border: 1px solid rgba(253,224,71,0.25);
+          border-left: none;
+          border-radius: 0 10px 10px 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 3px;
           padding: 7px 14px 8px;
           cursor: pointer;
           color: #fde047;
@@ -325,6 +380,12 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
         .cnav-fab:active {
           background: rgba(10,20,32,0.98);
           border-color: rgba(253,224,71,0.5);
+        }
+        .cnav-fab-txt {
+          display: none;
+        }
+        .cnav-drawer.cnav-drawer-open ~ .cnav-fab .cnav-fab-txt {
+          display: inline;
         }
         .cnav-fab-txt {
           font-family: 'Inter', sans-serif;
@@ -457,7 +518,7 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
         <div className="cnav-toggle" onClick={() => setExpanded(e => !e)}>
           <svg viewBox="0 0 12 12" width="9" height="9" fill="none">
             <path
-              d={expanded ? "M8 2L4 6l4 4" : "M4 2l4 4-4 4"}
+              d={expanded ? "M4 2l4 4-4 4" : "M8 2L4 6l4 4"}
               stroke="currentColor" strokeWidth="1.5"
               strokeLinecap="round" strokeLinejoin="round"
             />
@@ -479,37 +540,46 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
               <span className="cnav-dot" style={{background:"#fde047",boxShadow:"0 0 8px rgba(253,224,71,0.8)"}} />
             </div>
           )}
-          {SECTIONS.map((sec, i) => (
-            <div
-              key={sec.id}
-              className={`cnav-item${!isMunai && activeIdx === i ? " cnav-active" : ""}${isMunai && sec.id === "munai" ? " cnav-active" : ""}`}
-              onClick={() => scrollTo(sec)}
-              title={sec.label}
-            >
-              <span className="cnav-num">{String(i + 1).padStart(2, "0")}</span>
-              <span className="cnav-label">
-                {sec.label}{sec.route ? " ↗" : ""}
-              </span>
-              <span className="cnav-dot" style={sec.route ? {background:"rgba(253,224,71,0.35)"} : undefined} />
-            </div>
-          ))}
+          {SECTIONS.map((sec, i) => {
+            const isActive = !isMunai ? activeIdx === i : sec.id === "munai";
+            return (
+              <div
+                key={sec.id}
+                role="button"
+                tabIndex={0}
+                aria-current={isActive ? "true" : undefined}
+                className={`cnav-item${isActive ? " cnav-active" : ""}`}
+                onClick={() => scrollTo(sec)}
+                onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); scrollTo(sec); } }}
+                title={sec.label}
+              >
+                <span className="cnav-num">{String(i + 1).padStart(2, "0")}</span>
+                <span className="cnav-label">
+                  {sec.label}{sec.route ? " ↗" : ""}
+                </span>
+                <span className="cnav-dot" style={sec.route ? {background:"rgba(253,224,71,0.35)"} : undefined} />
+              </div>
+            );
+          })}
         </div>
       </div>
 
-      {/* ════ MOBILE FAB — top-right corner tab ════ */}
-      <button
-        className="cnav-fab"
-        onClick={() => setMobileOpen(true)}
-        aria-label="Open navigation"
-      >
-        <svg viewBox="0 0 20 20" fill="none" width="16" height="16">
-          <path d="M3 5h14M3 10h14M3 15h14"
-            stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
-        </svg>
-        <span className="cnav-fab-txt">
-          {isMunai ? "← HOME" : activeSection?.label}
-        </span>
-      </button>
+      {/* ════ MOBILE FAB — Close button (only when open) ════ */}
+      {mobileOpen && (
+        <button
+          className="cnav-fab"
+          onClick={() => setMobileOpen(false)}
+          aria-label="Close navigation"
+        >
+          <svg viewBox="0 0 20 20" fill="none" width="16" height="16">
+            <path d="M16 5l-8 8-8-8"
+              stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          <span className="cnav-fab-txt">
+            {isMunai ? "← HOME" : activeSection?.label}
+          </span>
+        </button>
+      )}
 
       {/* ════ MOBILE DRAWER ════ */}
       <div
@@ -551,25 +621,32 @@ export default function CinemaNavigator({ refs }: CinemaNavigatorProps) {
         )}
 
         <div className="cnav-drawer-list">
-          {SECTIONS.map((sec, i) => (
-            <div
-              key={sec.id}
-              className={`cnav-drawer-item${!isMunai && activeIdx === i ? " cnav-drawer-active" : ""}${isMunai && sec.id === "munai" ? " cnav-drawer-active" : ""}${sec.route ? " cnav-drawer-route" : ""}`}
-              onClick={() => scrollTo(sec)}
-            >
-              <span className="cnav-drawer-dot" />
-              <span className="cnav-drawer-num">{String(i + 1).padStart(2, "0")}</span>
-              <div className="cnav-drawer-text">
-                <span className="cnav-drawer-name">
-                  {sec.label}
-                  {sec.route && (
-                    <span style={{fontSize:"0.5rem",letterSpacing:"2px",color:"rgba(253,224,71,0.5)",marginLeft:"8px",verticalAlign:"middle"}}>↗</span>
-                  )}
-                </span>
-                <span className="cnav-drawer-sub">{sec.sub}</span>
+          {SECTIONS.map((sec, i) => {
+            const isActive = !isMunai ? activeIdx === i : sec.id === "munai";
+            return (
+              <div
+                key={sec.id}
+                role="button"
+                tabIndex={0}
+                aria-current={isActive ? "true" : undefined}
+                className={`cnav-drawer-item${isActive ? " cnav-drawer-active" : ""}${sec.route ? " cnav-drawer-route" : ""}`}
+                onClick={() => scrollTo(sec)}
+                onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); scrollTo(sec); } }}
+              >
+                <span className="cnav-drawer-dot" />
+                <span className="cnav-drawer-num">{String(i + 1).padStart(2, "0")}</span>
+                <div className="cnav-drawer-text">
+                  <span className="cnav-drawer-name">
+                    {sec.label}
+                    {sec.route && (
+                      <span style={{fontSize:"0.5rem",letterSpacing:"2px",color:"rgba(253,224,71,0.5)",marginLeft:"8px",verticalAlign:"middle"}}>↗</span>
+                    )}
+                  </span>
+                  <span className="cnav-drawer-sub">{sec.sub}</span>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </>

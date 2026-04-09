@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { Play, Instagram, Facebook, Twitter, Youtube, ExternalLink } from "lucide-react";
 import { Images, VideoAssets } from "./assets/assets";
@@ -202,6 +202,10 @@ const CinemaChannels = () => {
   const headerRef  = useRef<HTMLDivElement>(null);
   const inView     = useInView(headerRef, { once: true, amount: 0.3 });
 
+  const currentTab = TABS.find(t => t.id === activeTab)!;
+  const rjWaveHeights = useMemo(() => Array.from({ length: 22 }, () => 4 + Math.random() * 14), []);
+
+
   const CARD_W   = 340;
   const CARD_GAP = 16;
   const CARD_STEP = CARD_W + CARD_GAP;
@@ -230,8 +234,6 @@ const CinemaChannels = () => {
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, [activeTab, isPaused, SET_W, CARD_STEP, TOTAL]);
-
-  const currentTab = TABS.find(t => t.id === activeTab)!;
 
   return (
     <>
@@ -294,6 +296,14 @@ const CinemaChannels = () => {
           text-align: center;
         }
         .cc-heading span { color: #fde047; }
+        .cc-subtitle {
+          font-family: 'Inter', sans-serif;
+          font-size: 0.85rem;
+          letter-spacing: 2px;
+          color: rgba(255,255,255,0.65);
+          margin-top: 6px;
+          text-transform: uppercase;
+        }
 
         /* ═══════════════════════════════════
            3-BOX TAB SELECTOR
@@ -920,6 +930,7 @@ const CinemaChannels = () => {
             >
               <span className="cc-overline">CINEMAPAYYAN INC</span>
               <h2 className="cc-heading">CINEMA <span>CHANNELS</span></h2>
+              <p className="cc-subtitle">{currentTab.label} · {currentTab.sub}</p>
             </motion.div>
             <motion.div className="cc-header-rule cc-header-rule--r"
               initial={{ scaleX: 0 }}
@@ -1091,9 +1102,9 @@ const CinemaChannels = () => {
                         <span className="cc-rj-hover-sub">SOUNDCLOUD ARCHIVES</span>
                       </div>
                       <div className="cc-rj-wave">
-                        {Array.from({ length: 22 }).map((_, i) => (
+                        {rjWaveHeights.map((height, i) => (
                           <div key={i} className="cc-rj-wave-bar"
-                            style={{ animationDelay: `${i * 0.07}s`, height: `${4 + Math.random() * 14}px` }}
+                            style={{ animationDelay: `${i * 0.07}s`, height: `${height}px` }}
                           />
                         ))}
                       </div>

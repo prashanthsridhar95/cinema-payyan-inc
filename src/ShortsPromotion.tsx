@@ -70,8 +70,11 @@ const MobileCarousel: React.FC<{ items: CarouselItem[]; label: string }> = ({ it
     return () => cancelAnimationFrame(rafRef.current);
   }, [items, LOOP_W]);
 
+  const [isDragging, setIsDragging] = useState(false);
+
   const onPointerDown = (e: React.PointerEvent) => {
     dragging.current = true; didDrag.current = false;
+    setIsDragging(true);
     dragStart.current = e.clientX; posStart.current = posRef.current;
     lastX.current = e.clientX; lastT.current = Date.now(); velRef.current = 0;
     (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
@@ -89,7 +92,7 @@ const MobileCarousel: React.FC<{ items: CarouselItem[]; label: string }> = ({ it
     if (posRef.current <  LOOP_W)     posRef.current += LOOP_W;
     applyTransform();
   };
-  const onPointerUp = () => { dragging.current = false; };
+  const onPointerUp = () => { dragging.current = false; setIsDragging(false); };
   const onLinkClick = (e: React.MouseEvent) => { if (didDrag.current) e.preventDefault(); };
 
   return (
@@ -102,7 +105,7 @@ const MobileCarousel: React.FC<{ items: CarouselItem[]; label: string }> = ({ it
       <div className="cp-mob-carousel-window"
         onPointerDown={onPointerDown} onPointerMove={onPointerMove}
         onPointerUp={onPointerUp} onPointerLeave={onPointerUp}
-        style={{ cursor: dragging.current ? "grabbing" : "grab", touchAction: "pan-y" }}
+        style={{ cursor: isDragging ? "grabbing" : "grab", touchAction: "pan-y" }}
       >
         <div className="cp-mob-carousel-track" ref={trackRef}>
           {tripled.map((item, idx) => (
@@ -143,10 +146,6 @@ const ShortsPromotion: React.FC = () => {
     { id: 24, tag: "YT", title: "Venkat Prabhu ARRESTED - CUSTODY Promo", link: "https://youtu.be/2M-A_3U-Zmc?si=FPJ7TfFoZvRtPoZH", aspect: "16/9" },
     { id: 25, tag: "YT", title: "Naga Chaitanya tests Venkat Prabhu",      link: "https://youtu.be/XbvzHgeK3VI?si=HeroAaf4kXPLaDLF", aspect: "16/9" },
   ];
-  const bottomYT: CarouselItem[] = [
-    { id: 29, tag: "YT", title: "Mood Of Iraivan", link: "https://youtu.be/3IAV3UISk8U?si=ZwWgCxUeejVHDsqW", aspect: "16/9" },
-  ];
-
   /* Events: VP Forge + KRR 1 + KRR 2 */
   const eventsReels: CarouselItem[] = [
     { id: 34, tag: "VP",  title: "A Venkat Prabhu Forge", link: "https://www.instagram.com/reel/DB_VDkiPnQN/?igsh=MnRzeGhlanBnbm51",           aspect: "9/16" },
@@ -161,9 +160,6 @@ const ShortsPromotion: React.FC = () => {
     { id: 37, tag: "DEAR",  title: "Dear",                  link: "https://www.instagram.com/reel/C5aVNAay_nG/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",  aspect: "9/16" },
     { id: 39, tag: "KKR",   title: "KKRCD",                 link: "https://www.instagram.com/cinemapayyan.inc/",                                                     aspect: "9/16" },
   ];
-
-  /* Special promo — now uses VPNEW (38) */
-  const specialPromo = { id: 38, link: "https://youtu.be/aHxx-NtpAwQ?si=hoArL4w8_2clt2O7" };
 
   /* 3 tabs now */
   const slides = [
@@ -294,11 +290,11 @@ const ShortsPromotion: React.FC = () => {
         }
         .cp-featured-card:hover .cp-featured-scan { transform:scaleX(1); }
 
-        /* ══ TAB BAR — now 3 tabs ══ */
         .cp-tab-bar {
           display:flex; justify-content:center; gap:0;
           position:relative; z-index:20;
-          margin-bottom:60px; padding:0 clamp(20px,5%,40px);
+          margin:0 auto 60px; max-width:1180px;
+          padding:0 clamp(20px,5%,40px);
         }
         .cp-tab-btn {
           position:relative; overflow:hidden; padding:18px 36px;
@@ -307,6 +303,7 @@ const ShortsPromotion: React.FC = () => {
           font-size:clamp(0.9rem,1.8vw,1.3rem); letter-spacing:3px;
           color:rgba(255,255,255,0.30); cursor:pointer; transition:color 0.35s;
           flex:1; max-width:340px; text-align:center;
+          display:flex; flex-direction:column; align-items:center; justify-content:center;
         }
         .cp-tab-btn + .cp-tab-btn { border-left:none; }
         .cp-tab-btn::before {
@@ -317,7 +314,10 @@ const ShortsPromotion: React.FC = () => {
         }
         .cp-tab-btn.active::before { transform:scaleY(1); }
         .cp-tab-btn.active { color:#fff; border-color:rgba(50,197,244,0.35); }
-        .cp-tab-btn-inner  { position:relative; z-index:1; }
+        .cp-tab-btn-inner  { 
+          position:relative; z-index:1; 
+          display:flex; flex-direction:column; align-items:center; justify-content:center;
+        }
         .cp-tab-btn-sub {
           display:block; font-family:'Inter',sans-serif;
           font-size:0.5rem; font-weight:600; letter-spacing:4px;
@@ -759,7 +759,7 @@ const ShortsPromotion: React.FC = () => {
             <button key={s.key} className={`cp-tab-btn${activeSlide === i ? " active" : ""}`} onClick={() => goTo(i)}>
               <span className="cp-tab-btn-inner">
                 <span className="cp-tab-btn-sub">{s.sublabel}</span>
-                {s.label}
+                <span>{s.label}</span>
               </span>
               <span className="cp-tab-indicator" />
             </button>

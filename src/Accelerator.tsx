@@ -1,8 +1,9 @@
 import React, { useRef, useState, useEffect, useCallback } from "react";
+import { motion } from "framer-motion";
+import MagneticButton from "./MagneticButton";
 import { Images } from "./assets/assets";
 import {
   Rocket,
-  Zap,
   ShieldCheck,
   Trophy,
   ArrowUpRight,
@@ -37,7 +38,7 @@ const Accelerator: React.FC = () => {
     setActiveIndex(idx);
   }, [connections.length]);
 
-  const autoScroll = useCallback(() => {
+  const autoScroll = useCallback(function autoScrollFn(): void {
     const el = sliderRef.current;
     if (!el) return;
     if (!isPaused.current) {
@@ -47,7 +48,7 @@ const Accelerator: React.FC = () => {
       if (el.scrollLeft <= 0) el.scrollLeft += third;
     }
     updateNav();
-    animFrameRef.current = requestAnimationFrame(autoScroll);
+    animFrameRef.current = requestAnimationFrame(autoScrollFn);
   }, [updateNav]);
 
   useEffect(() => {
@@ -214,33 +215,26 @@ const Accelerator: React.FC = () => {
           box-shadow: 0 24px 60px rgba(0,0,0,0.95), 0 0 40px rgba(50,197,244,0.08);
         }
 
-        /* ── STATUS TAG — now a clickable email link ── */
-        .acc-status-tag {
-          position: absolute; bottom: 0; left: 50%;
-          transform: translateX(-50%);
-          display: inline-flex; align-items: center; gap: 7px;
+        /* ── ACTION ROW & BUTTONS ── */
+        .acc-action-row { display: flex; align-items: stretch; gap: 16px; flex-wrap: wrap; margin-top: 6px; }
+        .acc-btn-solid {
+          position: relative; overflow: hidden;
+          display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+          padding: 0 28px; height: 48px; box-sizing: border-box; margin: 0;
+          border: 1px solid var(--cyan);
+          color: var(--black); background: var(--cyan); text-decoration: none;
           font-family: 'Inter', sans-serif;
-          font-size: clamp(0.44rem,1.2vw,0.56rem);
-          font-weight: 700; letter-spacing: 4px;
-          color: var(--black); background: var(--cyan);
-          padding: 7px 16px; white-space: nowrap; z-index: 4;
-          text-transform: uppercase;
-          text-decoration: none;
-          transition: background 0.3s, color 0.3s;
-          cursor: pointer;
-          overflow: hidden;
-          position: absolute;
+          font-size: clamp(0.44rem,1.2vw,0.56rem); line-height: 1;
+          font-weight: 700; letter-spacing: 4px; text-transform: uppercase;
+          transition: color 0.4s; width: fit-content; cursor: pointer;
         }
-        .acc-status-tag::before {
-          content: '';
-          position: absolute; inset: 0;
-          background: var(--yellow);
-          transform: scaleX(0); transform-origin: left; z-index: 0;
-          transition: transform 0.35s cubic-bezier(0.77,0,0.18,1);
+        .acc-btn-solid::before {
+          content: ''; position: absolute; inset: 0; background: var(--yellow);
+          transform-origin: left; transform: scaleX(0); z-index: 0;
+          transition: transform 0.4s cubic-bezier(0.77,0,0.18,1);
         }
-        .acc-status-tag:hover::before { transform: scaleX(1); }
-        .acc-status-tag > * { position: relative; z-index: 1; }
-        .acc-status-tag:hover { color: var(--black); }
+        .acc-btn-solid:hover::before { transform: scaleX(1); }
+        .acc-btn-solid span, .acc-btn-solid svg { position: relative; z-index: 1; }
 
         .acc-text-side { display: flex; flex-direction: column; gap: 22px; }
 
@@ -313,11 +307,12 @@ const Accelerator: React.FC = () => {
 
         .acc-cta {
           position: relative; overflow: hidden;
-          display: inline-flex; align-items: center; gap: 10px;
-          padding: 14px 28px; border: 1px solid var(--yellow);
+          display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+          padding: 0 28px; height: 48px; box-sizing: border-box; margin: 0;
+          border: 1px solid var(--yellow);
           color: var(--yellow); text-decoration: none;
           font-family: 'Inter', sans-serif;
-          font-size: clamp(0.44rem,1.2vw,0.56rem);
+          font-size: clamp(0.44rem,1.2vw,0.56rem); line-height: 1;
           font-weight: 700; letter-spacing: 4px; text-transform: uppercase;
           transition: color 0.4s; width: fit-content;
         }
@@ -470,7 +465,7 @@ const Accelerator: React.FC = () => {
           .acc-visual-side   { justify-content: center; padding-bottom: 30px; }
           .acc-pill-label    { margin: 0 auto; }
           .acc-heading-rule  { max-width: 360px; margin: 0 auto; }
-          .acc-cta           { margin: 0 auto; }
+          .acc-action-row    { justify-content: center; }
           .acc-portrait-img  { max-width: 280px; }
           .acc-feature-stack { text-align: left; }
         }
@@ -489,7 +484,7 @@ const Accelerator: React.FC = () => {
           .acc-main-title    { letter-spacing: 2px; }
           .acc-wrapper       { padding: 10px 14px 70px; }
           .acc-portrait-img  { max-width: 240px; }
-          .acc-status-tag    { font-size: 0.5rem; letter-spacing: 2px; padding: 6px 12px; }
+          .acc-btn-solid, .acc-cta { font-size: 0.44rem; letter-spacing: 3px; padding: 0 20px; height: 42px; }
         }
       `}</style>
 
@@ -529,22 +524,17 @@ const Accelerator: React.FC = () => {
                 <div className="acc-img-glow" />
                 <img src={Images.AbishakeWhite} alt="Abishek Raaja" className="acc-portrait-img" />
 
-                {/* ── STATUS TAG — clickable email link ── */}
-                <a
-                  href="https://mail.google.com/mail/?view=cm&to=cinemapayyanproductions@gmail.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="acc-status-tag"
-                  title="Connect via Email"
-                >
-                  <Mail size={12} />
-                  <span>CONNECT WITH US</span>
-                </a>
+                {/* Status tag moved to CTA row */}
               </div>
             </div>
 
-            {/* TEXT SIDE */}
-            <div className="acc-text-side">
+            <motion.div 
+              className="acc-text-side"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              viewport={{ once: true, margin: "-100px" }}
+            >
               <div className="acc-pill-label">
                 <ShieldCheck size={13} className="gold-text" />
                 <span>CINEMAPAYYAN INC&nbsp;•&nbsp;SINCE 2014</span>
@@ -593,16 +583,27 @@ const Accelerator: React.FC = () => {
 
               </div>
 
-              <a
-                href="https://www.instagram.com/cinemapayyan.inc/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="acc-cta"
-              >
-                <span>EXPLORE OUR TECH</span>
-                <ArrowUpRight size={16} />
-              </a>
-            </div>
+              <div className="acc-action-row">
+                <MagneticButton
+                  href="https://mail.google.com/mail/?view=cm&to=cinemapayyanproductions@gmail.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="acc-btn-solid"
+                >
+                  <Mail size={16} />
+                  <span>CONNECT WITH US</span>
+                </MagneticButton>
+                <MagneticButton
+                  href="https://www.instagram.com/cinemapayyan.inc/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="acc-cta"
+                >
+                  <span>EXPLORE OUR TECH</span>
+                  <ArrowUpRight size={16} />
+                </MagneticButton>
+              </div>
+            </motion.div>
           </div>
 
           {/* ── LEGACY REEL ── */}

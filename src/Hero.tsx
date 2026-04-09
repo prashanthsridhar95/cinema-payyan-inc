@@ -35,6 +35,11 @@ export default function Hero({ onScrollRequest }: HeroProps) {
   const [gatePhase, setGatePhase] = useState<'visible'|'exit'|'gone'>('visible');
   const [ready,     setReady]     = useState(false);
   const [countOn,   setCountOn]   = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(() =>
+    typeof window !== 'undefined' && 'matchMedia' in window
+      ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      : false
+  );
 
   const canvasRef  = useRef<HTMLCanvasElement>(null);
   const rafRef     = useRef<number>(0);
@@ -48,10 +53,26 @@ export default function Hero({ onScrollRequest }: HeroProps) {
   const followers = useCounter(271, 1800, countOn);
 
   useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const changeHandler = (event: MediaQueryListEvent) => {
+      setPrefersReducedMotion(event.matches);
+    };
+    mediaQuery.addEventListener('change', changeHandler);
+    return () => mediaQuery.removeEventListener('change', changeHandler);
+  }, []);
+
+  useEffect(() => {
+    if (prefersReducedMotion) {
+      setGatePhase('gone');
+      setReady(true);
+      setCountOn(true);
+      return;
+    }
+
     const t1 = setTimeout(() => setGatePhase('exit'),    2400);
     const t2 = setTimeout(() => { setGatePhase('gone'); setReady(true); setCountOn(true); }, 3100);
     return () => { clearTimeout(t1); clearTimeout(t2); };
-  }, []);
+  }, [prefersReducedMotion]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -61,6 +82,11 @@ export default function Hero({ onScrollRequest }: HeroProps) {
     const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
     resize();
     window.addEventListener('resize', resize);
+
+    if (prefersReducedMotion) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      return () => window.removeEventListener('resize', resize);
+    }
 
     type P = { x: number; y: number; vy: number; vx: number; op: number; r: number; c: string };
     const particles: P[] = Array.from({ length: 60 }, () => ({
@@ -109,14 +135,15 @@ export default function Hero({ onScrollRequest }: HeroProps) {
       cancelAnimationFrame(rafRef.current);
       window.removeEventListener('resize', resize);
     };
-  }, []);
+  }, [prefersReducedMotion]);
 
   const onMouseMove = useCallback((e: React.MouseEvent) => {
+    if (prefersReducedMotion) return;
     const cx = window.innerWidth  / 2;
     const cy = window.innerHeight / 2;
     mx.set((e.clientX - cx) * 0.018);
     my.set((e.clientY - cy) * 0.018);
-  }, [mx, my]);
+  }, [mx, my, prefersReducedMotion]);
 
   return (
     <>
@@ -612,6 +639,23 @@ export default function Hero({ onScrollRequest }: HeroProps) {
           .h3-tagline { display: none; }
           .h3-main    { justify-content: flex-start; padding-top: 12px; }
         }
+
+        @media (prefers-reduced-motion: reduce) {
+          .h3-root,
+          .h3-rec-dot,
+          .h3-gate-bar,
+          .h3-ticker-track,
+          .h3-pre,
+          .h3-brand,
+          .h3-rule,
+          .h3-tagline,
+          .h3-spine,
+          .h3-node {
+            animation: none !important;
+            transition: none !important;
+          }
+          .h3-canvas { opacity: 0.6; }
+        }
       `}</style>
 
       {/* ════ GATE ════ */}
@@ -672,7 +716,7 @@ export default function Hero({ onScrollRequest }: HeroProps) {
       {/* ════ HERO ════ */}
       <motion.div
         className="h3-root"
-        onMouseMove={onMouseMove}
+        onMouseMove={prefersReducedMotion ? undefined : onMouseMove}
         style={{ x: sx, y: sy }}
       >
         <canvas className="h3-canvas" ref={canvasRef} />
@@ -694,7 +738,7 @@ export default function Hero({ onScrollRequest }: HeroProps) {
           <motion.div className="h3-pre"
             initial={{ opacity:0, y:14 }}
             animate={{ opacity: ready?1:0, y: ready?0:14 }}
-            transition={{ duration:0.7 }}
+            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.7 }}
           >
             <div className="h3-pre-line" />
             <span className="h3-pre-txt">EST. 2023 · MADURAI</span>
@@ -704,26 +748,26 @@ export default function Hero({ onScrollRequest }: HeroProps) {
           <motion.div className="h3-brand"
             initial={{ opacity:0, y:20 }}
             animate={{ opacity: ready?1:0, y: ready?0:20 }}
-            transition={{ duration:0.8, delay:0.05 }}
+            transition={prefersReducedMotion ? { duration: 0 } : { duration:0.8, delay:0.05 }}
           >
             <h1 className="h3-name">CINEMAPAYYAN</h1>
             <motion.span className="h3-inc"
-              animate={{ opacity:[0.35,1,0.35] }}
-              transition={{ duration:3, repeat:Infinity, ease:'easeInOut' }}
+              animate={prefersReducedMotion ? { opacity: 1 } : { opacity:[0.35,1,0.35] }}
+              transition={prefersReducedMotion ? { duration:0 } : { duration:3, repeat:Infinity, ease:'easeInOut' }}
             >INC</motion.span>
           </motion.div>
 
           <motion.div className="h3-rule"
             initial={{ scaleX:0 }}
             animate={{ scaleX: ready?1:0 }}
-            transition={{ duration:0.9, delay:0.15 }}
+            transition={prefersReducedMotion ? { duration:0 } : { duration:0.9, delay:0.15 }}
             style={{ transformOrigin:'center' }}
           />
 
           <motion.p className="h3-tagline"
             initial={{ opacity:0 }}
             animate={{ opacity: ready?1:0 }}
-            transition={{ delay:0.25, duration:0.9 }}
+            transition={prefersReducedMotion ? { duration:0 } : { delay:0.25, duration:0.9 }}
           >
             <b>Storytelling</b> through a cinematic lens —<br />
             where every frame is a declaration.
@@ -732,7 +776,7 @@ export default function Hero({ onScrollRequest }: HeroProps) {
           <motion.div className="h3-spine"
             initial={{ height:0 }}
             animate={{ height: ready?36:0 }}
-            transition={{ delay:0.35, duration:0.6 }}
+            transition={prefersReducedMotion ? { duration:0 } : { delay:0.35, duration:0.6 }}
           />
 
           <motion.div
@@ -747,7 +791,7 @@ export default function Hero({ onScrollRequest }: HeroProps) {
                   <motion.div key={i} className="h3-node"
                     initial={{ opacity:0, y:14 }}
                     animate={{ opacity: ready?1:0, y: ready?0:14 }}
-                    transition={{ delay: 0.5 + i*0.1, duration:0.5 }}
+                    transition={prefersReducedMotion ? { duration:0 } : { delay: 0.5 + i*0.1, duration:0.5 }}
                   >
                     <div className="h3-stem" />
                     <div className="h3-box">

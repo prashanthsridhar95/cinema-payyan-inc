@@ -1,6 +1,7 @@
 import { forwardRef } from "react";
 import { motion } from "framer-motion";
 import { Images } from "./assets/assets";
+import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 
 const About = forwardRef<HTMLDivElement>((props, ref) => {
   const movieTrain = [
@@ -12,46 +13,7 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
     Images.madras,
   ];
 
-  const socials = [
-    {
-      label: "Instagram",
-      handle: "@cinemapayyan.inc",
-      url: "https://www.instagram.com/cinemapayyan.inc/",
-      color: "#E1306C",
-      glow: "rgba(225,48,108,0.35)",
-      icon: (
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
-          <rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke="currentColor" strokeWidth="2" fill="none"/>
-          <circle cx="12" cy="12" r="5" stroke="currentColor" strokeWidth="2" fill="none"/>
-          <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/>
-        </svg>
-      ),
-    },
-    {
-      label: "X / Twitter",
-      handle: "@cinemapayyan",
-      url: "https://x.com/cinemapayyan",
-      color: "#fff",
-      glow: "rgba(255,255,255,0.25)",
-      icon: (
-        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
-          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L2.25 2.25h6.963l4.259 5.631L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/>
-        </svg>
-      ),
-    },
-    {
-      label: "YouTube",
-      handle: "@OpenPannaa",
-      url: "https://www.youtube.com/@OpenPannaa",
-      color: "#FF0000",
-      glow: "rgba(255,0,0,0.35)",
-      icon: (
-        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
-          <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-        </svg>
-      ),
-    },
-  ];
+  // Socials handled directly below
 
   return (
     <>
@@ -247,95 +209,27 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
           border-bottom: 1px solid rgba(253,224,71,0.4);
         }
 
-        .cp-ab-social-btn {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          padding: 14px 20px;
-          border: 1px solid rgba(255,255,255,0.1);
-          background: rgba(255,255,255,0.03);
-          text-decoration: none;
-          transition: border-color 0.3s, background 0.3s, transform 0.3s, box-shadow 0.3s;
-          flex: 1;
-          min-width: 140px;
-          position: relative;
-          overflow: hidden;
+        .cp-ab-socials {
+          display: flex; gap: 14px; margin-top: 22px;
         }
-
-        .cp-ab-social-btn::before {
-          content: '';
-          position: absolute; inset: 0;
-          background: var(--s-glow, transparent);
-          opacity: 0;
-          transition: opacity 0.35s;
-          z-index: 0;
+        .cp-ab-socials a {
+          width: 34px; height: 34px;
+          display: flex; align-items: center; justify-content: center;
+          border: 1px solid rgba(255,255,255,0.07);
+          color: rgba(255,255,255,0.30);
+          font-size: 0.9rem; text-decoration: none;
+          transition: border-color 0.3s, color 0.3s;
+          position: relative; overflow: hidden;
         }
-        .cp-ab-social-btn:hover::before { opacity: 0.07; }
-
-        .cp-ab-social-btn:hover {
-          border-color: var(--s-color, #fff);
-          transform: translateY(-3px);
-          box-shadow: 0 8px 28px var(--s-glow, rgba(255,255,255,0.1));
+        .cp-ab-socials a::before {
+          content: ''; position: absolute; inset: 0;
+          background: #fde047;
+          transform: scaleX(0); transform-origin: left; z-index: 0;
+          transition: transform 0.35s cubic-bezier(0.77,0,0.18,1);
         }
-
-        .cp-ab-social-icon {
-          width: 22px;
-          height: 22px;
-          flex-shrink: 0;
-          color: var(--s-color, #fff);
-          position: relative; z-index: 1;
-          transition: color 0.3s, filter 0.3s;
-        }
-        .cp-ab-social-btn:hover .cp-ab-social-icon {
-          filter: drop-shadow(0 0 6px var(--s-glow, rgba(255,255,255,0.5)));
-        }
-
-        .cp-ab-social-info {
-          display: flex;
-          flex-direction: column;
-          gap: 3px;
-          position: relative; z-index: 1;
-          min-width: 0;
-        }
-
-        .cp-ab-social-platform {
-          font-family: 'Bebas Neue', sans-serif;
-          font-size: 0.88rem;
-          letter-spacing: 3px;
-          color: rgba(255,255,255,0.55);
-          text-transform: uppercase;
-          transition: color 0.3s;
-          white-space: nowrap;
-        }
-        .cp-ab-social-btn:hover .cp-ab-social-platform {
-          color: var(--s-color, #fff);
-        }
-
-        .cp-ab-social-handle {
-          font-family: 'Inter', sans-serif;
-          font-size: 0.68rem;
-          font-weight: 400;
-          letter-spacing: 1px;
-          color: rgba(255,255,255,0.35);
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          transition: color 0.3s;
-        }
-        .cp-ab-social-btn:hover .cp-ab-social-handle {
-          color: rgba(255,255,255,0.75);
-        }
-
-        .cp-ab-social-btn::after {
-          content: '';
-          position: absolute; top: 0; left: 0;
-          width: 8px; height: 8px;
-          border-top: 1px solid var(--s-color, rgba(255,255,255,0.2));
-          border-left: 1px solid var(--s-color, rgba(255,255,255,0.2));
-          opacity: 0.4;
-          transition: opacity 0.3s;
-        }
-        .cp-ab-social-btn:hover::after { opacity: 1; }
+        .cp-ab-socials a:hover::before { transform: scaleX(1); }
+        .cp-ab-socials a:hover { color: #000; border-color: #fde047; }
+        .cp-ab-socials a svg { position: relative; z-index: 1; }
 
         /* ── RESPONSIVE ── */
         @media (max-width: 1024px) {
@@ -353,18 +247,12 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
         @media (max-width: 768px) {
           .cp-ab-section  { padding: 70px 5% 80px; }
           .cp-ab-train-logo { height: 65px; margin-right: 40px; }
-          .cp-ab-social-btn { min-width: 42%; padding: 12px 14px; gap: 10px; }
-          .cp-ab-social-icon { width: 18px; height: 18px; }
+          .cp-ab-socials { justify-content: center; }
         }
 
         @media (max-width: 480px) {
           .cp-ab-section  { padding: 60px 4% 70px; }
           .cp-ab-title    { font-size: clamp(3rem, 16vw, 4.5rem); }
-          .cp-ab-social-btn { min-width: calc(50% - 4px); flex: none; }
-        }
-
-        @media (max-width: 360px) {
-          .cp-ab-social-btn { min-width: 100%; flex: none; }
         }
       `}</style>
 
@@ -443,7 +331,15 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
               transition={{ duration: 0.6, delay: 0.45 }}
               viewport={{ once: true }}
             >
-              
+              <a href="https://www.instagram.com/cinemapayyan.inc/" target="_blank" rel="noreferrer" aria-label="Instagram">
+                <FaInstagram />
+              </a>
+              <a href="https://x.com/cinemapayyan" target="_blank" rel="noreferrer" aria-label="Twitter">
+                <FaTwitter />
+              </a>
+              <a href="https://www.youtube.com/@OpenPannaa" target="_blank" rel="noreferrer" aria-label="YouTube">
+                <FaYoutube />
+              </a>
             </motion.div>
 
           </motion.div>

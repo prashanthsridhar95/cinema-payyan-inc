@@ -15,15 +15,14 @@ export const useScrollTo = () => {
     promotionsRef
   };
 
-  const scrollToSection = (target: any) => {
-    let elementRef;
+  type ScrollTarget = keyof typeof refs | React.RefObject<HTMLElement> | null;
 
-    // IF target is a string (like "aboutRef")
+  const scrollToSection = (target: ScrollTarget) => {
+    let elementRef: React.RefObject<HTMLElement> | undefined;
+
     if (typeof target === 'string') {
       elementRef = refs[target];
-    } 
-    // IF target is already the Ref object (what your Header is currently sending)
-    else if (target && target.current) {
+    } else if (target && 'current' in target) {
       elementRef = target;
     }
 
@@ -36,9 +35,12 @@ export const useScrollTo = () => {
       console.error("Scroll target invalid:", target);
     }
   };
-
   return {
     scrollToSection,
-    refs: { homeRef, aboutRef, workRef, contactRef, promotionsRef }
+    homeRef,
+    aboutRef,
+    workRef,
+    contactRef,
+    promotionsRef
   };
 };

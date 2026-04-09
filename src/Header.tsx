@@ -16,6 +16,16 @@ interface HeaderProps {
 function Header({ onScrollRequest, refs, isMenuOpen, setIsMenuOpen }: HeaderProps) {
   const [active,     setActive]     = useState('HOME');
   const [isScrolled, setIsScrolled] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setPrefersReducedMotion(mediaQuery.matches);
+    const handleChange = (event: MediaQueryListEvent) => setPrefersReducedMotion(event.matches);
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -75,24 +85,15 @@ function Header({ onScrollRequest, refs, isMenuOpen, setIsMenuOpen }: HeaderProp
 
         /* resting — warm amber tint glass, not cold blue */
         .cp-hd-bar {
-          background: rgba(8, 5, 0, 0.38);
-          backdrop-filter: blur(18px);
-          -webkit-backdrop-filter: blur(18px);
-          border: 1px solid rgba(253,224,71,0.06);
-          box-shadow:
-            0 8px 32px rgba(0,0,0,0.45),
-            0 1px 0 rgba(253,224,71,0.04) inset;
+          background: #000000 !important;
+
           display: flex;
-          transition: background 0.5s, border-color 0.5s, box-shadow 0.5s;
+          transition: background 0.5s;
         }
 
         /* scrolled — deep amber-black solid, matches site finale */
         .cp-hd-fixed.scrolled .cp-hd-bar {
-          background: rgba(10, 8, 0, 0.96);
-          border-color: rgba(253,224,71,0.16);
-          box-shadow:
-            0 4px 30px rgba(0,0,0,0.6),
-            0 0 20px rgba(253,224,71,0.04);
+          background: #000000 !important;
         }
 
         /* ── NAV ITEM ──────────────────────────── */
@@ -100,20 +101,16 @@ function Header({ onScrollRequest, refs, isMenuOpen, setIsMenuOpen }: HeaderProp
           position: relative;
           padding: 14px 30px;
           cursor: pointer;
-          overflow: hidden;
+          overflow: visible;
           display: flex; align-items: center;
-          transition: background 0.3s;
+          background: transparent !important;
+          border: 1px solid rgba(253,224,71,0.12) !important;
+          transition: none;
         }
-
-        /* hover sweep — warm amber tint */
-        .cp-hd-fill {
-          position: absolute; inset: 0;
-          background: rgba(253,224,71,0.055);
-          transform: scaleX(0); transform-origin: left; z-index: 0;
-          transition: transform 0.35s cubic-bezier(0.77,0,0.18,1);
-          pointer-events: none;
+        
+        .cp-hd-item:last-child {
+          border-right: 1px solid rgba(253,224,71,0.12);
         }
-        .cp-hd-item:hover .cp-hd-fill { transform: scaleX(1); }
 
         .cp-hd-label {
           position: relative; z-index: 5;
@@ -122,30 +119,26 @@ function Header({ onScrollRequest, refs, isMenuOpen, setIsMenuOpen }: HeaderProp
           letter-spacing: 4px;
           color: rgba(255,255,255,0.80);
           text-transform: uppercase;
-          transition: color 0.3s, letter-spacing 0.3s;
+          transition: color 0.2s;
           white-space: nowrap;
         }
         .cp-hd-item:hover .cp-hd-label {
           color: #fde047;
-          letter-spacing: 5px;
         }
         .cp-hd-item.active .cp-hd-label { color: #fde047; }
 
         /* active underline — gold */
         .cp-hd-active-bar {
           position: absolute;
-          bottom: 0; left: 15%;
-          width: 70%; height: 1px;
+          bottom: 0; left: 0;
+          width: 100%; height: 1px;
           background: #fde047;
           z-index: 10;
         }
 
         /* separator between items */
         .cp-hd-sep {
-          width: 1px;
-          background: rgba(253,224,71,0.06);
-          align-self: stretch;
-          flex-shrink: 0;
+          display: none;
         }
 
         /* ═══════════════════════════════════════════
@@ -286,19 +279,41 @@ function Header({ onScrollRequest, refs, isMenuOpen, setIsMenuOpen }: HeaderProp
         @media (max-width: 768px) {
           html, body { overflow-x: hidden; width: 100%; }
         }
+
+        @media (prefers-reduced-motion: reduce) {
+          .cp-hd-bar,
+          .cp-hd-item,
+          .cp-hd-fill,
+          .cp-hd-active-bar,
+          .cp-hd-mobile-item,
+          .cp-hd-mobile-fill,
+          .cp-hd-overlay,
+          .cp-hd-overlay-glow {
+            animation: none !important;
+            transition: none !important;
+          }
+          .cp-hd-item:hover,
+          .cp-hd-mobile-item:hover {
+            transform: none !important;
+          }
+        }
       `}</style>
 
       {/* ── DESKTOP HEADER ──────────────────────── */}
-      <div className={`cp-hd-fixed ${isScrolled ? 'scrolled' : ''}`}>
+      <nav aria-label="Primary navigation" className={`cp-hd-fixed ${isScrolled ? 'scrolled' : ''}`}>
         <header className="cp-hd-bar">
           {navItems.map((item, i) => (
             <React.Fragment key={item.label}>
               {i > 0 && <div className="cp-hd-sep" />}
-              <motion.div
+              <motion.button
+                type="button"
                 className={`cp-hd-item ${active === item.label ? 'active' : ''}`}
                 onClick={() => { onScrollRequest(item.ref); setActive(item.label); }}
-                whileHover="hover"
-                initial="rest"
+                whileHover={!prefersReducedMotion ? 'hover' : undefined}
+                initial={!prefersReducedMotion ? 'rest' : undefined}
+                transition={prefersReducedMotion ? { duration: 0 } : undefined}
+                aria-current={active === item.label ? 'true' : undefined}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onScrollRequest(item.ref); setActive(item.label); } }}
               >
                 <div className="cp-hd-fill" />
                 <span className="cp-hd-label">{item.label}</span>
@@ -310,11 +325,11 @@ function Header({ onScrollRequest, refs, isMenuOpen, setIsMenuOpen }: HeaderProp
                     transition={{ type: 'spring', stiffness: 320, damping: 32 }}
                   />
                 )}
-              </motion.div>
+              </motion.button>
             </React.Fragment>
           ))}
         </header>
-      </div>
+      </nav>
 
       {/* ── MOBILE OVERLAY ──────────────────────── */}
       <AnimatePresence>
@@ -330,14 +345,16 @@ function Header({ onScrollRequest, refs, isMenuOpen, setIsMenuOpen }: HeaderProp
 
             <div className="cp-hd-mobile-nav">
               {navItems.map((item, i) => (
-                <motion.div
+                <motion.button
                   key={item.label}
+                  type="button"
                   className={`cp-hd-mobile-item ${active === item.label ? 'active' : ''}`}
-                  initial={{ opacity: 0, y: 28 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ delay: i * 0.08, type: 'spring', stiffness: 100 }}
+                  initial={!prefersReducedMotion ? { opacity: 0, y: 28 } : { opacity: 1, y: 0 }}
+                  animate={!prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
+                  exit={!prefersReducedMotion ? { opacity: 0, y: -20 } : { opacity: 1, y: 0 }}
+                  transition={!prefersReducedMotion ? { delay: i * 0.08, type: 'spring', stiffness: 100 } : { duration: 0 }}
                   onClick={() => { onScrollRequest(item.ref); setIsMenuOpen(false); }}
+                  aria-current={active === item.label ? 'true' : undefined}
                 >
                   <div className="cp-hd-mobile-fill" />
                   {active === item.label && <div className="cp-hd-mobile-active-bar" />}
@@ -349,7 +366,7 @@ function Header({ onScrollRequest, refs, isMenuOpen, setIsMenuOpen }: HeaderProp
                   <span className="cp-hd-mobile-label">{item.label}</span>
 
                   <span className="cp-hd-mobile-arrow">→</span>
-                </motion.div>
+                </motion.button>
               ))}
 
               <div className="cp-hd-mobile-bottom">

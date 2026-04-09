@@ -30,7 +30,7 @@ const ProductionLogo: React.FC = () => {
   const smoothX = useSpring(baseX, { damping: 50, stiffness: 300 });
 
   useAnimationFrame((_t, delta) => {
-    let moveBy = 0.015 * (delta / 16);
+    const moveBy = 0.015 * (delta / 16);
     let nextX  = baseX.get() + moveBy;
     if (nextX >= 0) nextX = -25;
     baseX.set(nextX);
